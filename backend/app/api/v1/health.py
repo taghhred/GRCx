@@ -19,12 +19,11 @@ async def ready() -> dict:
     if settings.ai_provider == "local_http":
         host = resolve_ollama_base_url(settings)
         model = resolve_ollama_model(settings)
-        probe = await OllamaAIProvider(host, model, timeout=5.0).probe()
+        probe = await OllamaAIProvider(host, model, timeout=5.0).probe(deep=False)
         payload["ollama"] = {
             "host": host,
             "model": model,
             "reachable": probe.get("reachable"),
             "model_present": probe.get("model_present"),
-            "generate_ok": probe.get("generate_ok"),
         }
     return payload

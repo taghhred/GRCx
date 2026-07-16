@@ -48,13 +48,29 @@ def _map_provider_error(exc: Exception) -> HTTPException:
     if isinstance(exc, LookupError):
         return HTTPException(status_code=503, detail=str(exc))
     if isinstance(exc, httpx.TimeoutException):
-        return HTTPException(status_code=504, detail=SAFE_AI_UNAVAILABLE)
+        return HTTPException(
+            status_code=504,
+            detail=SAFE_AI_UNAVAILABLE,
+            headers={"X-GRCx-AI-Error": "ollama_timeout"},
+        )
     if isinstance(exc, (httpx.ConnectError, ConnectionError)):
-        return HTTPException(status_code=503, detail=SAFE_AI_UNAVAILABLE)
+        return HTTPException(
+            status_code=503,
+            detail=SAFE_AI_UNAVAILABLE,
+            headers={"X-GRCx-AI-Error": "ollama_connect"},
+        )
     if isinstance(exc, httpx.HTTPStatusError):
         status = 503 if exc.response.status_code >= 500 else 502
-        return HTTPException(status_code=status, detail=SAFE_AI_UNAVAILABLE)
-    return HTTPException(status_code=503, detail=SAFE_AI_UNAVAILABLE)
+        return HTTPException(
+            status_code=status,
+            detail=SAFE_AI_UNAVAILABLE,
+            headers={"X-GRCx-AI-Error": f"ollama_http_{exc.response.status_code}"},
+        )
+    return HTTPException(
+        status_code=503,
+        detail=SAFE_AI_UNAVAILABLE,
+        headers={"X-GRCx-AI-Error": f"ollama_{exc.__class__.__name__}"},
+    )
 
 
 @router.get("/status")
@@ -74,17 +90,18 @@ async def ai_status(
     if settings.ai_provider == "local_http":
         host = resolve_ollama_base_url(settings)
         model = resolve_ollama_model(settings)
-        provider = OllamaAIProvider(host, model, timeout=8.0)
-        probe = await provider.probe()
+        provider = OllamaAIProvider(host, model, timeout=60.0)
+        probe = await provider.probe(deep=True)
         ready = bool(probe.get("reachable") and probe.get("model_present"))
         payload = {
             "provider": "local_http",
             "upstream": "ollama",
-            "ready": ready,
+            "ready": ready and probe.get("generate_ok") is not False,
             "prototype": False,
             "model": model,
             "ollama_reachable": probe.get("reachable"),
             "model_present": probe.get("model_present"),
+            "generate_ok": probe.get("generate_ok"),
         }
         if probe.get("reachable") and not probe.get("model_present"):
             payload["error"] = model_missing_message(model)

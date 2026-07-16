@@ -22,9 +22,11 @@ def get_shared_http_client(base_url: str, timeout: float) -> httpx.AsyncClient:
     key = f"{base_url.rstrip('/')}|{timeout}"
     client = _shared_clients.get(key)
     if client is None or client.is_closed:
-        # Separate connect vs read so cold Ollama model loads can finish.
+        # HTTP/1.1 only — avoids intermittent HTTP/2 issues on private meshes.
         client = httpx.AsyncClient(
-            timeout=httpx.Timeout(timeout, connect=10.0),
+            timeout=httpx.Timeout(timeout, connect=15.0),
+            http2=False,
+            trust_env=False,
         )
         _shared_clients[key] = client
     return client
@@ -168,15 +170,18 @@ class OllamaAIProvider:
             return content.strip()
         raise ValueError("empty_ollama_reply")
 
-    async def probe(self) -> dict[str, Any]:
-        """Safe diagnostics payload (no secrets / no prompts)."""
+    async def probe(self, *, deep: bool = False) -> dict[str, Any]:
+        """Safe diagnostics payload (no secrets / no prompts).
+
+        deep=True also verifies POST /api/generate (may load the model).
+        """
         result: dict[str, Any] = {
             "provider": self.name,
             "model": self.model,
             "host": self.base_url,
             "reachable": False,
             "model_present": False,
-            "generate_ok": False,
+            "generate_ok": None,
         }
         try:
             names = await self.list_models()
@@ -184,7 +189,7 @@ class OllamaAIProvider:
             result["model_present"] = self.model in names
         except Exception:  # noqa: BLE001
             return result
-        if not result["model_present"]:
+        if not deep or not result["model_present"]:
             return result
         try:
             response = await self._client().post(
