@@ -120,13 +120,24 @@ class OllamaAIProvider:
     async def _chat(self, messages: list[dict[str, str]]) -> str:
         await self.ensure_model()
         client = self._client()
+        # Keep context small for Railway memory limits on qwen2.5:3b.
+        options = {"temperature": 0.4, "num_ctx": 2048, "num_predict": 384}
         payload = {
             "model": self.model,
             "messages": messages,
             "stream": False,
+            "keep_alive": "10m",
+            "options": options,
         }
         try:
             response = await client.post(f"{self.base_url}/api/chat", json=payload)
+            if response.status_code >= 400:
+                err_preview = (response.text or "")[:180].replace("\n", " ")
+                logger.warning(
+                    "ollama_chat_http status=%s body=%s",
+                    response.status_code,
+                    err_preview,
+                )
             response.raise_for_status()
             data = response.json()
             message = data.get("message") or {}
@@ -161,8 +172,17 @@ class OllamaAIProvider:
             "model": self.model,
             "prompt": "\n".join(prompt_parts),
             "stream": False,
+            "keep_alive": "10m",
+            "options": options,
         }
         response = await client.post(f"{self.base_url}/api/generate", json=gen_payload)
+        if response.status_code >= 400:
+            err_preview = (response.text or "")[:180].replace("\n", " ")
+            logger.warning(
+                "ollama_generate_http status=%s body=%s",
+                response.status_code,
+                err_preview,
+            )
         response.raise_for_status()
         data = response.json()
         content = data.get("response")

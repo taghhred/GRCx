@@ -94,6 +94,7 @@ SPA rewrites: `frontend/vercel.json` is included.
 | `OLLAMA_BASE_URL` | `http://ollama.railway.internal:11434` (private DNS — never public / localhost) |
 | `OLLAMA_MODEL` | `qwen2.5:3b` (exact tag) |
 | `AI_REQUEST_TIMEOUT_SECONDS` | `120` (raise if cold model loads are slow) |
+| Memory (Ollama service) | **≥ 4–8 GB RAM** — `qwen2.5:3b` inference returns HTTP 500 if the service OOMs |
 | `AI_SERVICE_URL` | only when using `AI_PROVIDER=imtithal` |
 | `ACCESS_TOKEN_EXPIRE_MINUTES` | `30` |
 | `REFRESH_TOKEN_EXPIRE_DAYS` | `7` |

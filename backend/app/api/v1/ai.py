@@ -61,12 +61,17 @@ def _map_provider_error(exc: Exception) -> HTTPException:
         )
     if isinstance(exc, httpx.HTTPStatusError):
         status = 503 if exc.response.status_code >= 500 else 502
+        detail = SAFE_AI_UNAVAILABLE
+        if exc.response.status_code >= 500:
+            detail = (
+                "Ollama could not run the configured model. "
+                "Verify the Ollama service has enough memory and that qwen2.5:3b is healthy."
+            )
         return HTTPException(
             status_code=status,
-            detail=SAFE_AI_UNAVAILABLE,
+            detail=detail,
             headers={"X-GRCx-AI-Error": f"ollama_http_{exc.response.status_code}"},
-        )
-    return HTTPException(
+        )    return HTTPException(
         status_code=503,
         detail=SAFE_AI_UNAVAILABLE,
         headers={"X-GRCx-AI-Error": f"ollama_{exc.__class__.__name__}"},
