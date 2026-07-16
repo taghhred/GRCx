@@ -71,7 +71,8 @@ def _map_provider_error(exc: Exception) -> HTTPException:
             status_code=status,
             detail=detail,
             headers={"X-GRCx-AI-Error": f"ollama_http_{exc.response.status_code}"},
-        )    return HTTPException(
+        )
+    return HTTPException(
         status_code=503,
         detail=SAFE_AI_UNAVAILABLE,
         headers={"X-GRCx-AI-Error": f"ollama_{exc.__class__.__name__}"},
