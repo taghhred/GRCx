@@ -1,0 +1,48 @@
+{
+  "add_cross_attention": false,
+  "architectures": [
+    "BertForSequenceClassification"
+  ],
+  "attention_probs_dropout_prob": 0.1,
+  "bos_token_id": null,
+  "classifier_dropout": null,
+  "dtype": "float32",
+  "eos_token_id": null,
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 768,
+  "id2label": {
+    "0": "AUDIT_LOG_MISSING",
+    "1": "EXCESSIVE_PRIVILEGES",
+    "2": "MFA_MISSING",
+    "3": "PAM",
+    "4": "SEGREGATION_OF_DUTIES",
+    "5": "STALE_ACCOUNT",
+    "6": "SUSPICIOUS_BEHAVIOR",
+    "7": "WEAK_PASSWORD"
+  },
+  "initializer_range": 0.02,
+  "intermediate_size": 3072,
+  "is_decoder": false,
+  "label2id": {
+    "AUDIT_LOG_MISSING": 0,
+    "EXCESSIVE_PRIVILEGES": 1,
+    "MFA_MISSING": 2,
+    "PAM": 3,
+    "SEGREGATION_OF_DUTIES": 4,
+    "STALE_ACCOUNT": 5,
+    "SUSPICIOUS_BEHAVIOR": 6,
+    "WEAK_PASSWORD": 7
+  },
+  "layer_norm_eps": 1e-12,
+  "max_position_embeddings": 512,
+  "model_type": "bert",
+  "num_attention_heads": 12,
+  "num_hidden_layers": 12,
+  "pad_token_id": 0,
+  "tie_word_embeddings": true,
+  "transformers_version": "5.3.0",
+  "type_vocab_size": 2,
+  "use_cache": false,
+  "vocab_size": 64000
+}

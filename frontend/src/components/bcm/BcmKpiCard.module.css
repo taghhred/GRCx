@@ -1,0 +1,174 @@
+.card {
+  position: relative;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--color-surface) 88%, transparent);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: var(--space-20) var(--space-20) var(--space-16);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  min-height: 148px;
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(10px);
+  transition:
+    border-color var(--motion-fast) var(--ease-out),
+    background var(--motion-fast) var(--ease-out),
+    box-shadow var(--motion-fast) var(--ease-out),
+    transform var(--motion-hover) var(--ease-out);
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: var(--color-border-strong);
+}
+
+.card:hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.success::before {
+  background: var(--color-success);
+}
+
+.warning::before {
+  background: var(--color-warning);
+}
+
+.danger::before {
+  background: var(--color-danger);
+}
+
+.info::before {
+  background: var(--color-info);
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-12);
+}
+
+.labelRow {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  min-width: 0;
+}
+
+.label {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 0 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: var(--weight-section);
+  letter-spacing: 0.02em;
+  background: var(--color-nav-hover-bg);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+}
+
+.badge[data-tone="success"] {
+  background: var(--color-success-muted);
+  color: var(--color-success);
+  border-color: color-mix(in srgb, var(--color-success) 28%, transparent);
+}
+
+.badge[data-tone="warning"] {
+  background: var(--color-warning-muted);
+  color: var(--color-warning);
+  border-color: color-mix(in srgb, var(--color-warning) 28%, transparent);
+}
+
+.badge[data-tone="danger"] {
+  background: var(--color-danger-muted);
+  color: var(--color-danger);
+  border-color: color-mix(in srgb, var(--color-danger) 28%, transparent);
+}
+
+.badge[data-tone="info"] {
+  background: var(--color-info-muted);
+  color: var(--color-info);
+  border-color: color-mix(in srgb, var(--color-info) 28%, transparent);
+}
+
+.icon {
+  color: var(--color-text-muted);
+  display: flex;
+  flex-shrink: 0;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  align-items: center;
+  justify-content: center;
+}
+
+.value {
+  margin: 2px 0 0;
+  font-size: var(--text-metric);
+  font-weight: var(--weight-title);
+  color: var(--color-text-primary);
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+}
+
+.success .value {
+  color: var(--color-success);
+}
+
+.warning .value {
+  color: var(--color-warning);
+}
+
+.danger .value {
+  color: var(--color-danger);
+}
+
+.info .value {
+  color: var(--color-info);
+}
+
+.trend {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.trend[data-direction="up"] {
+  color: var(--color-success);
+}
+
+.trend[data-direction="down"] {
+  color: var(--color-danger);
+}
+
+.hint {
+  margin: 0;
+  font-size: var(--text-label);
+  color: var(--color-text-muted);
+  line-height: 1.45;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card:hover {
+    transform: none;
+  }
+}

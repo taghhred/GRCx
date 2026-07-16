@@ -1,0 +1,151 @@
+.card {
+  padding: 24px;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.head h2 {
+  margin: 0 0 4px;
+  font-size: var(--text-section);
+  font-weight: var(--weight-section);
+}
+
+.head p {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.block h3 {
+  margin: 0 0 10px;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-section);
+  color: var(--color-text-primary);
+}
+
+.typeGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.typeChip,
+.classChip {
+  min-height: 36px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-background) 40%, transparent);
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  font-weight: var(--weight-section);
+  cursor: pointer;
+  transition:
+    background var(--motion-hover) ease-out,
+    border-color var(--motion-hover) ease-out,
+    color var(--motion-hover) ease-out,
+    transform var(--motion-hover) ease-out;
+}
+
+.typeChip:hover,
+.classChip:hover {
+  background: var(--color-nav-hover-bg);
+  color: var(--color-text-primary);
+  transform: translateY(-1px);
+}
+
+.typeChipActive,
+.classChipActive {
+  background: var(--color-nav-active-bg);
+  border-color: color-mix(in srgb, var(--color-primary) 45%, transparent);
+  color: var(--color-text-primary);
+}
+
+.classChip[data-level="Top Secret"].classChipActive {
+  border-color: color-mix(in srgb, var(--color-danger) 45%, transparent);
+  color: var(--color-danger);
+}
+
+.filterGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.filterGrid label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  font-weight: var(--weight-section);
+}
+
+.filterGrid select,
+.filterGrid input {
+  min-height: 40px;
+  height: 40px;
+  font-size: var(--text-sm);
+}
+
+.includeGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-background) 35%, transparent);
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.classRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+@media (max-width: 1100px) {
+  .filterGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .includeGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .filterGrid,
+  .includeGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .typeChip:hover,
+  .classChip:hover {
+    transform: none;
+  }
+}

@@ -1,0 +1,132 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 1440px;
+  padding-bottom: 40px;
+  animation: fadeIn var(--motion-slow) ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 28%, var(--color-border));
+  background: color-mix(in srgb, var(--color-primary) 10%, var(--color-surface));
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+}
+
+.noticeClose {
+  min-height: 40px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.tableSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tableMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.tableMeta p {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.tableMeta strong {
+  color: var(--color-text-primary);
+  font-weight: var(--weight-section);
+}
+
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 4px 2px 0;
+}
+
+.pager button {
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+
+.pager button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.pager span {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.previewOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: color-mix(in srgb, var(--color-background) 35%, rgba(0, 0, 0, 0.55));
+  backdrop-filter: blur(4px);
+}
+
+.previewDialog {
+  width: min(1200px, 100%);
+  height: min(88vh, 920px);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+  background: var(--color-surface);
+}
+
+.previewDialog > * {
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+  .previewOverlay {
+    padding: 12px;
+  }
+
+  .pager {
+    justify-content: space-between;
+  }
+}

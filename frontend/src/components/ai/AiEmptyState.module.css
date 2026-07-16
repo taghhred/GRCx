@@ -1,0 +1,30 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 12px;
+  padding: 32px 24px;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: var(--weight-title);
+  color: var(--color-text-primary);
+  letter-spacing: -0.015em;
+  margin: 8px 0 0;
+  line-height: 1.3;
+}
+
+.description {
+  font-size: var(--text-body);
+  font-weight: var(--weight-body);
+  color: var(--color-text-secondary);
+  line-height: var(--leading-relaxed);
+  margin: 0 0 20px;
+  max-width: 420px;
+}

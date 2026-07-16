@@ -1,0 +1,212 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 1600px;
+  padding-bottom: 48px;
+}
+
+.queueBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.queueChip {
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.queueChipActive {
+  border-color: color-mix(in srgb, var(--color-primary) 55%, var(--color-border));
+  background: color-mix(in srgb, var(--color-primary) 12%, var(--color-surface));
+  color: var(--color-text-primary);
+}
+
+.summary {
+  margin: 0;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+.summary strong {
+  color: var(--color-text-primary);
+  font-weight: 650;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  padding: 12px 14px;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.filterChip {
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.filterChipOn {
+  border-color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  color: var(--color-text-primary);
+}
+
+.search {
+  flex: 1 1 220px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+.search input {
+  border: none !important;
+  background: transparent !important;
+  width: 100%;
+  box-shadow: none !important;
+}
+
+.toolbar select,
+.toolbar input[type="date"] {
+  height: 40px;
+  min-width: 130px;
+  padding: 0 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font-size: 13px;
+}
+
+.tableCard {
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  overflow: hidden;
+}
+
+.tableWrap {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1280px;
+}
+
+.table th,
+.table td {
+  padding: 11px 12px;
+  text-align: start;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.table th {
+  font-size: 11px;
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  background: color-mix(in srgb, var(--color-surface-elevated) 70%, transparent);
+  white-space: nowrap;
+}
+
+.table tbody tr {
+  cursor: pointer;
+  transition: background 120ms ease;
+}
+
+.table tbody tr:hover,
+.table tbody tr:focus-visible {
+  background: color-mix(in srgb, var(--color-primary) 7%, transparent);
+  outline: none;
+}
+
+.caseId {
+  font-weight: 650;
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+
+.muted {
+  color: var(--color-text-muted);
+  font-size: 12.5px;
+}
+
+.slaOn {
+  color: #15803d;
+  font-weight: 600;
+}
+
+.slaRisk {
+  color: #b45309;
+  font-weight: 600;
+}
+
+.slaBreach {
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+.rowActions {
+  display: flex;
+  gap: 6px;
+}
+
+.rowActions button {
+  min-height: 32px;
+  padding: 0 10px;
+  border-radius: 7px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+}
+
+.rowActions button:hover {
+  border-color: var(--color-primary);
+  color: var(--color-text-primary);
+}
+
+.empty {
+  padding: 48px 24px;
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.prototypeNote {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px dashed var(--color-border);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}

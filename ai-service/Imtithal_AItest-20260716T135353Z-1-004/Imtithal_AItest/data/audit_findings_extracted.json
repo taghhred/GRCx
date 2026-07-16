@@ -1,0 +1,232 @@
+[
+  {
+    "text": "NSEIT\nSaudi Arabia – National Cybersecurity Authority\nEssential Cybersecurity Controls \n(ECC – 1:2018) Standard Compliance\nImplementation Considerations\nAuthor: \nTarun Ambwani, CISSP, CIPP\nVice President – Risk Advisory Services \n Introduction\nCyber-security is a complex and multifaceted challenge \nthat is growing in importance",
+    "source_pdf": "Aujas_NCA_Compliance.pdf",
+    "pdf_path": "pdfs/02_audit_reports/Aujas_NCA_Compliance.pdf"
+  },
+  {
+    "text": "The rise in frequency and breadth of \ncyber attacks can be attributed to a number of factors:\n•\nUnfriendly nation-states breach systems to seek\nintelligence or intellectual property.\n•\nHacktivists aim to make political statements through\nsystems disruptions.\n•\nOrganized crime groups, cyber gangs, and other\ncriminals breach systems for monetary gain—i.e., to\nsteal funds via account takeovers, ATM heists, and\nother mechanisms.\nAs the cost of technology decreases, the barriers to entry \nfor cyber crime drop, making it easier and cheaper for \ncriminals of all types to seek out new ways to perpetrate \ncyber fraud.\nIn this paper, we aim to present some implementation \nconsiderations for Saudi Arabia’s National Cybersecurity \nAuthority Essential Cybersecurity Controls (ECC – 1:2018) \nStandard.\nUnited States:\nTel: +1 408 973 7205\nMiddle East:\nTel: +971 6 5528438\nIndia:\nTel: +91-80-2608 7878\ncontact@aujas.com\nwww.aujas.com\nSaudi Arabia NCA ECC Standard Compliance – Implementation Considerations\u0004\n'ST]VMKLXW\u0004k\u0004\u0016\u0014\u0015\u001d\u0004%PP\u00046MKLXW\u00046IWIVZIH\u0004F]\u0004%YNEW\u0012\nPage   2\nNSEIT\n I",
+    "source_pdf": "Aujas_NCA_Compliance.pdf",
+    "pdf_path": "pdfs/02_audit_reports/Aujas_NCA_Compliance.pdf"
+  },
+  {
+    "text": "Objective\nThe objective of this whitepaper is not to replicate the National Cybersecurity Authority’s Essential \nCybersecurity Controls (ECC – 1:2018) standard but to share our viewpoint on the important \nconsiderations that should be kept in mind while implementing the standard.\nThese implementation considerations can be used in conjunction with the ECC control text for \nelaborated guidance and also include recommendations that, while not required or explicitly\nmentioned in the ECC standard, are likely to add value to the implementation.\nThe whitepaper also includes a listing of the minimum set of documentation and evidences \nrequired for compliance to the standard.\nII",
+    "source_pdf": "Aujas_NCA_Compliance.pdf",
+    "pdf_path": "pdfs/02_audit_reports/Aujas_NCA_Compliance.pdf"
+  },
+  {
+    "text": "Introduction to NCA ECC Standard\nThe National Cybersecurity Authority of Saudi Arabia developed the Essential Cybersecurity\nControls (ECC – 1: 2018) after conducting a comprehensive study of multiple national and\ninternational cybersecurity frameworks and standards, studying related national decisions, law and \nregulatory requirements, reviewing and leveraging cybersecurity best practices, analyzing previous\ncybersecurity incidents and attacks on government and other critical organizations, and surveying \nand considering opinions of multiple national organizations.\nThe Essential Cybersecurity Controls (ECC) consists of the following:\n• 5 Cybersecurity Main Domains.\n• 29 Cybersecurity Sub-domains.\n• 114 Cybersecurity Controls.\nECC Scope\nThese controls are applicable to government organizations in the Kingdom of Saudi Arabia\n(including ministries, authorities, establishments and others) and its companies and entities, as well \nas private sector organizations owning, operating or hosting Critical National Infrastructures (CNIs), \nwhich are all referred to herein as “The Organization”",
+    "source_pdf": "Aujas_NCA_Compliance.pdf",
+    "pdf_path": "pdfs/02_audit_reports/Aujas_NCA_Compliance.pdf"
+  },
+  {
+    "text": "The NCA strongly encourages all other\norganizations in the Kingdom to leverage these controls to implement best practices to improve \nand enhance their cybersecurity.\nECC Applicability\nThese controls have been developed after taking into consideration the cybersecurity needs of all \norganizations and sectors in the Kingdom of Saudi Arabia",
+    "source_pdf": "Aujas_NCA_Compliance.pdf",
+    "pdf_path": "pdfs/02_audit_reports/Aujas_NCA_Compliance.pdf"
+  },
+  {
+    "text": "Important Considerations for NCA ECC Implementation\nPrior to implementing the ECC standard, a detailed gap assessment should be conducted using the ECC \nassessment toolkit provided by NCA",
+    "source_pdf": "Aujas_NCA_Compliance.pdf",
+    "pdf_path": "pdfs/02_audit_reports/Aujas_NCA_Compliance.pdf"
+  },
+  {
+    "text": "Compliance to the ECC control should be supported by properly\nvalidated evidences.\nThe following considerations should not be interpreted as detailed implementation guidance\ncovering all aspects of an ECC control",
+    "source_pdf": "Aujas_NCA_Compliance.pdf",
+    "pdf_path": "pdfs/02_audit_reports/Aujas_NCA_Compliance.pdf"
+  },
+  {
+    "text": "They are guidance statements that may be used as a supplementary \nto the ECC standard control text and also include value-add recommendations beyond the ECC standard \ncontrol text.\nThe cybersecurity strategy should be able to address both current business requirements \nand future growth plans that may result in IT/ICS/OT infrastructure changes or expansion",
+    "source_pdf": "Aujas_NCA_Compliance.pdf",
+    "pdf_path": "pdfs/02_audit_reports/Aujas_NCA_Compliance.pdf"
+  },
+  {
+    "text": "The latter can \ninclude the decision making model, baseline meeting agenda including owners, RACI matrix, \nany specialized processes, meeting frequency, participation and delegation.\n1.2 Cybersecurity Management\nDuring the gap assessment stage, all existing policies and procedures should be reviewed to \ndetermine if all cybersecurity relevant areas are covered and adequately addressed",
+    "source_pdf": "Aujas_NCA_Compliance.pdf",
+    "pdf_path": "pdfs/02_audit_reports/Aujas_NCA_Compliance.pdf"
+  },
+  {
+    "text": "If gaps \nare found, these should be enhanced and where required additional policies or procedures \nshould be defined, documented, approved, communicated, and implemented.\n1.3 Cybersecurity Policies and Procedures\nNSEIT\n Sub-domain\nImplementation \nConsiderations\nSub-domain\nImplementation \nConsiderations\nSub-domain\nImplementation \nConsiderations\nSub-domain\nImplementation \nConsiderations\n1.4 Cybersecurity Roles and Responsibilities\n1.5 Cybersecurity Risk Management\n1.6 Cybersecurity in Information and Technology Project Management\n1.7 Compliance with Cybersecurity Standards, Laws and Regulations\n1.8 Periodical Cybersecurity Review and Audit\nSub-domain\nImplementation \nConsiderations\nCommon cybersecurity risks should be identified for all business departments/business \nprocesses in addition to identifying all security risks both technical and non-technical for \nIT/ICS/OT assets.\nAdditionally, while not required by the ECC, the cybersecurity risk management methodology \ncan include an information security focused risk appetite",
+    "source_pdf": "Aujas_NCA_Compliance.pdf",
+    "pdf_path": "pdfs/02_audit_reports/Aujas_NCA_Compliance.pdf"
+  },
+  {
+    "text": "The risk appetite and methodology \ncan be aligned with the enterprise and operational risk management methodology.\nFurther, implementation of a risk management technology solution for automation should be \nconsidered and it should be configured to provide a view of all enterprise wide risks as well \nas risk views by business departments, processes, facilities and assets.\nA comprehensive compliance management framework must be in place including the overall \ncompliance management process, procedures, reporting dashboards, roles and\nresponsibilities, compliance requirements and controls library, compliance control checklists \nand questionnaires where applicable.\nA unified compliance framework should be considered to reduce the number of compliance \nassessments",
+    "source_pdf": "Aujas_NCA_Compliance.pdf",
+    "pdf_path": "pdfs/02_audit_reports/Aujas_NCA_Compliance.pdf"
+  },
+  {
+    "text": "Integrated requirements or rationalization of requirements should be\nconsidered.\nWhile not required by ECC, the organization may additionally choose to automate\ncompliance management via a technology solution.\nA RACI matrix for key activities and roles involved may additionally be defined.\nWhile not required by ECC, the organization may additionally choose to automate project risk \nmanagement via a technology solution.\nScope of the periodic independent reviews and audit should be carefully determined to \ninclude compliance reviews, security process area/control audits as well as technical \nsecurity assessments",
+    "source_pdf": "Aujas_NCA_Compliance.pdf",
+    "pdf_path": "pdfs/02_audit_reports/Aujas_NCA_Compliance.pdf"
+  },
+  {
+    "text": "Where risk is being \naccepted, risk acceptance forms should be drafted with rationale and compensating controls \nand signed by the cybersecurity steering committee.\nSub-domain\n1.9 Cybersecurity in Human Resources\nThe ECC control is clear",
+    "source_pdf": "Aujas_NCA_Compliance.pdf",
+    "pdf_path": "pdfs/02_audit_reports/Aujas_NCA_Compliance.pdf"
+  },
+  {
+    "text": "It is important to keep in mind that exiting personnel access to ‘all \ninformation and technology assets must be permanently removed’ via deletion of the user \naccount and not just by disabling access.\nImplementation \nConsiderations\nSub-domain\n1.10 Cybersecurity Awareness and Training Program\nThe personnel targeted for cybersecurity awareness should cover all of the organization’s \nstaff including any third party contractors",
+    "source_pdf": "Aujas_NCA_Compliance.pdf",
+    "pdf_path": "pdfs/02_audit_reports/Aujas_NCA_Compliance.pdf"
+  },
+  {
+    "text": "It is recommended that all staff have access easy \nto awareness and training materials at all times e.g",
+    "source_pdf": "Aujas_NCA_Compliance.pdf",
+    "pdf_path": "pdfs/02_audit_reports/Aujas_NCA_Compliance.pdf"
+  },
+  {
+    "text": "CMDB) of all information and technology assets \n(including hardware, software, applications, servers, databases, devices) must be maintained \nwith relevant information for each that should include asset name, id, location, IP address, \nasset value or criticality level based on CIA, business department mapping, owner, custodian, \namong other parameters.\nImplementation \nConsiderations\nSub-domain\n2.2 Identity and Access Management\nWe recommend that multi-factor authentication for remote access be implemented on all \ncustomer facing applications as well as applications allowing remote access",
+    "source_pdf": "Aujas_NCA_Compliance.pdf",
+    "pdf_path": "pdfs/02_audit_reports/Aujas_NCA_Compliance.pdf"
+  },
+  {
+    "text": "In addition, we \nrecommend that multi factor authentication should be implemented on administrator access \nto production environment.\nThe organization should consider implementing competent Identity Access\nImplementation \nConsiderations\nSaudi Arabia NCA ECC Standard Compliance – Implementation Considerations\u0004\n'ST]VMKLXW\u0004k\u0004\u0016\u0014\u0015\u001d\u0004%PP\u00046MKLXW\u00046IWIVZIH\u0004F]\u0004%YNEW\u0012\nPage   7\nNSEIT\n Management and Privilege Access Management technology solutions.\nSegregation of duties matrix for all applications must be developed and implemented",
+    "source_pdf": "Aujas_NCA_Compliance.pdf",
+    "pdf_path": "pdfs/02_audit_reports/Aujas_NCA_Compliance.pdf"
+  },
+  {
+    "text": "The \nsame should be done for other IT assets such as servers, databases, network devices as well \nas security solutions.\nSub-domain\n2.3 Information System and Information Processing Facilities Protection\nMalware and virus protection should not only be restricted to the IT network but, if applicable, \nshould be extended to other networks such as ATM.\nImplementation \nConsiderations\nSub-domain\n2.4 Email Protection\nA detailed Email Security policy should be defined covering all points mentioned in the ECC \ncontrol text as well as other requirements such as email usage policies, attachment \nhandling, sharing of classified information over emails, email monitoring, etc.\nImplementation \nConsiderations\nSub-domain\n2.5 Network Security Management\nIn addition, Segregation of Duties (SOD) between the network and infrastructure management \nteam (e.g",
+    "source_pdf": "Aujas_NCA_Compliance.pdf",
+    "pdf_path": "pdfs/02_audit_reports/Aujas_NCA_Compliance.pdf"
+  },
+  {
+    "text": "Access control should be \nimplemented in accordance to SOD, least privilege and need to know principles.\nImplementation \nConsiderations\nSub-domain\n2.6 Mobile Devices Security\nA detailed Mobile Device Security and BYOD policy should be defined to capture other cyberse-\ncurity requirements such as not allowing jail-broken devices, restrictions on downloads and \napplication installation, applying manufacturer provided security patches promptly when \nreleased, organization’s applications being thoroughly tested for security flaws prior to their \ninstallation, etc.\nImplementation \nConsiderations\nSub-domain\n2.7 Data and Information Protection\nIt is recommended to define an overall Data Protection Governance framework including \norganization structure, roles and responsibilities, key activities and cross functional\nparticipation.\nA Data and Information Protection Policy should be defined that is aligned with applicable legal, \nregulatory and industry standard requirements to include, but\nImplementation \nConsiderations\nSaudi Arabia NCA ECC Standard Compliance – Implementation Considerations\u0004\n'ST]VMKLXW\u0004k\u0004\u0016\u0014\u0015\u001d\u0004%PP\u00046MKLXW\u00046IWIVZIH\u0004F]\u0004%YNEW\u0012\nPage   8\nNSEIT\n not limited to, areas such as: data",
+    "source_pdf": "Aujas_NCA_Compliance.pdf",
+    "pdf_path": "pdfs/02_audit_reports/Aujas_NCA_Compliance.pdf"
+  },
+  {
+    "text": "For new implementations where backward compatibility is not needed for communicating \nwith other systems TLS 1.3 should be used.\nImplementation \nConsiderations\nSub-domain\n2.9 Backup and Recovery Management\nA comprehensive backup and recovery management framework with roles and\nresponsibilities, policies, processes, procedures, plans and schedules must be documented, \napproved and implemented.\nWhile not explicitly mentioned in the ECC standard, from a cybersecurity requirement \nperspective, it is also recommended to annually assess controls implemented on data \nbackup sites, physical repositories and systems for compromise risks and take remedial \naction.\nImplementation \nConsiderations\nSub-domain\n2.10 Vulnerabilities Management\nWhile not required by or explicitly mentioned in the ECC standard, to add more effectiveness \nto the vulnerability management program: a compromise assessment using indicators of \ncompromise can be conducted on a periodic basis to identify already compromised systems \nand take remedial action.\nImplementation \nConsiderations\nSaudi Arabia NCA ECC Standard Compliance – Implementation Considerations\u0004\n'ST]VMKLXW\u0004k\u0004\u0016\u0014\u0015\u001d\u0004%PP\u00046MKLXW\u00046IWIVZIH\u0004F]\u0004%YNEW\u0012\nPage   9\nNSEIT\n",
+    "source_pdf": "Aujas_NCA_Compliance.pdf",
+    "pdf_path": "pdfs/02_audit_reports/Aujas_NCA_Compliance.pdf"
+  },
+  {
+    "text": "While the goal \nof penetration testing is to exploit known vulnerabilities and may or may not necessarily \ninclude identifying zero day vulnerabilities, the goal of the Red Team Assessment is to test \nthe organization's detection and response capabilities by employing multiple targeted attack \nstrategies and channels to gain access to sensitive information in an undetected way.\nImplementation \nConsiderations\nSub-domain\n2.12 Cybersecurity Event Logs and Monitoring Management\nWhile the ECC control recommends monitoring only for critical assets, remote access and \nprivileged user accounts, it is vital that the organization considers integration of all IT assets \n(including applications, databases, servers, devices) with the Security Information and Event \nManagement (SIEM) solution for monitoring",
+    "source_pdf": "Aujas_NCA_Compliance.pdf",
+    "pdf_path": "pdfs/02_audit_reports/Aujas_NCA_Compliance.pdf"
+  },
+  {
+    "text": "Incident management \nshould also include capability for rapid response and forensic investigation to deal with \ncritical incidents.\nProactive gathering of threat intelligence, assessment of threat applicability,\nImplementation \nConsiderations\nSaudi Arabia NCA ECC Standard Compliance – Implementation Considerations\u0004\n'ST]VMKLXW\u0004k\u0004\u0016\u0014\u0015\u001d\u0004%PP\u00046MKLXW\u00046IWIVZIH\u0004F]\u0004%YNEW\u0012\nPage   10\nNSEIT\n prompt communication of applicable threats to relevant stakeholders and their timely mitiga-\ntion / resolution should be performed.\nIt is important to ensure that members of the threat and incident management staff are \nqualified and experienced to execute their assigned role.\nSub-domain\n2.14 Physical Security\nIn addition, a physical security audit should be conducted at-least annually to determine the \neffectiveness of physical security practices, measures and controls.\nImplementation \nConsiderations\nSub-domain\n2.15 Web Application Security\nWhile not explicitly mentioned in the ECC control text, it is recommended that threat profiling \nand subsequent remediation be done at a minimum for all external facing applications as \nwell as other important applications.\nImplementation \nConsiderations\nAt a minimum cy",
+    "source_pdf": "Aujas_NCA_Compliance.pdf",
+    "pdf_path": "pdfs/02_audit_reports/Aujas_NCA_Compliance.pdf"
+  },
+  {
+    "text": "Further, with such provid-\ners, the organization can include a right to any-time review or audit clause within the \ncontractual agreement.\nCloud architecture review, cloud data access and data sharing review, cloud service provider \ncontractual compliance keeping in mind applicable legal and regulatory requirements, as well \nas specialized cloud security assessment including process and technical risk assessment \n(e.g",
+    "source_pdf": "Aujas_NCA_Compliance.pdf",
+    "pdf_path": "pdfs/02_audit_reports/Aujas_NCA_Compliance.pdf"
+  },
+  {
+    "text": "1   \nعام \nDocument Classification: Public \n   \n \nRules Governing the Licensing to Issue Accreditation \nCertificates to Controllers and Processors, and the \nAuditing and Inspection of Personal Data Processing \nActivities \nDocument Classification: Public \nVersion Number 1.0 \n2026 \n  \n    2   \nعام \nDocument Classification: Public \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n  \n    3   \nعام \nDocument Classification: Public \n Chapter One: Definitions, Scope, and Objectives \nArticle 1: Definitions  \nThe Terms and Phrases set forth in these Rules shall bear the meanings assigned to them in Article (1) of \nthe Personal Data Protection Law (The Law) issued by Royal Decree No",
+    "source_pdf": "CertificatesControllersProcessorsAuditingInspectionPersonalDataProcessingActivities.pdf",
+    "pdf_path": "pdfs/02_audit_reports/CertificatesControllersProcessorsAuditingInspectionPersonalDataProcessingActivities.pdf"
+  },
+  {
+    "text": "Rules: The rules governing the licensing of activities for issuing accreditation certificates for \nControllers and Processors and for auditing and inspection activities related to the processing of \npersonal data",
+    "source_pdf": "CertificatesControllersProcessorsAuditingInspectionPersonalDataProcessingActivities.pdf",
+    "pdf_path": "pdfs/02_audit_reports/CertificatesControllersProcessorsAuditingInspectionPersonalDataProcessingActivities.pdf"
+  },
+  {
+    "text": "Applicant: The entity that submits a license application to the Competent Authority to conduct audits \nor inspections of personal data processing activities or issue accreditation certificates to Controllers \nand Processors",
+    "source_pdf": "CertificatesControllersProcessorsAuditingInspectionPersonalDataProcessingActivities.pdf",
+    "pdf_path": "pdfs/02_audit_reports/CertificatesControllersProcessorsAuditingInspectionPersonalDataProcessingActivities.pdf"
+  },
+  {
+    "text": "License for Issuing Accreditation Certificates: A document issued by the Competent Authority to a \nlegal person with special capacity authorizing engagement in the activity of issuing accreditation \ncertificates for Controllers and Processors",
+    "source_pdf": "CertificatesControllersProcessorsAuditingInspectionPersonalDataProcessingActivities.pdf",
+    "pdf_path": "pdfs/02_audit_reports/CertificatesControllersProcessorsAuditingInspectionPersonalDataProcessingActivities.pdf"
+  },
+  {
+    "text": "License for Auditing and Inspection Activities: A document issued by the Competent Authority to a \nlegal person with special capacity authorizing engagement in auditing and inspection activities \nrelated to personal data processing at Controllers and Processors",
+    "source_pdf": "CertificatesControllersProcessorsAuditingInspectionPersonalDataProcessingActivities.pdf",
+    "pdf_path": "pdfs/02_audit_reports/CertificatesControllersProcessorsAuditingInspectionPersonalDataProcessingActivities.pdf"
+  },
+  {
+    "text": "Accreditation Certificate: A certificate issued by the Licensee to Controllers or Processors, \nconfirming that the practices and procedures followed by the Controllers and Processors in processing \npersonal data comply with the provisions of the Law, the Regulations, and the requirements \nstipulated in the Rules Governing the Issuance of Accreditation Certificates for Controllers and \nProcessors",
+    "source_pdf": "CertificatesControllersProcessorsAuditingInspectionPersonalDataProcessingActivities.pdf",
+    "pdf_path": "pdfs/02_audit_reports/CertificatesControllersProcessorsAuditingInspectionPersonalDataProcessingActivities.pdf"
+  },
+  {
+    "text": "Audits or Inspections:  An activity carried out by the Licensee to verify the comprehensiveness of \npersonal data processing activities at the entity by conducting audits and inspections, and to \ndetermine the effectiveness of the controls and measures taken to protect personal data",
+    "source_pdf": "CertificatesControllersProcessorsAuditingInspectionPersonalDataProcessingActivities.pdf",
+    "pdf_path": "pdfs/02_audit_reports/CertificatesControllersProcessorsAuditingInspectionPersonalDataProcessingActivities.pdf"
+  },
+  {
+    "text": "Audit or Inspection Report: A report prepared by a Licensee to conduct audits or inspections, \noutlining the findings of the audit or inspection of the personal data processing activities subject to \nthe audit or inspection pursuant to the provisions of the Law and the Regulations",
+    "source_pdf": "CertificatesControllersProcessorsAuditingInspectionPersonalDataProcessingActivities.pdf",
+    "pdf_path": "pdfs/02_audit_reports/CertificatesControllersProcessorsAuditingInspectionPersonalDataProcessingActivities.pdf"
+  },
+  {
+    "text": "The Applicant shall disclose any potential conflict of interest that may arise when conducting \nbusiness under the license with Controllers or Processors, to ensure that these services are provided \nwith full independence",
+    "source_pdf": "CertificatesControllersProcessorsAuditingInspectionPersonalDataProcessingActivities.pdf",
+    "pdf_path": "pdfs/02_audit_reports/CertificatesControllersProcessorsAuditingInspectionPersonalDataProcessingActivities.pdf"
+  },
+  {
+    "text": "The Applicant shall disclose any violations of the provisions of the Law and the Regulations \npreviously identified by the Competent Authority",
+    "source_pdf": "CertificatesControllersProcessorsAuditingInspectionPersonalDataProcessingActivities.pdf",
+    "pdf_path": "pdfs/02_audit_reports/CertificatesControllersProcessorsAuditingInspectionPersonalDataProcessingActivities.pdf"
+  },
+  {
+    "text": "Failure of the Licensee to comply with the requirements stipulated in Articles (3) and (4) of these \nRules, or violation of the provisions of the Law and the Regulations, or any binding instructions \nissued by the Competent Authority in this regard",
+    "source_pdf": "CertificatesControllersProcessorsAuditingInspectionPersonalDataProcessingActivities.pdf",
+    "pdf_path": "pdfs/02_audit_reports/CertificatesControllersProcessorsAuditingInspectionPersonalDataProcessingActivities.pdf"
+  },
+  {
+    "text": "Failure of the Licensee to address violations or any written directives issued by the Competent \nAuthority",
+    "source_pdf": "CertificatesControllersProcessorsAuditingInspectionPersonalDataProcessingActivities.pdf",
+    "pdf_path": "pdfs/02_audit_reports/CertificatesControllersProcessorsAuditingInspectionPersonalDataProcessingActivities.pdf"
+  },
+  {
+    "text": "The Licensee shall maintain the confidentiality of the findings related to the issuance of accreditation \ncertificates or the conduct of audit or inspection activities concerning assessed entities, and shall not \npublish, share, or disclose such findings without the prior written approval of the Competent \nAuthority",
+    "source_pdf": "CertificatesControllersProcessorsAuditingInspectionPersonalDataProcessingActivities.pdf",
+    "pdf_path": "pdfs/02_audit_reports/CertificatesControllersProcessorsAuditingInspectionPersonalDataProcessingActivities.pdf"
+  },
+  {
+    "text": "The Licensee shall disclose any material change after obtaining the license that may result in a \nconflict of interest with any Controller or Processor when performing its duties under the license",
+    "source_pdf": "CertificatesControllersProcessorsAuditingInspectionPersonalDataProcessingActivities.pdf",
+    "pdf_path": "pdfs/02_audit_reports/CertificatesControllersProcessorsAuditingInspectionPersonalDataProcessingActivities.pdf"
+  },
+  {
+    "text": "Details of all relevant Licensee personnel who participate in assessing the suitability of a \nController or Processor for accreditation or who make decisions regarding the issuance, \nrevocation, or renewal of accreditation certificates",
+    "source_pdf": "CertificatesControllersProcessorsAuditingInspectionPersonalDataProcessingActivities.pdf",
+    "pdf_path": "pdfs/02_audit_reports/CertificatesControllersProcessorsAuditingInspectionPersonalDataProcessingActivities.pdf"
+  },
+  {
+    "text": "· Darktrace Framework Mapping\nNational Cybersecurity Authority (NCA)  \nEssential Cybersecurity Controls (ECC)\nNCS ECC framework summary\nSaudi Arabia’s Vision for 2030 aims for comprehensive \nnational improvement, focusing on security, economy, and \ncitizens’ well-being",
+    "source_pdf": "Darktrace_NCA_ECC.pdf",
+    "pdf_path": "pdfs/02_audit_reports/Darktrace_NCA_ECC.pdf"
+  },
+  {
+    "text": "NCA develops Essential Cybersecurity Controls (ECC) to set \nminimum requirements for organizations, ensuring compliance \nand continuous monitoring",
+    "source_pdf": "Darktrace_NCA_ECC.pdf",
+    "pdf_path": "pdfs/02_audit_reports/Darktrace_NCA_ECC.pdf"
+  },
+  {
+    "text": "All organizations must adhere to \nECC mandates outlined in Royal Decrees to enhance cybersecu-\nrity resilience.\nThe controls aim to establish minimum cybersecurity standards \nfor organizations’ IT assets, drawing from industry best practices \nto mitigate internal and external threats",
+    "source_pdf": "Darktrace_NCA_ECC.pdf",
+    "pdf_path": "pdfs/02_audit_reports/Darktrace_NCA_ECC.pdf"
+  },
+  {
+    "text": "The essential cyber \nsecurity controls consist of 5 main domains, 29 subdomains,  \nand a 114 cybersecurity controls.\nECC domains and structure\nDarktrace and ECC:  \nFramework Applicability\nDarktrace can aid organizations in aligning with Saudi Arabia’s \nEssential Cybersecurity Controls (ECC) as mandated by the \nNational Cybersecurity Authority (NCA)",
+    "source_pdf": "Darktrace_NCA_ECC.pdf",
+    "pdf_path": "pdfs/02_audit_reports/Darktrace_NCA_ECC.pdf"
+  },
+  {
+    "text": "Darktrace aligns with the emphasis on protecting critical \ninfrastructures through proactive threat detection and \nadaptive defense mechanisms.\n01 Cybersecurity governance\n02 Cybersecurity defence\n03 Cybersecurity  \nresilience\n04 Third-party and \ncloud computing\n05 ICS \ncybersecurity\nFramework Mapping | darktrace.com \n Domain \nNo.\nDomain\nSubdomain \nNo.\nSubdomain\nControl \nNo.\nControl\nDarktrace Coverage\n1\nCybersecurity \nGovernance\n1-1\nCybersecurity \nStrategy\n1-1-2\nA roadmap must be executed to  \nimplement the cybersecurity strategy.\nDarktrace provides visibility into existing \nrisks which can be used when prioritizing \nprojects in a roadmap",
+    "source_pdf": "Darktrace_NCA_ECC.pdf",
+    "pdf_path": "pdfs/02_audit_reports/Darktrace_NCA_ECC.pdf"
+  },
+  {
+    "text": "Darktrace can identify and notify security \nteams of policy violations and also interrupt \nthe offending activity thus enforcing policy \ncompliance.\n1\nCybersecurity \nGovernance\n1-5\nCyberse-\ncurity Risk \nManagement\n1-5-2\nThe cybersecurity risk management methodolo-\ngy and procedures must be implemented by the \ncybersecurity function",
+    "source_pdf": "Darktrace_NCA_ECC.pdf",
+    "pdf_path": "pdfs/02_audit_reports/Darktrace_NCA_ECC.pdf"
+  },
+  {
+    "text": "Darktrace can also help \nenforce compliance through realtime \nalerting and disruption of non-compliant \nactivities.\nFramework Mapping | darktrace.com \n Domain \nNo.\nDomain\nSubdomain \nNo.\nSubdomain\nControl \nNo.\nControl\nDarktrace Coverage\n1\nCybersecurity \nGovernance\n1-9\nCybersecurity \nin Human \nResources\n1-9-5\nPersonnel access to information and technology \n assets must be reviewed and removed immedi-\nately upon termination/separation.\nDarktrace can alert on and disrupt activities \nrelated to personnel whose access should \nhave been removed",
+    "source_pdf": "Darktrace_NCA_ECC.pdf",
+    "pdf_path": "pdfs/02_audit_reports/Darktrace_NCA_ECC.pdf"
+  },
+  {
+    "text": "Additionally, \nDarktrace continuously analyzes potential \ntraffic and can alert on increased risks and \npotential non-compliant configurations.\n2\nCybersecurity \nDefense\n2-5\nNetworks \nSecurity \nManagement\n2-5-3\nThe cybersecurity requirements for network \nsecurity management must include at least the \nfollowing:\n\t· 2-5-3-1 Logical or physical segregation and  \nsegmentation of network segments using  \nfirewalls and defense-in-depth principles.\n\t· 2-5-3-2 Network segregation between pro-\nduction, test and development environments.\n\t· 2-5-3-3 Secure browsing and Internet \nconnectivity including restrictions on the use \nof file storage/sharing and remote access \nwebsites, and protection against suspicious \nwebsites.\n\t· 2-5-3-4 Wireless network protection using \nstrong authentication and encryption tech-\nniques",
+    "source_pdf": "Darktrace_NCA_ECC.pdf",
+    "pdf_path": "pdfs/02_audit_reports/Darktrace_NCA_ECC.pdf"
+  }
+]

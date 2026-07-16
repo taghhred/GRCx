@@ -1,0 +1,26 @@
+# ─── الأساس (إلزامي — يشغّل كل شيء محلياً بلا إنترنت) ───
+scikit-learn>=1.3
+pandas>=2.0
+joblib>=1.3
+fastapi>=0.110
+uvicorn>=0.29
+openpyxl>=3.1
+# Note: python-multipart is intentionally NOT required.
+# Excel upload reads the raw request body (application/octet-stream).
+
+# ─── ترقية اختيارية 1: بحث دلالي أدق (SBERT) ───
+# pip install sentence-transformers torch
+# sentence-transformers>=2.6
+# torch>=2.2
+
+# ─── ترقية اختيارية 2: تدريب/تشغيل AraBERT ───
+# pip install torch transformers datasets accelerate
+# transformers>=4.40
+# datasets>=2.19
+# accelerate>=0.29
+
+# ─── ترقية اختيارية 3: LLM سحابي (غير مطلوب أبداً) ───
+# anthropic>=0.25
+
+# ─── أدوات بناء قاعدة المعرفة من PDFs (scripts/) ───
+# pymupdf>=1.24

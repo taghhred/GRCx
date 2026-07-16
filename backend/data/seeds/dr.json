@@ -1,0 +1,898 @@
+{
+  "kpis": [
+    {
+      "id": "readiness",
+      "label": "Recovery Readiness",
+      "value": "92%",
+      "description": "Plans, backups, and tested failovers against policy.",
+      "tone": "success",
+      "statusLabel": "Healthy"
+    },
+    {
+      "id": "progress",
+      "label": "Recovery Progress",
+      "value": "68%",
+      "description": "Current exercise / active recovery completion.",
+      "tone": "info",
+      "statusLabel": "In progress"
+    },
+    {
+      "id": "systems",
+      "label": "Critical Systems",
+      "value": "12",
+      "description": "Systems classed Priority 1–2 in the DR inventory.",
+      "tone": "default",
+      "statusLabel": "Tracked"
+    },
+    {
+      "id": "alerts",
+      "label": "Active Recovery Alerts",
+      "value": "4",
+      "description": "Open notifications requiring operator action.",
+      "tone": "warning",
+      "statusLabel": "Attention"
+    }
+  ],
+  "currentStatus": {
+    "overall": "Critical",
+    "lastUpdated": "5 minutes ago",
+    "operational": 7,
+    "recovering": 3,
+    "offline": 1,
+    "pending": 1
+  },
+  "progress": {
+    "percent": 68,
+    "recoveredSystems": 8,
+    "pendingSystems": 4,
+    "estimatedRemaining": "1h 45m"
+  },
+  "notifications": [
+    {
+      "id": "n1",
+      "title": "Recovery test scheduled",
+      "detail": "Full DR Simulation starts 15 Aug 2026 at 09:00 AST.",
+      "severity": "Medium",
+      "time": "12 min ago"
+    },
+    {
+      "id": "n2",
+      "title": "Backup verification required",
+      "detail": "Core Banking restore sample is overdue by 3 days.",
+      "severity": "High",
+      "time": "41 min ago"
+    },
+    {
+      "id": "n3",
+      "title": "DR documentation expired",
+      "detail": "VPN Gateway runbook past annual review date.",
+      "severity": "Medium",
+      "time": "2 hrs ago"
+    },
+    {
+      "id": "n4",
+      "title": "Recovery owner approval pending",
+      "detail": "Payment Gateway failover window awaiting sign-off.",
+      "severity": "Critical",
+      "time": "3 hrs ago"
+    }
+  ],
+  "strategy": [
+    {
+      "id": "pre",
+      "title": "Pre-Incident Actions",
+      "progress": 80,
+      "items": [
+        {
+          "id": "p1",
+          "label": "Update DR Plan",
+          "done": true
+        },
+        {
+          "id": "p2",
+          "label": "Review backup policies",
+          "done": true
+        },
+        {
+          "id": "p3",
+          "label": "Verify offsite backups",
+          "done": true
+        },
+        {
+          "id": "p4",
+          "label": "Train recovery teams",
+          "done": false
+        },
+        {
+          "id": "p5",
+          "label": "Validate dependencies",
+          "done": true
+        }
+      ]
+    },
+    {
+      "id": "during",
+      "title": "During Incident",
+      "progress": 60,
+      "items": [
+        {
+          "id": "d1",
+          "label": "Activate DR Team",
+          "done": true
+        },
+        {
+          "id": "d2",
+          "label": "Assess impact",
+          "done": true
+        },
+        {
+          "id": "d3",
+          "label": "Recover priority services",
+          "done": true
+        },
+        {
+          "id": "d4",
+          "label": "Monitor progress",
+          "done": false
+        },
+        {
+          "id": "d5",
+          "label": "Notify stakeholders",
+          "done": false
+        }
+      ]
+    },
+    {
+      "id": "post",
+      "title": "Post-Recovery",
+      "progress": 25,
+      "items": [
+        {
+          "id": "x1",
+          "label": "Validate restored services",
+          "done": false
+        },
+        {
+          "id": "x2",
+          "label": "Conduct post-incident review",
+          "done": false
+        },
+        {
+          "id": "x3",
+          "label": "Update DR documentation",
+          "done": true
+        },
+        {
+          "id": "x4",
+          "label": "Lessons learned",
+          "done": false
+        },
+        {
+          "id": "x5",
+          "label": "Close recovery activities",
+          "done": false
+        }
+      ]
+    }
+  ],
+  "contacts": [
+    {
+      "id": "c1",
+      "role": "Recovery Manager",
+      "name": "Nasser",
+      "department": "IT Continuity",
+      "phone": "+966 11 200 4100",
+      "email": "a.alrashid@grcx.example",
+      "availability": "24/7",
+      "owner": "Nasser",
+      "checklist": [
+        {
+          "id": "k1",
+          "label": "Incident bridge opened",
+          "done": true
+        },
+        {
+          "id": "k2",
+          "label": "Executive brief issued",
+          "done": true
+        }
+      ],
+      "dependencies": [
+        "Infrastructure Lead",
+        "Security Operations"
+      ],
+      "documents": [
+        "DR-Command-Card.pdf"
+      ],
+      "logs": [
+        "Activated command channel at 08:12"
+      ],
+      "objectives": {
+        "rto": "N/A",
+        "rpo": "N/A",
+        "mao": "N/A"
+      },
+      "aiRecommendations": [
+        "Confirm backup recovery owners before Peak Payday."
+      ]
+    },
+    {
+      "id": "c2",
+      "role": "Infrastructure Lead",
+      "name": "Huda",
+      "department": "Infrastructure",
+      "phone": "+966 11 200 4221",
+      "email": "h.alotaibi@grcx.example",
+      "availability": "24/7",
+      "owner": "Huda",
+      "checklist": [
+        {
+          "id": "k1",
+          "label": "Compute capacity reserved",
+          "done": true
+        }
+      ],
+      "dependencies": [
+        "Network Engineer",
+        "Active Directory"
+      ],
+      "documents": [
+        "Infra-Failover-Runbook.pdf"
+      ],
+      "logs": [
+        "Provisioned DR VLAN 08:40"
+      ],
+      "objectives": {
+        "rto": "2 hrs",
+        "rpo": "30 min",
+        "mao": "4 hrs"
+      },
+      "aiRecommendations": [
+        "Pre-stage hypervisor capacity weekly."
+      ]
+    },
+    {
+      "id": "c3",
+      "role": "Network Engineer",
+      "name": "Omar",
+      "department": "Network",
+      "phone": "+966 11 200 4315",
+      "email": "o.alharbi@grcx.example",
+      "availability": "On-call",
+      "owner": "Omar",
+      "checklist": [
+        {
+          "id": "k1",
+          "label": "BGP failover validated",
+          "done": false
+        }
+      ],
+      "dependencies": [
+        "VPN Gateway",
+        "DNS"
+      ],
+      "documents": [
+        "Network-DR-Playbook.pdf"
+      ],
+      "logs": [
+        "Awaiting ISP alternate path"
+      ],
+      "objectives": {
+        "rto": "1 hr",
+        "rpo": "N/A",
+        "mao": "2 hrs"
+      },
+      "aiRecommendations": [
+        "Document ISP escalation under 15 minutes."
+      ]
+    },
+    {
+      "id": "c4",
+      "role": "Security Operations",
+      "name": "Abeer",
+      "department": "SecOps",
+      "phone": "+966 11 200 4488",
+      "email": "l.almutairi@grcx.example",
+      "availability": "24/7",
+      "owner": "Abeer",
+      "checklist": [
+        {
+          "id": "k1",
+          "label": "SOC monitoring uplifted",
+          "done": true
+        }
+      ],
+      "dependencies": [
+        "Identity Services",
+        "SIEM"
+      ],
+      "documents": [
+        "SecOps-DR-Checklist.pdf"
+      ],
+      "logs": [
+        "Enabled elevated detection profile"
+      ],
+      "objectives": {
+        "rto": "2 hrs",
+        "rpo": "1 hr",
+        "mao": "4 hrs"
+      },
+      "aiRecommendations": [
+        "Keep MFA break-glass vault dual-region."
+      ]
+    },
+    {
+      "id": "c5",
+      "role": "Business Owner",
+      "name": "Jawaher",
+      "department": "Retail Banking",
+      "phone": "+966 11 200 4502",
+      "email": "n.alqahtani@grcx.example",
+      "availability": "Business hours",
+      "owner": "Jawaher",
+      "checklist": [
+        {
+          "id": "k1",
+          "label": "Customer comms template ready",
+          "done": true
+        }
+      ],
+      "dependencies": [
+        "Online Banking",
+        "Payment Gateway"
+      ],
+      "documents": [
+        "Business-Impact-Matrix.xlsx"
+      ],
+      "logs": [
+        "Approved customer message pack"
+      ],
+      "objectives": {
+        "rto": "4 hrs",
+        "rpo": "1 hr",
+        "mao": "4 hrs"
+      },
+      "aiRecommendations": [
+        "Align Peak Payday RTO with Payment Gateway."
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "id": "t1",
+      "title": "Recovery declared",
+      "time": "08:05",
+      "detail": "Severity Critical declared by Recovery Manager.",
+      "complete": true
+    },
+    {
+      "id": "t2",
+      "title": "DR Team activated",
+      "time": "08:12",
+      "detail": "Command channel and bridge opened.",
+      "complete": true
+    },
+    {
+      "id": "t3",
+      "title": "Backup restoration",
+      "time": "08:35",
+      "detail": "Priority datasets restore in secondary region.",
+      "complete": true
+    },
+    {
+      "id": "t4",
+      "title": "Infrastructure recovery",
+      "time": "09:10",
+      "detail": "Compute and network failovers progressing.",
+      "complete": true
+    },
+    {
+      "id": "t5",
+      "title": "Application recovery",
+      "time": "09:55",
+      "detail": "Core apps remounted; Payment Gateway pending.",
+      "complete": false
+    },
+    {
+      "id": "t6",
+      "title": "Validation",
+      "time": "Pending",
+      "detail": "Functional and security validation gates.",
+      "complete": false
+    },
+    {
+      "id": "t7",
+      "title": "Business resumed",
+      "time": "Pending",
+      "detail": "Return-to-normal and executive close.",
+      "complete": false
+    }
+  ],
+  "objectives": [
+    {
+      "id": "rto",
+      "label": "Recovery Time Objective (RTO)",
+      "value": "2 hrs",
+      "hint": "Target for Priority-1 systems in active exercise.",
+      "compliance": "Watch"
+    },
+    {
+      "id": "rpo",
+      "label": "Recovery Point Objective (RPO)",
+      "value": "30 min",
+      "hint": "Checkpoint interval for critical transactional stores.",
+      "compliance": "Compliant"
+    },
+    {
+      "id": "mao",
+      "label": "Maximum Acceptable Outage (MAO)",
+      "value": "4 hrs",
+      "hint": "Enterprise MAO for customer-facing channels.",
+      "compliance": "Compliant"
+    },
+    {
+      "id": "crt",
+      "label": "Current Recovery Time",
+      "value": "1h 52m",
+      "hint": "Elapsed time since recovery declaration.",
+      "compliance": "Watch"
+    },
+    {
+      "id": "comp",
+      "label": "Compliance Status",
+      "value": "92%",
+      "hint": "Objectives met against last validated tests.",
+      "compliance": "Compliant"
+    }
+  ],
+  "tests": [
+    {
+      "id": "test-full",
+      "name": "Full DR Simulation",
+      "environment": "Secondary DC",
+      "lastTest": "2026-06-30",
+      "nextTest": "2026-08-15",
+      "result": "Passed",
+      "owner": "Recovery Manager",
+      "checklist": [
+        {
+          "id": "a",
+          "label": "Scope approved",
+          "done": true
+        },
+        {
+          "id": "b",
+          "label": "Observers invited",
+          "done": true
+        },
+        {
+          "id": "c",
+          "label": "Evidence pack archived",
+          "done": true
+        }
+      ],
+      "dependencies": [
+        "Infrastructure",
+        "Applications",
+        "Network"
+      ],
+      "documents": [
+        "Full-DR-Sim-Report-2026Q2.pdf"
+      ],
+      "logs": [
+        "Simulation closed with RTO variance +8 min"
+      ],
+      "objectives": {
+        "rto": "2 hrs",
+        "rpo": "30 min",
+        "mao": "4 hrs"
+      },
+      "aiRecommendations": [
+        "Include Identity MFA failover next cycle."
+      ]
+    },
+    {
+      "id": "test-backup",
+      "name": "Backup Restore Test",
+      "environment": "Isolated restore",
+      "lastTest": "2026-07-01",
+      "nextTest": "2026-07-28",
+      "result": "Scheduled",
+      "owner": "Infrastructure Lead",
+      "checklist": [
+        {
+          "id": "a",
+          "label": "Sample sets selected",
+          "done": true
+        },
+        {
+          "id": "b",
+          "label": "Restore window booked",
+          "done": false
+        }
+      ],
+      "dependencies": [
+        "Backup platform",
+        "Core Banking storage"
+      ],
+      "documents": [
+        "Backup-Restore-SOP.pdf"
+      ],
+      "logs": [
+        "Awaiting capacity slot"
+      ],
+      "objectives": {
+        "rto": "4 hrs",
+        "rpo": "30 min",
+        "mao": "6 hrs"
+      },
+      "aiRecommendations": [
+        "Backup verification is overdue for Core Banking."
+      ]
+    },
+    {
+      "id": "test-network",
+      "name": "Network Failover",
+      "environment": "Production dual-ISP",
+      "lastTest": "2026-05-18",
+      "nextTest": "2026-09-10",
+      "result": "Passed",
+      "owner": "Network Engineer",
+      "checklist": [
+        {
+          "id": "a",
+          "label": "BGP drained cleanly",
+          "done": true
+        }
+      ],
+      "dependencies": [
+        "Edge routers",
+        "DNS"
+      ],
+      "documents": [
+        "Network-Failover-Evidence.pdf"
+      ],
+      "logs": [
+        "Failover completed in 11 minutes"
+      ],
+      "objectives": {
+        "rto": "30 min",
+        "rpo": "N/A",
+        "mao": "1 hr"
+      },
+      "aiRecommendations": [
+        "Document ISP escalation under 15 minutes."
+      ]
+    },
+    {
+      "id": "test-db",
+      "name": "Database Recovery",
+      "environment": "DR cluster",
+      "lastTest": "2026-06-12",
+      "nextTest": "2026-08-01",
+      "result": "Failed",
+      "owner": "DBA Lead",
+      "checklist": [
+        {
+          "id": "a",
+          "label": "Replica promote",
+          "done": true
+        },
+        {
+          "id": "b",
+          "label": "Integrity checks",
+          "done": false
+        }
+      ],
+      "dependencies": [
+        "Storage",
+        "Application tiers"
+      ],
+      "documents": [
+        "DB-Recovery-Findings.pdf"
+      ],
+      "logs": [
+        "Integrity check timeouts on ledger shard"
+      ],
+      "objectives": {
+        "rto": "2 hrs",
+        "rpo": "15 min",
+        "mao": "3 hrs"
+      },
+      "aiRecommendations": [
+        "Re-test ledger shard restores before August."
+      ]
+    },
+    {
+      "id": "test-cloud",
+      "name": "Cloud Failover",
+      "environment": "Azure paired region",
+      "lastTest": "2026-04-22",
+      "nextTest": "2026-10-05",
+      "result": "Scheduled",
+      "owner": "Cloud SRE",
+      "checklist": [
+        {
+          "id": "a",
+          "label": "Runbook updated",
+          "done": true
+        }
+      ],
+      "dependencies": [
+        "Identity",
+        "App Service",
+        "Key Vault"
+      ],
+      "documents": [
+        "Cloud-Failover-Plan.pdf"
+      ],
+      "logs": [
+        "Planned for Q4"
+      ],
+      "objectives": {
+        "rto": "3 hrs",
+        "rpo": "30 min",
+        "mao": "6 hrs"
+      },
+      "aiRecommendations": [
+        "Prioritize infrastructure redundancy for Pair B."
+      ]
+    }
+  ],
+  "systems": [
+    {
+      "id": "sys-ad",
+      "system": "Active Directory",
+      "owner": "Identity Ops",
+      "priority": "Critical",
+      "recoveryStatus": "Recovering",
+      "recoveryTime": "52 min",
+      "dependencies": [
+        "DNS",
+        "Certificate Services"
+      ],
+      "checklist": [
+        {
+          "id": "a",
+          "label": "FSMO roles available",
+          "done": true
+        },
+        {
+          "id": "b",
+          "label": "Site link failover",
+          "done": false
+        }
+      ],
+      "documents": [
+        "AD-DR-Runbook.pdf"
+      ],
+      "logs": [
+        "Replica sync lag 4 minutes"
+      ],
+      "objectives": {
+        "rto": "1 hr",
+        "rpo": "15 min",
+        "mao": "2 hrs"
+      },
+      "aiRecommendations": [
+        "Review Active Directory failover paths."
+      ]
+    },
+    {
+      "id": "sys-pg",
+      "system": "Payment Gateway",
+      "owner": "Payments Ops",
+      "priority": "Critical",
+      "recoveryStatus": "Offline",
+      "recoveryTime": "—",
+      "dependencies": [
+        "Core Banking",
+        "Fraud Engine"
+      ],
+      "checklist": [
+        {
+          "id": "a",
+          "label": "Secondary listeners",
+          "done": false
+        },
+        {
+          "id": "b",
+          "label": "Message replay",
+          "done": false
+        }
+      ],
+      "documents": [
+        "PG-DR-Runbook.pdf"
+      ],
+      "logs": [
+        "Awaiting owner approval"
+      ],
+      "objectives": {
+        "rto": "90 min",
+        "rpo": "15 min",
+        "mao": "2 hrs"
+      },
+      "aiRecommendations": [
+        "Payment Gateway recovery exceeds target."
+      ]
+    },
+    {
+      "id": "sys-core",
+      "system": "Core Banking",
+      "owner": "Core Platform",
+      "priority": "Critical",
+      "recoveryStatus": "Recovering",
+      "recoveryTime": "1h 12m",
+      "dependencies": [
+        "Database cluster",
+        "Messaging bus"
+      ],
+      "checklist": [
+        {
+          "id": "a",
+          "label": "DB promote",
+          "done": true
+        },
+        {
+          "id": "b",
+          "label": "Batch restart",
+          "done": true
+        },
+        {
+          "id": "c",
+          "label": "Channel smoke tests",
+          "done": false
+        }
+      ],
+      "documents": [
+        "Core-DR-Plan.pdf"
+      ],
+      "logs": [
+        "Smoke tests pending Payment Gateway"
+      ],
+      "objectives": {
+        "rto": "2 hrs",
+        "rpo": "30 min",
+        "mao": "4 hrs"
+      },
+      "aiRecommendations": [
+        "Increase DR testing frequency for Core."
+      ]
+    },
+    {
+      "id": "sys-email",
+      "system": "Email Services",
+      "owner": "Collaboration",
+      "priority": "Medium",
+      "recoveryStatus": "Operational",
+      "recoveryTime": "28 min",
+      "dependencies": [
+        "DNS",
+        "Anti-phishing gateway"
+      ],
+      "checklist": [
+        {
+          "id": "a",
+          "label": "Mailbox database mount",
+          "done": true
+        }
+      ],
+      "documents": [
+        "Email-DR.pdf"
+      ],
+      "logs": [
+        "Restored and validated"
+      ],
+      "objectives": {
+        "rto": "24 hrs",
+        "rpo": "8 hrs",
+        "mao": "48 hrs"
+      },
+      "aiRecommendations": [
+        "Improve recovery documentation index links."
+      ]
+    },
+    {
+      "id": "sys-vpn",
+      "system": "VPN Gateway",
+      "owner": "Network",
+      "priority": "High",
+      "recoveryStatus": "Pending",
+      "recoveryTime": "—",
+      "dependencies": [
+        "Identity",
+        "Certificate Authority"
+      ],
+      "checklist": [
+        {
+          "id": "a",
+          "label": "Standby appliance ready",
+          "done": true
+        },
+        {
+          "id": "b",
+          "label": "Runbook review",
+          "done": false
+        }
+      ],
+      "documents": [
+        "VPN-DR-Runbook.pdf"
+      ],
+      "logs": [
+        "Documentation expired — review required"
+      ],
+      "objectives": {
+        "rto": "2 hrs",
+        "rpo": "N/A",
+        "mao": "4 hrs"
+      },
+      "aiRecommendations": [
+        "Refresh VPN Gateway runbook before next test."
+      ]
+    }
+  ],
+  "insights": [
+    {
+      "id": "i1",
+      "title": "Increase DR testing frequency",
+      "detail": "Move Full DR Simulation from semi-annual to quarterly for P1 systems."
+    },
+    {
+      "id": "i2",
+      "title": "Backup verification is overdue",
+      "detail": "Core Banking restore sampling exceeds the 30-day policy window."
+    },
+    {
+      "id": "i3",
+      "title": "Payment Gateway recovery exceeds target",
+      "detail": "Current offline state risks breaching the 90-minute RTO."
+    },
+    {
+      "id": "i4",
+      "title": "Review Active Directory failover",
+      "detail": "Site-link failover step incomplete in the active recovery checklist."
+    },
+    {
+      "id": "i5",
+      "title": "Improve recovery documentation",
+      "detail": "VPN Gateway documentation past annual review — reissue required."
+    },
+    {
+      "id": "i6",
+      "title": "Prioritize infrastructure redundancy",
+      "detail": "Cloud paired-region capacity gaps observed in last failover rehearsal."
+    }
+  ],
+  "readinessScores": [
+    {
+      "id": "overall",
+      "label": "Overall DR Readiness",
+      "value": 92,
+      "tone": "success"
+    },
+    {
+      "id": "compliance",
+      "label": "Recovery Compliance",
+      "value": 88,
+      "tone": "info"
+    },
+    {
+      "id": "backup",
+      "label": "Backup Health",
+      "value": 96,
+      "tone": "success"
+    },
+    {
+      "id": "success",
+      "label": "Recovery Success Rate",
+      "value": 84,
+      "tone": "info"
+    },
+    {
+      "id": "testing",
+      "label": "Testing Coverage",
+      "value": 76,
+      "tone": "warning"
+    }
+  ]
+}

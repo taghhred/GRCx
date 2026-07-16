@@ -1,0 +1,43 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  min-height: 24px;
+  padding: 0 10px;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-label);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.mark {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.critical {
+  background: var(--color-danger-muted);
+  color: var(--color-critical);
+}
+
+.high {
+  background: var(--color-warning-muted);
+  color: var(--color-high);
+}
+
+.medium {
+  background: rgba(234, 179, 8, 0.15);
+  color: var(--color-medium);
+}
+
+.low {
+  background: var(--color-info-muted);
+  color: var(--color-low);
+}

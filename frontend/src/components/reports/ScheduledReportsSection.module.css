@@ -1,0 +1,248 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.head h2 {
+  margin: 0 0 4px;
+  font-size: var(--text-section);
+}
+
+.head p {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.empty {
+  grid-column: 1 / -1;
+  padding: 28px;
+  text-align: center;
+  border-radius: var(--radius-card);
+  border: 1px dashed var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.card {
+  padding: 16px;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cardTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.cardTop h3 {
+  margin: 0 0 4px;
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+}
+
+.cardTop p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.meta {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.meta dt {
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+.meta dd {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: var(--color-text-primary);
+  font-weight: var(--weight-section);
+}
+
+.flags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 11px;
+  color: var(--color-text-secondary);
+}
+
+.flags span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.recipients {
+  margin: 0;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.cardActions {
+  display: flex;
+  gap: 8px;
+}
+
+.iconBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 0 10px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.iconBtn:hover {
+  background: var(--color-nav-hover-bg);
+  color: var(--color-text-primary);
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  background: rgba(2, 6, 23, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.dialog {
+  width: min(560px, 100%);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+.dialogHead {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.dialogHead h3 {
+  margin: 0 0 4px;
+}
+
+.dialogHead p {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.close {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.dialogBody {
+  padding: 16px 18px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.dialogBody label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  font-weight: var(--weight-section);
+}
+
+.dialogBody label:nth-child(1),
+.dialogBody label:nth-child(6),
+.check {
+  grid-column: 1 / -1;
+}
+
+.check {
+  flex-direction: row !important;
+  align-items: center;
+  gap: 8px !important;
+  color: var(--color-text-secondary) !important;
+  font-weight: var(--weight-body) !important;
+}
+
+.dialogBody input,
+.dialogBody select {
+  min-height: 40px;
+}
+
+.dialogFoot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 14px 18px;
+  border-top: 1px solid var(--color-border);
+}
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .grid,
+  .dialogBody {
+    grid-template-columns: 1fr;
+  }
+
+  .dialogBody label:nth-child(1),
+  .dialogBody label:nth-child(6),
+  .check {
+    grid-column: auto;
+  }
+}

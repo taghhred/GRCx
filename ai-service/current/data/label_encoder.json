@@ -1,0 +1,22 @@
+{
+  "classes": [
+    "AUDIT_LOG_MISSING",
+    "EXCESSIVE_PRIVILEGES",
+    "MFA_MISSING",
+    "PAM",
+    "SEGREGATION_OF_DUTIES",
+    "STALE_ACCOUNT",
+    "SUSPICIOUS_BEHAVIOR",
+    "WEAK_PASSWORD"
+  ],
+  "label_map": {
+    "0": "AUDIT_LOG_MISSING",
+    "1": "EXCESSIVE_PRIVILEGES",
+    "2": "MFA_MISSING",
+    "3": "PAM",
+    "4": "SEGREGATION_OF_DUTIES",
+    "5": "STALE_ACCOUNT",
+    "6": "SUSPICIOUS_BEHAVIOR",
+    "7": "WEAK_PASSWORD"
+  }
+}

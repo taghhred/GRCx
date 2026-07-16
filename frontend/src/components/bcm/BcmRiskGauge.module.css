@@ -1,0 +1,61 @@
+.gauge {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 140px;
+}
+
+.svg {
+  width: 140px;
+  height: 82px;
+}
+
+.track {
+  stroke: var(--color-border);
+}
+
+.fill {
+  transition: stroke-dashoffset 400ms ease-out;
+}
+
+.warning .fill {
+  stroke: var(--color-warning);
+}
+
+.success .fill {
+  stroke: var(--color-success);
+}
+
+.info .fill {
+  stroke: var(--color-primary);
+}
+
+.valueBlock {
+  margin-top: -18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.value {
+  font-size: 22px;
+  font-weight: var(--weight-title);
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.label {
+  font-size: 12px;
+  font-weight: var(--weight-section);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fill {
+    transition: none;
+  }
+}

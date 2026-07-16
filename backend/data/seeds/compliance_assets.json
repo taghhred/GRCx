@@ -1,0 +1,3432 @@
+{
+  "departments": [
+    "IT",
+    "Finance",
+    "Operations",
+    "Retail Banking",
+    "Security",
+    "Treasury",
+    "HR"
+  ],
+  "frameworks": [
+    "NCA ECC",
+    "SAMA CSF",
+    "PCI DSS",
+    "ISO 27001"
+  ],
+  "assets": [
+    {
+      "id": "ast-laptop-023",
+      "name": "Laptop-IT-023",
+      "assetType": "Endpoint",
+      "owner": "Mohammed",
+      "department": "IT",
+      "operatingSystem": "Windows 11",
+      "framework": "NCA ECC",
+      "failedControlId": "ECC-2-3",
+      "failedControlName": "Endpoint Protection",
+      "complianceStatus": "Non-Compliant",
+      "riskLevel": "High",
+      "lastAssessment": "2026-07-12",
+      "installedSoftware": [
+        "Microsoft 365",
+        "CrowdStrike",
+        "BitLocker (disabled)"
+      ],
+      "securityConfiguration": [
+        "Disk encryption: Off",
+        "Firewall: On",
+        "Local admin: Restricted"
+      ],
+      "frameworks": [
+        "NCA ECC",
+        "ISO 27001"
+      ],
+      "failedControls": [
+        {
+          "framework": "NCA ECC",
+          "controlId": "ECC-2-3",
+          "controlName": "Endpoint Protection",
+          "status": "Failed",
+          "reason": "BitLocker is disabled.",
+          "recommendation": "Enable BitLocker and escrow recovery keys to Entra."
+        }
+      ],
+      "findings": [
+        "BitLocker policy not applied",
+        "Recovery key missing from MDM"
+      ],
+      "remediation": [
+        "Enable BitLocker via Intune",
+        "Validate escrow within 24 hours"
+      ],
+      "historicalAssessments": [
+        "2026-04-10 — Partially Compliant",
+        "2026-07-12 — Non-Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-12 — Automated ECC scan"
+      ],
+      "relatedIncidents": [
+        "INC-90112 — Endpoint encryption gap"
+      ],
+      "aiRecommendation": "Prioritize encryption remediation before the next NCA evidence pack submission."
+    },
+    {
+      "id": "ast-db-oracle-01",
+      "name": "DB-Oracle-01",
+      "assetType": "Database",
+      "owner": "Huda",
+      "department": "Operations",
+      "operatingSystem": "Oracle Linux 8",
+      "framework": "PCI DSS",
+      "failedControlId": "PCI 3.4",
+      "failedControlName": "Cryptographic protection of CHD",
+      "complianceStatus": "Non-Compliant",
+      "riskLevel": "Critical",
+      "lastAssessment": "2026-07-10",
+      "installedSoftware": [
+        "Oracle 19c",
+        "Oracle Audit Vault"
+      ],
+      "securityConfiguration": [
+        "TDE: Disabled",
+        "Network encryption: Partial"
+      ],
+      "frameworks": [
+        "PCI DSS",
+        "SAMA CSF"
+      ],
+      "failedControls": [
+        {
+          "framework": "PCI DSS",
+          "controlId": "PCI 3.4",
+          "controlName": "Cryptographic protection of CHD",
+          "status": "Failed",
+          "reason": "Sensitive cardholder data is not encrypted.",
+          "recommendation": "Enable TDE and rotate encryption keys under dual control."
+        }
+      ],
+      "findings": [
+        "CHD columns stored in plaintext",
+        "Key management SOP incomplete"
+      ],
+      "remediation": [
+        "Enable Oracle TDE",
+        "Migrate CHD tablespace",
+        "Re-run PCI evidence scan"
+      ],
+      "historicalAssessments": [
+        "2026-01-20 — Non-Compliant",
+        "2026-07-10 — Non-Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-10 — QSA sample review"
+      ],
+      "relatedIncidents": [
+        "INC-90140 — Unencrypted CHD store"
+      ],
+      "aiRecommendation": "Treat as Priority-1 PCI gap. Block new CHD writes until TDE is verified."
+    },
+    {
+      "id": "ast-finance-app",
+      "name": "Finance-App",
+      "assetType": "Application",
+      "owner": "Sara",
+      "department": "Finance",
+      "operatingSystem": "RHEL 9 / AKS",
+      "framework": "SAMA CSF",
+      "failedControlId": "IAM-04",
+      "failedControlName": "Privileged access control",
+      "complianceStatus": "Partially Compliant",
+      "riskLevel": "High",
+      "lastAssessment": "2026-07-08",
+      "installedSoftware": [
+        "Finance ERP",
+        "SSO connector"
+      ],
+      "securityConfiguration": [
+        "SSO: Enforced",
+        "Standing admin roles: 14"
+      ],
+      "frameworks": [
+        "SAMA CSF",
+        "NCA ECC"
+      ],
+      "failedControls": [
+        {
+          "framework": "SAMA CSF",
+          "controlId": "IAM-04",
+          "controlName": "Privileged access control",
+          "status": "Failed",
+          "reason": "Excessive privileged accounts detected.",
+          "recommendation": "Convert standing admins to JIT and recertify monthly."
+        }
+      ],
+      "findings": [
+        "14 standing privileged roles",
+        "3 orphaned service admins"
+      ],
+      "remediation": [
+        "Enable PIM",
+        "Remove orphaned admins",
+        "Recertify access"
+      ],
+      "historicalAssessments": [
+        "2026-03-01 — Compliant",
+        "2026-07-08 — Partially Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-08 — SAMA CSF control sample"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "Reduce privileged footprint before Peak Payday; align with Identity Monitoring findings."
+    },
+    {
+      "id": "ast-emp-sara",
+      "name": "Sara",
+      "assetType": "Employee",
+      "owner": "People & Culture",
+      "department": "Security",
+      "operatingSystem": "N/A (Identity)",
+      "framework": "NCA ECC",
+      "failedControlId": "IAM-CTRL",
+      "failedControlName": "IAM Control — MFA",
+      "complianceStatus": "Non-Compliant",
+      "riskLevel": "Critical",
+      "lastAssessment": "2026-07-14",
+      "installedSoftware": [],
+      "securityConfiguration": [
+        "MFA: Disabled",
+        "Phishing-resistant methods: None"
+      ],
+      "frameworks": [
+        "NCA ECC",
+        "SAMA CSF"
+      ],
+      "failedControls": [
+        {
+          "framework": "NCA ECC",
+          "controlId": "IAM-CTRL",
+          "controlName": "IAM Control",
+          "status": "Failed",
+          "reason": "MFA not enabled.",
+          "recommendation": "Enforce phishing-resistant MFA within 24 hours."
+        }
+      ],
+      "findings": [
+        "MFA methods removed",
+        "Privileged role retained"
+      ],
+      "remediation": [
+        "Force MFA enrollment",
+        "Temporarily restrict privileged apps"
+      ],
+      "historicalAssessments": [
+        "2026-06-01 — Compliant",
+        "2026-07-14 — Non-Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-14 — Continuous IAM monitoring"
+      ],
+      "relatedIncidents": [
+        "INC-88470 — Privileged MFA removal"
+      ],
+      "aiRecommendation": "Correlate with Identity Monitoring anomaly and open a GRC case if MFA remains disabled."
+    },
+    {
+      "id": "ast-srv-ad-01",
+      "name": "SRV-AD-01",
+      "assetType": "Server",
+      "owner": "Identity Ops",
+      "department": "IT",
+      "operatingSystem": "Windows Server 2022",
+      "framework": "NCA ECC",
+      "failedControlId": "ECC-1-2",
+      "failedControlName": "Secure configuration",
+      "complianceStatus": "Under Review",
+      "riskLevel": "Medium",
+      "lastAssessment": "2026-07-11",
+      "installedSoftware": [
+        "AD DS",
+        "DNS"
+      ],
+      "securityConfiguration": [
+        "Hardening baseline: Partial",
+        "LAPS: Enabled"
+      ],
+      "frameworks": [
+        "NCA ECC",
+        "ISO 27001"
+      ],
+      "failedControls": [
+        {
+          "framework": "NCA ECC",
+          "controlId": "ECC-1-2",
+          "controlName": "Secure configuration",
+          "status": "Partial",
+          "reason": "CIS benchmark drift on 6 hardening settings.",
+          "recommendation": "Re-apply domain hardening GPO and re-scan."
+        }
+      ],
+      "findings": [
+        "SMB signing exception present"
+      ],
+      "remediation": [
+        "Remove temporary SMB exception",
+        "Re-run CIS scan"
+      ],
+      "historicalAssessments": [
+        "2026-05-02 — Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-11 — Configuration drift alert"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "Close drift within the Under Review SLA (7 days)."
+    },
+    {
+      "id": "ast-svc-backup",
+      "name": "svc-backup-agent",
+      "assetType": "Service Account",
+      "owner": "Infrastructure",
+      "department": "IT",
+      "operatingSystem": "N/A (Service Account)",
+      "framework": "ISO 27001",
+      "failedControlId": "A.8.2",
+      "failedControlName": "Privileged access rights",
+      "complianceStatus": "Partially Compliant",
+      "riskLevel": "Medium",
+      "lastAssessment": "2026-07-09",
+      "installedSoftware": [],
+      "securityConfiguration": [
+        "Password age: 240 days",
+        "Interactive logon: Allowed"
+      ],
+      "frameworks": [
+        "ISO 27001",
+        "NCA ECC"
+      ],
+      "failedControls": [
+        {
+          "framework": "ISO 27001",
+          "controlId": "A.8.2",
+          "controlName": "Privileged access rights",
+          "status": "Failed",
+          "reason": "Service account allows interactive logon.",
+          "recommendation": "Deny interactive logon and rotate credentials."
+        }
+      ],
+      "findings": [
+        "Interactive logon right granted"
+      ],
+      "remediation": [
+        "Apply GPO deny logon",
+        "Rotate secret in vault"
+      ],
+      "historicalAssessments": [
+        "2026-02-14 — Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-09 — Service account review"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "Treat as medium priority; include in monthly service-account recertification."
+    },
+    {
+      "id": "ast-fw-edge-02",
+      "name": "FW-EDGE-02",
+      "assetType": "Network Device",
+      "owner": "Network Engineering",
+      "department": "IT",
+      "operatingSystem": "FortiOS 7.4",
+      "framework": "SAMA CSF",
+      "failedControlId": "NET-07",
+      "failedControlName": "Network security monitoring",
+      "complianceStatus": "Compliant",
+      "riskLevel": "Low",
+      "lastAssessment": "2026-07-05",
+      "installedSoftware": [],
+      "securityConfiguration": [
+        "IDS: On",
+        "Config backup: Daily"
+      ],
+      "frameworks": [
+        "SAMA CSF",
+        "NCA ECC"
+      ],
+      "failedControls": [],
+      "findings": [],
+      "remediation": [],
+      "historicalAssessments": [
+        "2026-07-05 — Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-05 — Automated NET control scan"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "No open gaps. Keep daily config backup validation."
+    },
+    {
+      "id": "ast-cloud-aks",
+      "name": "aks-payments-prod",
+      "assetType": "Cloud Resource",
+      "owner": "Cloud SRE",
+      "department": "Operations",
+      "operatingSystem": "Azure Kubernetes Service",
+      "framework": "PCI DSS",
+      "failedControlId": "PCI 2.2",
+      "failedControlName": "Secure configuration standards",
+      "complianceStatus": "Non-Compliant",
+      "riskLevel": "High",
+      "lastAssessment": "2026-07-13",
+      "installedSoftware": [
+        "ingress-nginx",
+        "cert-manager"
+      ],
+      "securityConfiguration": [
+        "Pod security: Baseline",
+        "Public ingress: Enabled"
+      ],
+      "frameworks": [
+        "PCI DSS",
+        "ISO 27001"
+      ],
+      "failedControls": [
+        {
+          "framework": "PCI DSS",
+          "controlId": "PCI 2.2",
+          "controlName": "Secure configuration standards",
+          "status": "Failed",
+          "reason": "Cluster admits privileged pods outside CDE baseline.",
+          "recommendation": "Enforce restricted PSS and block privileged containers."
+        }
+      ],
+      "findings": [
+        "Privileged pod admissions in last 7 days"
+      ],
+      "remediation": [
+        "Apply Gatekeeper policy",
+        "Rebuild node pools"
+      ],
+      "historicalAssessments": [
+        "2026-04-18 — Partially Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-13 — PCI cloud posture scan"
+      ],
+      "relatedIncidents": [
+        "INC-90201 — Privileged pod admission"
+      ],
+      "aiRecommendation": "Isolate CDE workloads to a dedicated cluster before next PCI ROC."
+    },
+    {
+      "id": "ast-laptop-023-x9",
+      "name": "Server-009",
+      "assetType": "Server",
+      "owner": "Mohammed",
+      "department": "Operations",
+      "operatingSystem": "Windows 11",
+      "framework": "SAMA CSF",
+      "failedControlId": "ECC-2-3",
+      "failedControlName": "Endpoint Protection",
+      "complianceStatus": "Partially Compliant",
+      "riskLevel": "Medium",
+      "lastAssessment": "2026-07-10",
+      "installedSoftware": [
+        "Microsoft 365",
+        "CrowdStrike",
+        "BitLocker (disabled)"
+      ],
+      "securityConfiguration": [
+        "Disk encryption: Off",
+        "Firewall: On",
+        "Local admin: Restricted"
+      ],
+      "frameworks": [
+        "SAMA CSF",
+        "NCA ECC"
+      ],
+      "failedControls": [
+        {
+          "framework": "NCA ECC",
+          "controlId": "ECC-2-3",
+          "controlName": "Endpoint Protection",
+          "status": "Failed",
+          "reason": "BitLocker is disabled.",
+          "recommendation": "Enable BitLocker and escrow recovery keys to Entra."
+        }
+      ],
+      "findings": [
+        "BitLocker policy not applied",
+        "Recovery key missing from MDM"
+      ],
+      "remediation": [
+        "Enable BitLocker via Intune",
+        "Validate escrow within 24 hours"
+      ],
+      "historicalAssessments": [
+        "2026-04-10 — Partially Compliant",
+        "2026-07-12 — Non-Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-12 — Automated ECC scan"
+      ],
+      "relatedIncidents": [
+        "INC-90112 — Endpoint encryption gap"
+      ],
+      "aiRecommendation": "Prioritize encryption remediation before the next NCA evidence pack submission."
+    },
+    {
+      "id": "ast-db-oracle-01-x10",
+      "name": "Employee-010",
+      "assetType": "Employee",
+      "owner": "Huda",
+      "department": "Retail Banking",
+      "operatingSystem": "N/A",
+      "framework": "PCI DSS",
+      "failedControlId": "PCI 3.4",
+      "failedControlName": "Cryptographic protection of CHD",
+      "complianceStatus": "Non-Compliant",
+      "riskLevel": "High",
+      "lastAssessment": "2026-07-11",
+      "installedSoftware": [
+        "Oracle 19c",
+        "Oracle Audit Vault"
+      ],
+      "securityConfiguration": [
+        "TDE: Disabled",
+        "Network encryption: Partial"
+      ],
+      "frameworks": [
+        "PCI DSS",
+        "PCI DSS"
+      ],
+      "failedControls": [
+        {
+          "framework": "PCI DSS",
+          "controlId": "PCI 3.4",
+          "controlName": "Cryptographic protection of CHD",
+          "status": "Failed",
+          "reason": "Sensitive cardholder data is not encrypted.",
+          "recommendation": "Enable TDE and rotate encryption keys under dual control."
+        }
+      ],
+      "findings": [
+        "CHD columns stored in plaintext",
+        "Key management SOP incomplete"
+      ],
+      "remediation": [
+        "Enable Oracle TDE",
+        "Migrate CHD tablespace",
+        "Re-run PCI evidence scan"
+      ],
+      "historicalAssessments": [
+        "2026-01-20 — Non-Compliant",
+        "2026-07-10 — Non-Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-10 — QSA sample review"
+      ],
+      "relatedIncidents": [
+        "INC-90140 — Unencrypted CHD store"
+      ],
+      "aiRecommendation": "Treat as Priority-1 PCI gap. Block new CHD writes until TDE is verified."
+    },
+    {
+      "id": "ast-finance-app-x11",
+      "name": "Service-Account-011",
+      "assetType": "Service Account",
+      "owner": "Sara",
+      "department": "Security",
+      "operatingSystem": "N/A",
+      "framework": "ISO 27001",
+      "failedControlId": "IAM-04",
+      "failedControlName": "Privileged access control",
+      "complianceStatus": "Under Review",
+      "riskLevel": "Critical",
+      "lastAssessment": "2026-07-12",
+      "installedSoftware": [
+        "Finance ERP",
+        "SSO connector"
+      ],
+      "securityConfiguration": [
+        "SSO: Enforced",
+        "Standing admin roles: 14"
+      ],
+      "frameworks": [
+        "ISO 27001",
+        "SAMA CSF"
+      ],
+      "failedControls": [
+        {
+          "framework": "SAMA CSF",
+          "controlId": "IAM-04",
+          "controlName": "Privileged access control",
+          "status": "Failed",
+          "reason": "Excessive privileged accounts detected.",
+          "recommendation": "Convert standing admins to JIT and recertify monthly."
+        }
+      ],
+      "findings": [
+        "14 standing privileged roles",
+        "3 orphaned service admins"
+      ],
+      "remediation": [
+        "Enable PIM",
+        "Remove orphaned admins",
+        "Recertify access"
+      ],
+      "historicalAssessments": [
+        "2026-03-01 — Compliant",
+        "2026-07-08 — Partially Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-08 — SAMA CSF control sample"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "Reduce privileged footprint before Peak Payday; align with Identity Monitoring findings."
+    },
+    {
+      "id": "ast-emp-sara-x12",
+      "name": "Application-012",
+      "assetType": "Application",
+      "owner": "People & Culture",
+      "department": "Treasury",
+      "operatingSystem": "N/A (Identity)",
+      "framework": "NCA ECC",
+      "failedControlId": "—",
+      "failedControlName": "—",
+      "complianceStatus": "Compliant",
+      "riskLevel": "Low",
+      "lastAssessment": "2026-07-13",
+      "installedSoftware": [],
+      "securityConfiguration": [
+        "MFA: Disabled",
+        "Phishing-resistant methods: None"
+      ],
+      "frameworks": [
+        "NCA ECC",
+        "NCA ECC"
+      ],
+      "failedControls": [],
+      "findings": [],
+      "remediation": [],
+      "historicalAssessments": [
+        "2026-06-01 — Compliant",
+        "2026-07-14 — Non-Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-14 — Continuous IAM monitoring"
+      ],
+      "relatedIncidents": [
+        "INC-88470 — Privileged MFA removal"
+      ],
+      "aiRecommendation": "Correlate with Identity Monitoring anomaly and open a GRC case if MFA remains disabled."
+    },
+    {
+      "id": "ast-srv-ad-01-x13",
+      "name": "Database-013",
+      "assetType": "Database",
+      "owner": "Identity Ops",
+      "department": "HR",
+      "operatingSystem": "Windows Server 2022",
+      "framework": "SAMA CSF",
+      "failedControlId": "ECC-1-2",
+      "failedControlName": "Secure configuration",
+      "complianceStatus": "Partially Compliant",
+      "riskLevel": "Medium",
+      "lastAssessment": "2026-07-14",
+      "installedSoftware": [
+        "AD DS",
+        "DNS"
+      ],
+      "securityConfiguration": [
+        "Hardening baseline: Partial",
+        "LAPS: Enabled"
+      ],
+      "frameworks": [
+        "SAMA CSF",
+        "NCA ECC"
+      ],
+      "failedControls": [
+        {
+          "framework": "NCA ECC",
+          "controlId": "ECC-1-2",
+          "controlName": "Secure configuration",
+          "status": "Partial",
+          "reason": "CIS benchmark drift on 6 hardening settings.",
+          "recommendation": "Re-apply domain hardening GPO and re-scan."
+        }
+      ],
+      "findings": [
+        "SMB signing exception present"
+      ],
+      "remediation": [
+        "Remove temporary SMB exception",
+        "Re-run CIS scan"
+      ],
+      "historicalAssessments": [
+        "2026-05-02 — Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-11 — Configuration drift alert"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "Close drift within the Under Review SLA (7 days)."
+    },
+    {
+      "id": "ast-svc-backup-x14",
+      "name": "Network-Device-014",
+      "assetType": "Network Device",
+      "owner": "Infrastructure",
+      "department": "IT",
+      "operatingSystem": "N/A (Service Account)",
+      "framework": "PCI DSS",
+      "failedControlId": "A.8.2",
+      "failedControlName": "Privileged access rights",
+      "complianceStatus": "Non-Compliant",
+      "riskLevel": "High",
+      "lastAssessment": "2026-07-15",
+      "installedSoftware": [],
+      "securityConfiguration": [
+        "Password age: 240 days",
+        "Interactive logon: Allowed"
+      ],
+      "frameworks": [
+        "PCI DSS",
+        "ISO 27001"
+      ],
+      "failedControls": [
+        {
+          "framework": "ISO 27001",
+          "controlId": "A.8.2",
+          "controlName": "Privileged access rights",
+          "status": "Failed",
+          "reason": "Service account allows interactive logon.",
+          "recommendation": "Deny interactive logon and rotate credentials."
+        }
+      ],
+      "findings": [
+        "Interactive logon right granted"
+      ],
+      "remediation": [
+        "Apply GPO deny logon",
+        "Rotate secret in vault"
+      ],
+      "historicalAssessments": [
+        "2026-02-14 — Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-09 — Service account review"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "Treat as medium priority; include in monthly service-account recertification."
+    },
+    {
+      "id": "ast-fw-edge-02-x15",
+      "name": "Cloud-Resource-015",
+      "assetType": "Cloud Resource",
+      "owner": "Network Engineering",
+      "department": "Finance",
+      "operatingSystem": "FortiOS 7.4",
+      "framework": "ISO 27001",
+      "failedControlId": "NET-07",
+      "failedControlName": "Network security monitoring",
+      "complianceStatus": "Under Review",
+      "riskLevel": "Critical",
+      "lastAssessment": "2026-07-16",
+      "installedSoftware": [],
+      "securityConfiguration": [
+        "IDS: On",
+        "Config backup: Daily"
+      ],
+      "frameworks": [
+        "ISO 27001",
+        "SAMA CSF"
+      ],
+      "failedControls": [],
+      "findings": [],
+      "remediation": [],
+      "historicalAssessments": [
+        "2026-07-05 — Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-05 — Automated NET control scan"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "No open gaps. Keep daily config backup validation."
+    },
+    {
+      "id": "ast-cloud-aks-x16",
+      "name": "Endpoint-016",
+      "assetType": "Endpoint",
+      "owner": "Cloud SRE",
+      "department": "Operations",
+      "operatingSystem": "Azure Kubernetes Service",
+      "framework": "NCA ECC",
+      "failedControlId": "—",
+      "failedControlName": "—",
+      "complianceStatus": "Compliant",
+      "riskLevel": "Low",
+      "lastAssessment": "2026-07-17",
+      "installedSoftware": [
+        "ingress-nginx",
+        "cert-manager"
+      ],
+      "securityConfiguration": [
+        "Pod security: Baseline",
+        "Public ingress: Enabled"
+      ],
+      "frameworks": [
+        "NCA ECC",
+        "PCI DSS"
+      ],
+      "failedControls": [],
+      "findings": [],
+      "remediation": [],
+      "historicalAssessments": [
+        "2026-04-18 — Partially Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-13 — PCI cloud posture scan"
+      ],
+      "relatedIncidents": [
+        "INC-90201 — Privileged pod admission"
+      ],
+      "aiRecommendation": "Isolate CDE workloads to a dedicated cluster before next PCI ROC."
+    },
+    {
+      "id": "ast-laptop-023-x17",
+      "name": "Server-017",
+      "assetType": "Server",
+      "owner": "Mohammed",
+      "department": "Retail Banking",
+      "operatingSystem": "Windows 11",
+      "framework": "SAMA CSF",
+      "failedControlId": "ECC-2-3",
+      "failedControlName": "Endpoint Protection",
+      "complianceStatus": "Partially Compliant",
+      "riskLevel": "Medium",
+      "lastAssessment": "2026-07-18",
+      "installedSoftware": [
+        "Microsoft 365",
+        "CrowdStrike",
+        "BitLocker (disabled)"
+      ],
+      "securityConfiguration": [
+        "Disk encryption: Off",
+        "Firewall: On",
+        "Local admin: Restricted"
+      ],
+      "frameworks": [
+        "SAMA CSF",
+        "NCA ECC"
+      ],
+      "failedControls": [
+        {
+          "framework": "NCA ECC",
+          "controlId": "ECC-2-3",
+          "controlName": "Endpoint Protection",
+          "status": "Failed",
+          "reason": "BitLocker is disabled.",
+          "recommendation": "Enable BitLocker and escrow recovery keys to Entra."
+        }
+      ],
+      "findings": [
+        "BitLocker policy not applied",
+        "Recovery key missing from MDM"
+      ],
+      "remediation": [
+        "Enable BitLocker via Intune",
+        "Validate escrow within 24 hours"
+      ],
+      "historicalAssessments": [
+        "2026-04-10 — Partially Compliant",
+        "2026-07-12 — Non-Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-12 — Automated ECC scan"
+      ],
+      "relatedIncidents": [
+        "INC-90112 — Endpoint encryption gap"
+      ],
+      "aiRecommendation": "Prioritize encryption remediation before the next NCA evidence pack submission."
+    },
+    {
+      "id": "ast-db-oracle-01-x18",
+      "name": "Employee-018",
+      "assetType": "Employee",
+      "owner": "Huda",
+      "department": "Security",
+      "operatingSystem": "N/A",
+      "framework": "PCI DSS",
+      "failedControlId": "PCI 3.4",
+      "failedControlName": "Cryptographic protection of CHD",
+      "complianceStatus": "Non-Compliant",
+      "riskLevel": "High",
+      "lastAssessment": "2026-07-19",
+      "installedSoftware": [
+        "Oracle 19c",
+        "Oracle Audit Vault"
+      ],
+      "securityConfiguration": [
+        "TDE: Disabled",
+        "Network encryption: Partial"
+      ],
+      "frameworks": [
+        "PCI DSS",
+        "PCI DSS"
+      ],
+      "failedControls": [
+        {
+          "framework": "PCI DSS",
+          "controlId": "PCI 3.4",
+          "controlName": "Cryptographic protection of CHD",
+          "status": "Failed",
+          "reason": "Sensitive cardholder data is not encrypted.",
+          "recommendation": "Enable TDE and rotate encryption keys under dual control."
+        }
+      ],
+      "findings": [
+        "CHD columns stored in plaintext",
+        "Key management SOP incomplete"
+      ],
+      "remediation": [
+        "Enable Oracle TDE",
+        "Migrate CHD tablespace",
+        "Re-run PCI evidence scan"
+      ],
+      "historicalAssessments": [
+        "2026-01-20 — Non-Compliant",
+        "2026-07-10 — Non-Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-10 — QSA sample review"
+      ],
+      "relatedIncidents": [
+        "INC-90140 — Unencrypted CHD store"
+      ],
+      "aiRecommendation": "Treat as Priority-1 PCI gap. Block new CHD writes until TDE is verified."
+    },
+    {
+      "id": "ast-finance-app-x19",
+      "name": "Service-Account-019",
+      "assetType": "Service Account",
+      "owner": "Sara",
+      "department": "Treasury",
+      "operatingSystem": "N/A",
+      "framework": "ISO 27001",
+      "failedControlId": "IAM-04",
+      "failedControlName": "Privileged access control",
+      "complianceStatus": "Under Review",
+      "riskLevel": "Critical",
+      "lastAssessment": "2026-07-20",
+      "installedSoftware": [
+        "Finance ERP",
+        "SSO connector"
+      ],
+      "securityConfiguration": [
+        "SSO: Enforced",
+        "Standing admin roles: 14"
+      ],
+      "frameworks": [
+        "ISO 27001",
+        "SAMA CSF"
+      ],
+      "failedControls": [
+        {
+          "framework": "SAMA CSF",
+          "controlId": "IAM-04",
+          "controlName": "Privileged access control",
+          "status": "Failed",
+          "reason": "Excessive privileged accounts detected.",
+          "recommendation": "Convert standing admins to JIT and recertify monthly."
+        }
+      ],
+      "findings": [
+        "14 standing privileged roles",
+        "3 orphaned service admins"
+      ],
+      "remediation": [
+        "Enable PIM",
+        "Remove orphaned admins",
+        "Recertify access"
+      ],
+      "historicalAssessments": [
+        "2026-03-01 — Compliant",
+        "2026-07-08 — Partially Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-08 — SAMA CSF control sample"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "Reduce privileged footprint before Peak Payday; align with Identity Monitoring findings."
+    },
+    {
+      "id": "ast-emp-sara-x20",
+      "name": "Application-020",
+      "assetType": "Application",
+      "owner": "People & Culture",
+      "department": "HR",
+      "operatingSystem": "N/A (Identity)",
+      "framework": "NCA ECC",
+      "failedControlId": "—",
+      "failedControlName": "—",
+      "complianceStatus": "Compliant",
+      "riskLevel": "Low",
+      "lastAssessment": "2026-07-21",
+      "installedSoftware": [],
+      "securityConfiguration": [
+        "MFA: Disabled",
+        "Phishing-resistant methods: None"
+      ],
+      "frameworks": [
+        "NCA ECC",
+        "NCA ECC"
+      ],
+      "failedControls": [],
+      "findings": [],
+      "remediation": [],
+      "historicalAssessments": [
+        "2026-06-01 — Compliant",
+        "2026-07-14 — Non-Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-14 — Continuous IAM monitoring"
+      ],
+      "relatedIncidents": [
+        "INC-88470 — Privileged MFA removal"
+      ],
+      "aiRecommendation": "Correlate with Identity Monitoring anomaly and open a GRC case if MFA remains disabled."
+    },
+    {
+      "id": "ast-srv-ad-01-x21",
+      "name": "Database-021",
+      "assetType": "Database",
+      "owner": "Identity Ops",
+      "department": "IT",
+      "operatingSystem": "Windows Server 2022",
+      "framework": "SAMA CSF",
+      "failedControlId": "ECC-1-2",
+      "failedControlName": "Secure configuration",
+      "complianceStatus": "Partially Compliant",
+      "riskLevel": "Medium",
+      "lastAssessment": "2026-07-22",
+      "installedSoftware": [
+        "AD DS",
+        "DNS"
+      ],
+      "securityConfiguration": [
+        "Hardening baseline: Partial",
+        "LAPS: Enabled"
+      ],
+      "frameworks": [
+        "SAMA CSF",
+        "NCA ECC"
+      ],
+      "failedControls": [
+        {
+          "framework": "NCA ECC",
+          "controlId": "ECC-1-2",
+          "controlName": "Secure configuration",
+          "status": "Partial",
+          "reason": "CIS benchmark drift on 6 hardening settings.",
+          "recommendation": "Re-apply domain hardening GPO and re-scan."
+        }
+      ],
+      "findings": [
+        "SMB signing exception present"
+      ],
+      "remediation": [
+        "Remove temporary SMB exception",
+        "Re-run CIS scan"
+      ],
+      "historicalAssessments": [
+        "2026-05-02 — Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-11 — Configuration drift alert"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "Close drift within the Under Review SLA (7 days)."
+    },
+    {
+      "id": "ast-svc-backup-x22",
+      "name": "Network-Device-022",
+      "assetType": "Network Device",
+      "owner": "Infrastructure",
+      "department": "Finance",
+      "operatingSystem": "N/A (Service Account)",
+      "framework": "PCI DSS",
+      "failedControlId": "A.8.2",
+      "failedControlName": "Privileged access rights",
+      "complianceStatus": "Non-Compliant",
+      "riskLevel": "High",
+      "lastAssessment": "2026-07-23",
+      "installedSoftware": [],
+      "securityConfiguration": [
+        "Password age: 240 days",
+        "Interactive logon: Allowed"
+      ],
+      "frameworks": [
+        "PCI DSS",
+        "ISO 27001"
+      ],
+      "failedControls": [
+        {
+          "framework": "ISO 27001",
+          "controlId": "A.8.2",
+          "controlName": "Privileged access rights",
+          "status": "Failed",
+          "reason": "Service account allows interactive logon.",
+          "recommendation": "Deny interactive logon and rotate credentials."
+        }
+      ],
+      "findings": [
+        "Interactive logon right granted"
+      ],
+      "remediation": [
+        "Apply GPO deny logon",
+        "Rotate secret in vault"
+      ],
+      "historicalAssessments": [
+        "2026-02-14 — Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-09 — Service account review"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "Treat as medium priority; include in monthly service-account recertification."
+    },
+    {
+      "id": "ast-fw-edge-02-x23",
+      "name": "Cloud-Resource-023",
+      "assetType": "Cloud Resource",
+      "owner": "Network Engineering",
+      "department": "Operations",
+      "operatingSystem": "FortiOS 7.4",
+      "framework": "ISO 27001",
+      "failedControlId": "NET-07",
+      "failedControlName": "Network security monitoring",
+      "complianceStatus": "Under Review",
+      "riskLevel": "Critical",
+      "lastAssessment": "2026-07-24",
+      "installedSoftware": [],
+      "securityConfiguration": [
+        "IDS: On",
+        "Config backup: Daily"
+      ],
+      "frameworks": [
+        "ISO 27001",
+        "SAMA CSF"
+      ],
+      "failedControls": [],
+      "findings": [],
+      "remediation": [],
+      "historicalAssessments": [
+        "2026-07-05 — Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-05 — Automated NET control scan"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "No open gaps. Keep daily config backup validation."
+    },
+    {
+      "id": "ast-cloud-aks-x24",
+      "name": "Endpoint-024",
+      "assetType": "Endpoint",
+      "owner": "Cloud SRE",
+      "department": "Retail Banking",
+      "operatingSystem": "Azure Kubernetes Service",
+      "framework": "NCA ECC",
+      "failedControlId": "—",
+      "failedControlName": "—",
+      "complianceStatus": "Compliant",
+      "riskLevel": "Low",
+      "lastAssessment": "2026-07-25",
+      "installedSoftware": [
+        "ingress-nginx",
+        "cert-manager"
+      ],
+      "securityConfiguration": [
+        "Pod security: Baseline",
+        "Public ingress: Enabled"
+      ],
+      "frameworks": [
+        "NCA ECC",
+        "PCI DSS"
+      ],
+      "failedControls": [],
+      "findings": [],
+      "remediation": [],
+      "historicalAssessments": [
+        "2026-04-18 — Partially Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-13 — PCI cloud posture scan"
+      ],
+      "relatedIncidents": [
+        "INC-90201 — Privileged pod admission"
+      ],
+      "aiRecommendation": "Isolate CDE workloads to a dedicated cluster before next PCI ROC."
+    },
+    {
+      "id": "ast-laptop-023-x25",
+      "name": "Server-025",
+      "assetType": "Server",
+      "owner": "Mohammed",
+      "department": "Security",
+      "operatingSystem": "Windows 11",
+      "framework": "SAMA CSF",
+      "failedControlId": "ECC-2-3",
+      "failedControlName": "Endpoint Protection",
+      "complianceStatus": "Partially Compliant",
+      "riskLevel": "Medium",
+      "lastAssessment": "2026-07-26",
+      "installedSoftware": [
+        "Microsoft 365",
+        "CrowdStrike",
+        "BitLocker (disabled)"
+      ],
+      "securityConfiguration": [
+        "Disk encryption: Off",
+        "Firewall: On",
+        "Local admin: Restricted"
+      ],
+      "frameworks": [
+        "SAMA CSF",
+        "NCA ECC"
+      ],
+      "failedControls": [
+        {
+          "framework": "NCA ECC",
+          "controlId": "ECC-2-3",
+          "controlName": "Endpoint Protection",
+          "status": "Failed",
+          "reason": "BitLocker is disabled.",
+          "recommendation": "Enable BitLocker and escrow recovery keys to Entra."
+        }
+      ],
+      "findings": [
+        "BitLocker policy not applied",
+        "Recovery key missing from MDM"
+      ],
+      "remediation": [
+        "Enable BitLocker via Intune",
+        "Validate escrow within 24 hours"
+      ],
+      "historicalAssessments": [
+        "2026-04-10 — Partially Compliant",
+        "2026-07-12 — Non-Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-12 — Automated ECC scan"
+      ],
+      "relatedIncidents": [
+        "INC-90112 — Endpoint encryption gap"
+      ],
+      "aiRecommendation": "Prioritize encryption remediation before the next NCA evidence pack submission."
+    },
+    {
+      "id": "ast-db-oracle-01-x26",
+      "name": "Employee-026",
+      "assetType": "Employee",
+      "owner": "Huda",
+      "department": "Treasury",
+      "operatingSystem": "N/A",
+      "framework": "PCI DSS",
+      "failedControlId": "PCI 3.4",
+      "failedControlName": "Cryptographic protection of CHD",
+      "complianceStatus": "Non-Compliant",
+      "riskLevel": "High",
+      "lastAssessment": "2026-07-27",
+      "installedSoftware": [
+        "Oracle 19c",
+        "Oracle Audit Vault"
+      ],
+      "securityConfiguration": [
+        "TDE: Disabled",
+        "Network encryption: Partial"
+      ],
+      "frameworks": [
+        "PCI DSS",
+        "PCI DSS"
+      ],
+      "failedControls": [
+        {
+          "framework": "PCI DSS",
+          "controlId": "PCI 3.4",
+          "controlName": "Cryptographic protection of CHD",
+          "status": "Failed",
+          "reason": "Sensitive cardholder data is not encrypted.",
+          "recommendation": "Enable TDE and rotate encryption keys under dual control."
+        }
+      ],
+      "findings": [
+        "CHD columns stored in plaintext",
+        "Key management SOP incomplete"
+      ],
+      "remediation": [
+        "Enable Oracle TDE",
+        "Migrate CHD tablespace",
+        "Re-run PCI evidence scan"
+      ],
+      "historicalAssessments": [
+        "2026-01-20 — Non-Compliant",
+        "2026-07-10 — Non-Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-10 — QSA sample review"
+      ],
+      "relatedIncidents": [
+        "INC-90140 — Unencrypted CHD store"
+      ],
+      "aiRecommendation": "Treat as Priority-1 PCI gap. Block new CHD writes until TDE is verified."
+    },
+    {
+      "id": "ast-finance-app-x27",
+      "name": "Service-Account-027",
+      "assetType": "Service Account",
+      "owner": "Sara",
+      "department": "HR",
+      "operatingSystem": "N/A",
+      "framework": "ISO 27001",
+      "failedControlId": "IAM-04",
+      "failedControlName": "Privileged access control",
+      "complianceStatus": "Under Review",
+      "riskLevel": "Critical",
+      "lastAssessment": "2026-07-28",
+      "installedSoftware": [
+        "Finance ERP",
+        "SSO connector"
+      ],
+      "securityConfiguration": [
+        "SSO: Enforced",
+        "Standing admin roles: 14"
+      ],
+      "frameworks": [
+        "ISO 27001",
+        "SAMA CSF"
+      ],
+      "failedControls": [
+        {
+          "framework": "SAMA CSF",
+          "controlId": "IAM-04",
+          "controlName": "Privileged access control",
+          "status": "Failed",
+          "reason": "Excessive privileged accounts detected.",
+          "recommendation": "Convert standing admins to JIT and recertify monthly."
+        }
+      ],
+      "findings": [
+        "14 standing privileged roles",
+        "3 orphaned service admins"
+      ],
+      "remediation": [
+        "Enable PIM",
+        "Remove orphaned admins",
+        "Recertify access"
+      ],
+      "historicalAssessments": [
+        "2026-03-01 — Compliant",
+        "2026-07-08 — Partially Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-08 — SAMA CSF control sample"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "Reduce privileged footprint before Peak Payday; align with Identity Monitoring findings."
+    },
+    {
+      "id": "ast-emp-sara-x28",
+      "name": "Application-028",
+      "assetType": "Application",
+      "owner": "People & Culture",
+      "department": "IT",
+      "operatingSystem": "N/A (Identity)",
+      "framework": "NCA ECC",
+      "failedControlId": "—",
+      "failedControlName": "—",
+      "complianceStatus": "Compliant",
+      "riskLevel": "Low",
+      "lastAssessment": "2026-07-01",
+      "installedSoftware": [],
+      "securityConfiguration": [
+        "MFA: Disabled",
+        "Phishing-resistant methods: None"
+      ],
+      "frameworks": [
+        "NCA ECC",
+        "NCA ECC"
+      ],
+      "failedControls": [],
+      "findings": [],
+      "remediation": [],
+      "historicalAssessments": [
+        "2026-06-01 — Compliant",
+        "2026-07-14 — Non-Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-14 — Continuous IAM monitoring"
+      ],
+      "relatedIncidents": [
+        "INC-88470 — Privileged MFA removal"
+      ],
+      "aiRecommendation": "Correlate with Identity Monitoring anomaly and open a GRC case if MFA remains disabled."
+    },
+    {
+      "id": "ast-srv-ad-01-x29",
+      "name": "Database-029",
+      "assetType": "Database",
+      "owner": "Identity Ops",
+      "department": "Finance",
+      "operatingSystem": "Windows Server 2022",
+      "framework": "SAMA CSF",
+      "failedControlId": "ECC-1-2",
+      "failedControlName": "Secure configuration",
+      "complianceStatus": "Partially Compliant",
+      "riskLevel": "Medium",
+      "lastAssessment": "2026-07-02",
+      "installedSoftware": [
+        "AD DS",
+        "DNS"
+      ],
+      "securityConfiguration": [
+        "Hardening baseline: Partial",
+        "LAPS: Enabled"
+      ],
+      "frameworks": [
+        "SAMA CSF",
+        "NCA ECC"
+      ],
+      "failedControls": [
+        {
+          "framework": "NCA ECC",
+          "controlId": "ECC-1-2",
+          "controlName": "Secure configuration",
+          "status": "Partial",
+          "reason": "CIS benchmark drift on 6 hardening settings.",
+          "recommendation": "Re-apply domain hardening GPO and re-scan."
+        }
+      ],
+      "findings": [
+        "SMB signing exception present"
+      ],
+      "remediation": [
+        "Remove temporary SMB exception",
+        "Re-run CIS scan"
+      ],
+      "historicalAssessments": [
+        "2026-05-02 — Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-11 — Configuration drift alert"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "Close drift within the Under Review SLA (7 days)."
+    },
+    {
+      "id": "ast-svc-backup-x30",
+      "name": "Network-Device-030",
+      "assetType": "Network Device",
+      "owner": "Infrastructure",
+      "department": "Operations",
+      "operatingSystem": "N/A (Service Account)",
+      "framework": "PCI DSS",
+      "failedControlId": "A.8.2",
+      "failedControlName": "Privileged access rights",
+      "complianceStatus": "Non-Compliant",
+      "riskLevel": "High",
+      "lastAssessment": "2026-07-03",
+      "installedSoftware": [],
+      "securityConfiguration": [
+        "Password age: 240 days",
+        "Interactive logon: Allowed"
+      ],
+      "frameworks": [
+        "PCI DSS",
+        "ISO 27001"
+      ],
+      "failedControls": [
+        {
+          "framework": "ISO 27001",
+          "controlId": "A.8.2",
+          "controlName": "Privileged access rights",
+          "status": "Failed",
+          "reason": "Service account allows interactive logon.",
+          "recommendation": "Deny interactive logon and rotate credentials."
+        }
+      ],
+      "findings": [
+        "Interactive logon right granted"
+      ],
+      "remediation": [
+        "Apply GPO deny logon",
+        "Rotate secret in vault"
+      ],
+      "historicalAssessments": [
+        "2026-02-14 — Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-09 — Service account review"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "Treat as medium priority; include in monthly service-account recertification."
+    },
+    {
+      "id": "ast-fw-edge-02-x31",
+      "name": "Cloud-Resource-031",
+      "assetType": "Cloud Resource",
+      "owner": "Network Engineering",
+      "department": "Retail Banking",
+      "operatingSystem": "FortiOS 7.4",
+      "framework": "ISO 27001",
+      "failedControlId": "NET-07",
+      "failedControlName": "Network security monitoring",
+      "complianceStatus": "Under Review",
+      "riskLevel": "Critical",
+      "lastAssessment": "2026-07-04",
+      "installedSoftware": [],
+      "securityConfiguration": [
+        "IDS: On",
+        "Config backup: Daily"
+      ],
+      "frameworks": [
+        "ISO 27001",
+        "SAMA CSF"
+      ],
+      "failedControls": [],
+      "findings": [],
+      "remediation": [],
+      "historicalAssessments": [
+        "2026-07-05 — Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-05 — Automated NET control scan"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "No open gaps. Keep daily config backup validation."
+    },
+    {
+      "id": "ast-cloud-aks-x32",
+      "name": "Endpoint-032",
+      "assetType": "Endpoint",
+      "owner": "Cloud SRE",
+      "department": "Security",
+      "operatingSystem": "Azure Kubernetes Service",
+      "framework": "NCA ECC",
+      "failedControlId": "—",
+      "failedControlName": "—",
+      "complianceStatus": "Compliant",
+      "riskLevel": "Low",
+      "lastAssessment": "2026-07-05",
+      "installedSoftware": [
+        "ingress-nginx",
+        "cert-manager"
+      ],
+      "securityConfiguration": [
+        "Pod security: Baseline",
+        "Public ingress: Enabled"
+      ],
+      "frameworks": [
+        "NCA ECC",
+        "PCI DSS"
+      ],
+      "failedControls": [],
+      "findings": [],
+      "remediation": [],
+      "historicalAssessments": [
+        "2026-04-18 — Partially Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-13 — PCI cloud posture scan"
+      ],
+      "relatedIncidents": [
+        "INC-90201 — Privileged pod admission"
+      ],
+      "aiRecommendation": "Isolate CDE workloads to a dedicated cluster before next PCI ROC."
+    },
+    {
+      "id": "ast-laptop-023-x33",
+      "name": "Server-033",
+      "assetType": "Server",
+      "owner": "Mohammed",
+      "department": "Treasury",
+      "operatingSystem": "Windows 11",
+      "framework": "SAMA CSF",
+      "failedControlId": "ECC-2-3",
+      "failedControlName": "Endpoint Protection",
+      "complianceStatus": "Partially Compliant",
+      "riskLevel": "Medium",
+      "lastAssessment": "2026-07-06",
+      "installedSoftware": [
+        "Microsoft 365",
+        "CrowdStrike",
+        "BitLocker (disabled)"
+      ],
+      "securityConfiguration": [
+        "Disk encryption: Off",
+        "Firewall: On",
+        "Local admin: Restricted"
+      ],
+      "frameworks": [
+        "SAMA CSF",
+        "NCA ECC"
+      ],
+      "failedControls": [
+        {
+          "framework": "NCA ECC",
+          "controlId": "ECC-2-3",
+          "controlName": "Endpoint Protection",
+          "status": "Failed",
+          "reason": "BitLocker is disabled.",
+          "recommendation": "Enable BitLocker and escrow recovery keys to Entra."
+        }
+      ],
+      "findings": [
+        "BitLocker policy not applied",
+        "Recovery key missing from MDM"
+      ],
+      "remediation": [
+        "Enable BitLocker via Intune",
+        "Validate escrow within 24 hours"
+      ],
+      "historicalAssessments": [
+        "2026-04-10 — Partially Compliant",
+        "2026-07-12 — Non-Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-12 — Automated ECC scan"
+      ],
+      "relatedIncidents": [
+        "INC-90112 — Endpoint encryption gap"
+      ],
+      "aiRecommendation": "Prioritize encryption remediation before the next NCA evidence pack submission."
+    },
+    {
+      "id": "ast-db-oracle-01-x34",
+      "name": "Employee-034",
+      "assetType": "Employee",
+      "owner": "Huda",
+      "department": "HR",
+      "operatingSystem": "N/A",
+      "framework": "PCI DSS",
+      "failedControlId": "PCI 3.4",
+      "failedControlName": "Cryptographic protection of CHD",
+      "complianceStatus": "Non-Compliant",
+      "riskLevel": "High",
+      "lastAssessment": "2026-07-07",
+      "installedSoftware": [
+        "Oracle 19c",
+        "Oracle Audit Vault"
+      ],
+      "securityConfiguration": [
+        "TDE: Disabled",
+        "Network encryption: Partial"
+      ],
+      "frameworks": [
+        "PCI DSS",
+        "PCI DSS"
+      ],
+      "failedControls": [
+        {
+          "framework": "PCI DSS",
+          "controlId": "PCI 3.4",
+          "controlName": "Cryptographic protection of CHD",
+          "status": "Failed",
+          "reason": "Sensitive cardholder data is not encrypted.",
+          "recommendation": "Enable TDE and rotate encryption keys under dual control."
+        }
+      ],
+      "findings": [
+        "CHD columns stored in plaintext",
+        "Key management SOP incomplete"
+      ],
+      "remediation": [
+        "Enable Oracle TDE",
+        "Migrate CHD tablespace",
+        "Re-run PCI evidence scan"
+      ],
+      "historicalAssessments": [
+        "2026-01-20 — Non-Compliant",
+        "2026-07-10 — Non-Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-10 — QSA sample review"
+      ],
+      "relatedIncidents": [
+        "INC-90140 — Unencrypted CHD store"
+      ],
+      "aiRecommendation": "Treat as Priority-1 PCI gap. Block new CHD writes until TDE is verified."
+    },
+    {
+      "id": "ast-finance-app-x35",
+      "name": "Service-Account-035",
+      "assetType": "Service Account",
+      "owner": "Sara",
+      "department": "IT",
+      "operatingSystem": "N/A",
+      "framework": "ISO 27001",
+      "failedControlId": "IAM-04",
+      "failedControlName": "Privileged access control",
+      "complianceStatus": "Under Review",
+      "riskLevel": "Critical",
+      "lastAssessment": "2026-07-08",
+      "installedSoftware": [
+        "Finance ERP",
+        "SSO connector"
+      ],
+      "securityConfiguration": [
+        "SSO: Enforced",
+        "Standing admin roles: 14"
+      ],
+      "frameworks": [
+        "ISO 27001",
+        "SAMA CSF"
+      ],
+      "failedControls": [
+        {
+          "framework": "SAMA CSF",
+          "controlId": "IAM-04",
+          "controlName": "Privileged access control",
+          "status": "Failed",
+          "reason": "Excessive privileged accounts detected.",
+          "recommendation": "Convert standing admins to JIT and recertify monthly."
+        }
+      ],
+      "findings": [
+        "14 standing privileged roles",
+        "3 orphaned service admins"
+      ],
+      "remediation": [
+        "Enable PIM",
+        "Remove orphaned admins",
+        "Recertify access"
+      ],
+      "historicalAssessments": [
+        "2026-03-01 — Compliant",
+        "2026-07-08 — Partially Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-08 — SAMA CSF control sample"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "Reduce privileged footprint before Peak Payday; align with Identity Monitoring findings."
+    },
+    {
+      "id": "ast-emp-sara-x36",
+      "name": "Application-036",
+      "assetType": "Application",
+      "owner": "People & Culture",
+      "department": "Finance",
+      "operatingSystem": "N/A (Identity)",
+      "framework": "NCA ECC",
+      "failedControlId": "—",
+      "failedControlName": "—",
+      "complianceStatus": "Compliant",
+      "riskLevel": "Low",
+      "lastAssessment": "2026-07-09",
+      "installedSoftware": [],
+      "securityConfiguration": [
+        "MFA: Disabled",
+        "Phishing-resistant methods: None"
+      ],
+      "frameworks": [
+        "NCA ECC",
+        "NCA ECC"
+      ],
+      "failedControls": [],
+      "findings": [],
+      "remediation": [],
+      "historicalAssessments": [
+        "2026-06-01 — Compliant",
+        "2026-07-14 — Non-Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-14 — Continuous IAM monitoring"
+      ],
+      "relatedIncidents": [
+        "INC-88470 — Privileged MFA removal"
+      ],
+      "aiRecommendation": "Correlate with Identity Monitoring anomaly and open a GRC case if MFA remains disabled."
+    },
+    {
+      "id": "ast-srv-ad-01-x37",
+      "name": "Database-037",
+      "assetType": "Database",
+      "owner": "Identity Ops",
+      "department": "Operations",
+      "operatingSystem": "Windows Server 2022",
+      "framework": "SAMA CSF",
+      "failedControlId": "ECC-1-2",
+      "failedControlName": "Secure configuration",
+      "complianceStatus": "Partially Compliant",
+      "riskLevel": "Medium",
+      "lastAssessment": "2026-07-10",
+      "installedSoftware": [
+        "AD DS",
+        "DNS"
+      ],
+      "securityConfiguration": [
+        "Hardening baseline: Partial",
+        "LAPS: Enabled"
+      ],
+      "frameworks": [
+        "SAMA CSF",
+        "NCA ECC"
+      ],
+      "failedControls": [
+        {
+          "framework": "NCA ECC",
+          "controlId": "ECC-1-2",
+          "controlName": "Secure configuration",
+          "status": "Partial",
+          "reason": "CIS benchmark drift on 6 hardening settings.",
+          "recommendation": "Re-apply domain hardening GPO and re-scan."
+        }
+      ],
+      "findings": [
+        "SMB signing exception present"
+      ],
+      "remediation": [
+        "Remove temporary SMB exception",
+        "Re-run CIS scan"
+      ],
+      "historicalAssessments": [
+        "2026-05-02 — Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-11 — Configuration drift alert"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "Close drift within the Under Review SLA (7 days)."
+    },
+    {
+      "id": "ast-svc-backup-x38",
+      "name": "Network-Device-038",
+      "assetType": "Network Device",
+      "owner": "Infrastructure",
+      "department": "Retail Banking",
+      "operatingSystem": "N/A (Service Account)",
+      "framework": "PCI DSS",
+      "failedControlId": "A.8.2",
+      "failedControlName": "Privileged access rights",
+      "complianceStatus": "Non-Compliant",
+      "riskLevel": "High",
+      "lastAssessment": "2026-07-11",
+      "installedSoftware": [],
+      "securityConfiguration": [
+        "Password age: 240 days",
+        "Interactive logon: Allowed"
+      ],
+      "frameworks": [
+        "PCI DSS",
+        "ISO 27001"
+      ],
+      "failedControls": [
+        {
+          "framework": "ISO 27001",
+          "controlId": "A.8.2",
+          "controlName": "Privileged access rights",
+          "status": "Failed",
+          "reason": "Service account allows interactive logon.",
+          "recommendation": "Deny interactive logon and rotate credentials."
+        }
+      ],
+      "findings": [
+        "Interactive logon right granted"
+      ],
+      "remediation": [
+        "Apply GPO deny logon",
+        "Rotate secret in vault"
+      ],
+      "historicalAssessments": [
+        "2026-02-14 — Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-09 — Service account review"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "Treat as medium priority; include in monthly service-account recertification."
+    },
+    {
+      "id": "ast-fw-edge-02-x39",
+      "name": "Cloud-Resource-039",
+      "assetType": "Cloud Resource",
+      "owner": "Network Engineering",
+      "department": "Security",
+      "operatingSystem": "FortiOS 7.4",
+      "framework": "ISO 27001",
+      "failedControlId": "NET-07",
+      "failedControlName": "Network security monitoring",
+      "complianceStatus": "Under Review",
+      "riskLevel": "Critical",
+      "lastAssessment": "2026-07-12",
+      "installedSoftware": [],
+      "securityConfiguration": [
+        "IDS: On",
+        "Config backup: Daily"
+      ],
+      "frameworks": [
+        "ISO 27001",
+        "SAMA CSF"
+      ],
+      "failedControls": [],
+      "findings": [],
+      "remediation": [],
+      "historicalAssessments": [
+        "2026-07-05 — Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-05 — Automated NET control scan"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "No open gaps. Keep daily config backup validation."
+    },
+    {
+      "id": "ast-cloud-aks-x40",
+      "name": "Endpoint-040",
+      "assetType": "Endpoint",
+      "owner": "Cloud SRE",
+      "department": "Treasury",
+      "operatingSystem": "Azure Kubernetes Service",
+      "framework": "NCA ECC",
+      "failedControlId": "—",
+      "failedControlName": "—",
+      "complianceStatus": "Compliant",
+      "riskLevel": "Low",
+      "lastAssessment": "2026-07-13",
+      "installedSoftware": [
+        "ingress-nginx",
+        "cert-manager"
+      ],
+      "securityConfiguration": [
+        "Pod security: Baseline",
+        "Public ingress: Enabled"
+      ],
+      "frameworks": [
+        "NCA ECC",
+        "PCI DSS"
+      ],
+      "failedControls": [],
+      "findings": [],
+      "remediation": [],
+      "historicalAssessments": [
+        "2026-04-18 — Partially Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-13 — PCI cloud posture scan"
+      ],
+      "relatedIncidents": [
+        "INC-90201 — Privileged pod admission"
+      ],
+      "aiRecommendation": "Isolate CDE workloads to a dedicated cluster before next PCI ROC."
+    },
+    {
+      "id": "ast-laptop-023-x41",
+      "name": "Server-041",
+      "assetType": "Server",
+      "owner": "Mohammed",
+      "department": "HR",
+      "operatingSystem": "Windows 11",
+      "framework": "SAMA CSF",
+      "failedControlId": "ECC-2-3",
+      "failedControlName": "Endpoint Protection",
+      "complianceStatus": "Partially Compliant",
+      "riskLevel": "Medium",
+      "lastAssessment": "2026-07-14",
+      "installedSoftware": [
+        "Microsoft 365",
+        "CrowdStrike",
+        "BitLocker (disabled)"
+      ],
+      "securityConfiguration": [
+        "Disk encryption: Off",
+        "Firewall: On",
+        "Local admin: Restricted"
+      ],
+      "frameworks": [
+        "SAMA CSF",
+        "NCA ECC"
+      ],
+      "failedControls": [
+        {
+          "framework": "NCA ECC",
+          "controlId": "ECC-2-3",
+          "controlName": "Endpoint Protection",
+          "status": "Failed",
+          "reason": "BitLocker is disabled.",
+          "recommendation": "Enable BitLocker and escrow recovery keys to Entra."
+        }
+      ],
+      "findings": [
+        "BitLocker policy not applied",
+        "Recovery key missing from MDM"
+      ],
+      "remediation": [
+        "Enable BitLocker via Intune",
+        "Validate escrow within 24 hours"
+      ],
+      "historicalAssessments": [
+        "2026-04-10 — Partially Compliant",
+        "2026-07-12 — Non-Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-12 — Automated ECC scan"
+      ],
+      "relatedIncidents": [
+        "INC-90112 — Endpoint encryption gap"
+      ],
+      "aiRecommendation": "Prioritize encryption remediation before the next NCA evidence pack submission."
+    },
+    {
+      "id": "ast-db-oracle-01-x42",
+      "name": "Employee-042",
+      "assetType": "Employee",
+      "owner": "Huda",
+      "department": "IT",
+      "operatingSystem": "N/A",
+      "framework": "PCI DSS",
+      "failedControlId": "PCI 3.4",
+      "failedControlName": "Cryptographic protection of CHD",
+      "complianceStatus": "Non-Compliant",
+      "riskLevel": "High",
+      "lastAssessment": "2026-07-15",
+      "installedSoftware": [
+        "Oracle 19c",
+        "Oracle Audit Vault"
+      ],
+      "securityConfiguration": [
+        "TDE: Disabled",
+        "Network encryption: Partial"
+      ],
+      "frameworks": [
+        "PCI DSS",
+        "PCI DSS"
+      ],
+      "failedControls": [
+        {
+          "framework": "PCI DSS",
+          "controlId": "PCI 3.4",
+          "controlName": "Cryptographic protection of CHD",
+          "status": "Failed",
+          "reason": "Sensitive cardholder data is not encrypted.",
+          "recommendation": "Enable TDE and rotate encryption keys under dual control."
+        }
+      ],
+      "findings": [
+        "CHD columns stored in plaintext",
+        "Key management SOP incomplete"
+      ],
+      "remediation": [
+        "Enable Oracle TDE",
+        "Migrate CHD tablespace",
+        "Re-run PCI evidence scan"
+      ],
+      "historicalAssessments": [
+        "2026-01-20 — Non-Compliant",
+        "2026-07-10 — Non-Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-10 — QSA sample review"
+      ],
+      "relatedIncidents": [
+        "INC-90140 — Unencrypted CHD store"
+      ],
+      "aiRecommendation": "Treat as Priority-1 PCI gap. Block new CHD writes until TDE is verified."
+    },
+    {
+      "id": "ast-finance-app-x43",
+      "name": "Service-Account-043",
+      "assetType": "Service Account",
+      "owner": "Sara",
+      "department": "Finance",
+      "operatingSystem": "N/A",
+      "framework": "ISO 27001",
+      "failedControlId": "IAM-04",
+      "failedControlName": "Privileged access control",
+      "complianceStatus": "Under Review",
+      "riskLevel": "Critical",
+      "lastAssessment": "2026-07-16",
+      "installedSoftware": [
+        "Finance ERP",
+        "SSO connector"
+      ],
+      "securityConfiguration": [
+        "SSO: Enforced",
+        "Standing admin roles: 14"
+      ],
+      "frameworks": [
+        "ISO 27001",
+        "SAMA CSF"
+      ],
+      "failedControls": [
+        {
+          "framework": "SAMA CSF",
+          "controlId": "IAM-04",
+          "controlName": "Privileged access control",
+          "status": "Failed",
+          "reason": "Excessive privileged accounts detected.",
+          "recommendation": "Convert standing admins to JIT and recertify monthly."
+        }
+      ],
+      "findings": [
+        "14 standing privileged roles",
+        "3 orphaned service admins"
+      ],
+      "remediation": [
+        "Enable PIM",
+        "Remove orphaned admins",
+        "Recertify access"
+      ],
+      "historicalAssessments": [
+        "2026-03-01 — Compliant",
+        "2026-07-08 — Partially Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-08 — SAMA CSF control sample"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "Reduce privileged footprint before Peak Payday; align with Identity Monitoring findings."
+    },
+    {
+      "id": "ast-emp-sara-x44",
+      "name": "Application-044",
+      "assetType": "Application",
+      "owner": "People & Culture",
+      "department": "Operations",
+      "operatingSystem": "N/A (Identity)",
+      "framework": "NCA ECC",
+      "failedControlId": "—",
+      "failedControlName": "—",
+      "complianceStatus": "Compliant",
+      "riskLevel": "Low",
+      "lastAssessment": "2026-07-17",
+      "installedSoftware": [],
+      "securityConfiguration": [
+        "MFA: Disabled",
+        "Phishing-resistant methods: None"
+      ],
+      "frameworks": [
+        "NCA ECC",
+        "NCA ECC"
+      ],
+      "failedControls": [],
+      "findings": [],
+      "remediation": [],
+      "historicalAssessments": [
+        "2026-06-01 — Compliant",
+        "2026-07-14 — Non-Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-14 — Continuous IAM monitoring"
+      ],
+      "relatedIncidents": [
+        "INC-88470 — Privileged MFA removal"
+      ],
+      "aiRecommendation": "Correlate with Identity Monitoring anomaly and open a GRC case if MFA remains disabled."
+    },
+    {
+      "id": "ast-srv-ad-01-x45",
+      "name": "Database-045",
+      "assetType": "Database",
+      "owner": "Identity Ops",
+      "department": "Retail Banking",
+      "operatingSystem": "Windows Server 2022",
+      "framework": "SAMA CSF",
+      "failedControlId": "ECC-1-2",
+      "failedControlName": "Secure configuration",
+      "complianceStatus": "Partially Compliant",
+      "riskLevel": "Medium",
+      "lastAssessment": "2026-07-18",
+      "installedSoftware": [
+        "AD DS",
+        "DNS"
+      ],
+      "securityConfiguration": [
+        "Hardening baseline: Partial",
+        "LAPS: Enabled"
+      ],
+      "frameworks": [
+        "SAMA CSF",
+        "NCA ECC"
+      ],
+      "failedControls": [
+        {
+          "framework": "NCA ECC",
+          "controlId": "ECC-1-2",
+          "controlName": "Secure configuration",
+          "status": "Partial",
+          "reason": "CIS benchmark drift on 6 hardening settings.",
+          "recommendation": "Re-apply domain hardening GPO and re-scan."
+        }
+      ],
+      "findings": [
+        "SMB signing exception present"
+      ],
+      "remediation": [
+        "Remove temporary SMB exception",
+        "Re-run CIS scan"
+      ],
+      "historicalAssessments": [
+        "2026-05-02 — Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-11 — Configuration drift alert"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "Close drift within the Under Review SLA (7 days)."
+    },
+    {
+      "id": "ast-svc-backup-x46",
+      "name": "Network-Device-046",
+      "assetType": "Network Device",
+      "owner": "Infrastructure",
+      "department": "Security",
+      "operatingSystem": "N/A (Service Account)",
+      "framework": "PCI DSS",
+      "failedControlId": "A.8.2",
+      "failedControlName": "Privileged access rights",
+      "complianceStatus": "Non-Compliant",
+      "riskLevel": "High",
+      "lastAssessment": "2026-07-19",
+      "installedSoftware": [],
+      "securityConfiguration": [
+        "Password age: 240 days",
+        "Interactive logon: Allowed"
+      ],
+      "frameworks": [
+        "PCI DSS",
+        "ISO 27001"
+      ],
+      "failedControls": [
+        {
+          "framework": "ISO 27001",
+          "controlId": "A.8.2",
+          "controlName": "Privileged access rights",
+          "status": "Failed",
+          "reason": "Service account allows interactive logon.",
+          "recommendation": "Deny interactive logon and rotate credentials."
+        }
+      ],
+      "findings": [
+        "Interactive logon right granted"
+      ],
+      "remediation": [
+        "Apply GPO deny logon",
+        "Rotate secret in vault"
+      ],
+      "historicalAssessments": [
+        "2026-02-14 — Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-09 — Service account review"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "Treat as medium priority; include in monthly service-account recertification."
+    },
+    {
+      "id": "ast-fw-edge-02-x47",
+      "name": "Cloud-Resource-047",
+      "assetType": "Cloud Resource",
+      "owner": "Network Engineering",
+      "department": "Treasury",
+      "operatingSystem": "FortiOS 7.4",
+      "framework": "ISO 27001",
+      "failedControlId": "NET-07",
+      "failedControlName": "Network security monitoring",
+      "complianceStatus": "Under Review",
+      "riskLevel": "Critical",
+      "lastAssessment": "2026-07-20",
+      "installedSoftware": [],
+      "securityConfiguration": [
+        "IDS: On",
+        "Config backup: Daily"
+      ],
+      "frameworks": [
+        "ISO 27001",
+        "SAMA CSF"
+      ],
+      "failedControls": [],
+      "findings": [],
+      "remediation": [],
+      "historicalAssessments": [
+        "2026-07-05 — Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-05 — Automated NET control scan"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "No open gaps. Keep daily config backup validation."
+    },
+    {
+      "id": "ast-cloud-aks-x48",
+      "name": "Endpoint-048",
+      "assetType": "Endpoint",
+      "owner": "Cloud SRE",
+      "department": "HR",
+      "operatingSystem": "Azure Kubernetes Service",
+      "framework": "NCA ECC",
+      "failedControlId": "—",
+      "failedControlName": "—",
+      "complianceStatus": "Compliant",
+      "riskLevel": "Low",
+      "lastAssessment": "2026-07-21",
+      "installedSoftware": [
+        "ingress-nginx",
+        "cert-manager"
+      ],
+      "securityConfiguration": [
+        "Pod security: Baseline",
+        "Public ingress: Enabled"
+      ],
+      "frameworks": [
+        "NCA ECC",
+        "PCI DSS"
+      ],
+      "failedControls": [],
+      "findings": [],
+      "remediation": [],
+      "historicalAssessments": [
+        "2026-04-18 — Partially Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-13 — PCI cloud posture scan"
+      ],
+      "relatedIncidents": [
+        "INC-90201 — Privileged pod admission"
+      ],
+      "aiRecommendation": "Isolate CDE workloads to a dedicated cluster before next PCI ROC."
+    },
+    {
+      "id": "ast-laptop-023-x49",
+      "name": "Server-049",
+      "assetType": "Server",
+      "owner": "Mohammed",
+      "department": "IT",
+      "operatingSystem": "Windows 11",
+      "framework": "SAMA CSF",
+      "failedControlId": "ECC-2-3",
+      "failedControlName": "Endpoint Protection",
+      "complianceStatus": "Partially Compliant",
+      "riskLevel": "Medium",
+      "lastAssessment": "2026-07-22",
+      "installedSoftware": [
+        "Microsoft 365",
+        "CrowdStrike",
+        "BitLocker (disabled)"
+      ],
+      "securityConfiguration": [
+        "Disk encryption: Off",
+        "Firewall: On",
+        "Local admin: Restricted"
+      ],
+      "frameworks": [
+        "SAMA CSF",
+        "NCA ECC"
+      ],
+      "failedControls": [
+        {
+          "framework": "NCA ECC",
+          "controlId": "ECC-2-3",
+          "controlName": "Endpoint Protection",
+          "status": "Failed",
+          "reason": "BitLocker is disabled.",
+          "recommendation": "Enable BitLocker and escrow recovery keys to Entra."
+        }
+      ],
+      "findings": [
+        "BitLocker policy not applied",
+        "Recovery key missing from MDM"
+      ],
+      "remediation": [
+        "Enable BitLocker via Intune",
+        "Validate escrow within 24 hours"
+      ],
+      "historicalAssessments": [
+        "2026-04-10 — Partially Compliant",
+        "2026-07-12 — Non-Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-12 — Automated ECC scan"
+      ],
+      "relatedIncidents": [
+        "INC-90112 — Endpoint encryption gap"
+      ],
+      "aiRecommendation": "Prioritize encryption remediation before the next NCA evidence pack submission."
+    },
+    {
+      "id": "ast-db-oracle-01-x50",
+      "name": "Employee-050",
+      "assetType": "Employee",
+      "owner": "Huda",
+      "department": "Finance",
+      "operatingSystem": "N/A",
+      "framework": "PCI DSS",
+      "failedControlId": "PCI 3.4",
+      "failedControlName": "Cryptographic protection of CHD",
+      "complianceStatus": "Non-Compliant",
+      "riskLevel": "High",
+      "lastAssessment": "2026-07-23",
+      "installedSoftware": [
+        "Oracle 19c",
+        "Oracle Audit Vault"
+      ],
+      "securityConfiguration": [
+        "TDE: Disabled",
+        "Network encryption: Partial"
+      ],
+      "frameworks": [
+        "PCI DSS",
+        "PCI DSS"
+      ],
+      "failedControls": [
+        {
+          "framework": "PCI DSS",
+          "controlId": "PCI 3.4",
+          "controlName": "Cryptographic protection of CHD",
+          "status": "Failed",
+          "reason": "Sensitive cardholder data is not encrypted.",
+          "recommendation": "Enable TDE and rotate encryption keys under dual control."
+        }
+      ],
+      "findings": [
+        "CHD columns stored in plaintext",
+        "Key management SOP incomplete"
+      ],
+      "remediation": [
+        "Enable Oracle TDE",
+        "Migrate CHD tablespace",
+        "Re-run PCI evidence scan"
+      ],
+      "historicalAssessments": [
+        "2026-01-20 — Non-Compliant",
+        "2026-07-10 — Non-Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-10 — QSA sample review"
+      ],
+      "relatedIncidents": [
+        "INC-90140 — Unencrypted CHD store"
+      ],
+      "aiRecommendation": "Treat as Priority-1 PCI gap. Block new CHD writes until TDE is verified."
+    },
+    {
+      "id": "ast-finance-app-x51",
+      "name": "Service-Account-051",
+      "assetType": "Service Account",
+      "owner": "Sara",
+      "department": "Operations",
+      "operatingSystem": "N/A",
+      "framework": "ISO 27001",
+      "failedControlId": "IAM-04",
+      "failedControlName": "Privileged access control",
+      "complianceStatus": "Under Review",
+      "riskLevel": "Critical",
+      "lastAssessment": "2026-07-24",
+      "installedSoftware": [
+        "Finance ERP",
+        "SSO connector"
+      ],
+      "securityConfiguration": [
+        "SSO: Enforced",
+        "Standing admin roles: 14"
+      ],
+      "frameworks": [
+        "ISO 27001",
+        "SAMA CSF"
+      ],
+      "failedControls": [
+        {
+          "framework": "SAMA CSF",
+          "controlId": "IAM-04",
+          "controlName": "Privileged access control",
+          "status": "Failed",
+          "reason": "Excessive privileged accounts detected.",
+          "recommendation": "Convert standing admins to JIT and recertify monthly."
+        }
+      ],
+      "findings": [
+        "14 standing privileged roles",
+        "3 orphaned service admins"
+      ],
+      "remediation": [
+        "Enable PIM",
+        "Remove orphaned admins",
+        "Recertify access"
+      ],
+      "historicalAssessments": [
+        "2026-03-01 — Compliant",
+        "2026-07-08 — Partially Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-08 — SAMA CSF control sample"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "Reduce privileged footprint before Peak Payday; align with Identity Monitoring findings."
+    },
+    {
+      "id": "ast-emp-sara-x52",
+      "name": "Application-052",
+      "assetType": "Application",
+      "owner": "People & Culture",
+      "department": "Retail Banking",
+      "operatingSystem": "N/A (Identity)",
+      "framework": "NCA ECC",
+      "failedControlId": "—",
+      "failedControlName": "—",
+      "complianceStatus": "Compliant",
+      "riskLevel": "Low",
+      "lastAssessment": "2026-07-25",
+      "installedSoftware": [],
+      "securityConfiguration": [
+        "MFA: Disabled",
+        "Phishing-resistant methods: None"
+      ],
+      "frameworks": [
+        "NCA ECC",
+        "NCA ECC"
+      ],
+      "failedControls": [],
+      "findings": [],
+      "remediation": [],
+      "historicalAssessments": [
+        "2026-06-01 — Compliant",
+        "2026-07-14 — Non-Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-14 — Continuous IAM monitoring"
+      ],
+      "relatedIncidents": [
+        "INC-88470 — Privileged MFA removal"
+      ],
+      "aiRecommendation": "Correlate with Identity Monitoring anomaly and open a GRC case if MFA remains disabled."
+    },
+    {
+      "id": "ast-srv-ad-01-x53",
+      "name": "Database-053",
+      "assetType": "Database",
+      "owner": "Identity Ops",
+      "department": "Security",
+      "operatingSystem": "Windows Server 2022",
+      "framework": "SAMA CSF",
+      "failedControlId": "ECC-1-2",
+      "failedControlName": "Secure configuration",
+      "complianceStatus": "Partially Compliant",
+      "riskLevel": "Medium",
+      "lastAssessment": "2026-07-26",
+      "installedSoftware": [
+        "AD DS",
+        "DNS"
+      ],
+      "securityConfiguration": [
+        "Hardening baseline: Partial",
+        "LAPS: Enabled"
+      ],
+      "frameworks": [
+        "SAMA CSF",
+        "NCA ECC"
+      ],
+      "failedControls": [
+        {
+          "framework": "NCA ECC",
+          "controlId": "ECC-1-2",
+          "controlName": "Secure configuration",
+          "status": "Partial",
+          "reason": "CIS benchmark drift on 6 hardening settings.",
+          "recommendation": "Re-apply domain hardening GPO and re-scan."
+        }
+      ],
+      "findings": [
+        "SMB signing exception present"
+      ],
+      "remediation": [
+        "Remove temporary SMB exception",
+        "Re-run CIS scan"
+      ],
+      "historicalAssessments": [
+        "2026-05-02 — Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-11 — Configuration drift alert"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "Close drift within the Under Review SLA (7 days)."
+    },
+    {
+      "id": "ast-svc-backup-x54",
+      "name": "Network-Device-054",
+      "assetType": "Network Device",
+      "owner": "Infrastructure",
+      "department": "Treasury",
+      "operatingSystem": "N/A (Service Account)",
+      "framework": "PCI DSS",
+      "failedControlId": "A.8.2",
+      "failedControlName": "Privileged access rights",
+      "complianceStatus": "Non-Compliant",
+      "riskLevel": "High",
+      "lastAssessment": "2026-07-27",
+      "installedSoftware": [],
+      "securityConfiguration": [
+        "Password age: 240 days",
+        "Interactive logon: Allowed"
+      ],
+      "frameworks": [
+        "PCI DSS",
+        "ISO 27001"
+      ],
+      "failedControls": [
+        {
+          "framework": "ISO 27001",
+          "controlId": "A.8.2",
+          "controlName": "Privileged access rights",
+          "status": "Failed",
+          "reason": "Service account allows interactive logon.",
+          "recommendation": "Deny interactive logon and rotate credentials."
+        }
+      ],
+      "findings": [
+        "Interactive logon right granted"
+      ],
+      "remediation": [
+        "Apply GPO deny logon",
+        "Rotate secret in vault"
+      ],
+      "historicalAssessments": [
+        "2026-02-14 — Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-09 — Service account review"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "Treat as medium priority; include in monthly service-account recertification."
+    },
+    {
+      "id": "ast-fw-edge-02-x55",
+      "name": "Cloud-Resource-055",
+      "assetType": "Cloud Resource",
+      "owner": "Network Engineering",
+      "department": "HR",
+      "operatingSystem": "FortiOS 7.4",
+      "framework": "ISO 27001",
+      "failedControlId": "NET-07",
+      "failedControlName": "Network security monitoring",
+      "complianceStatus": "Under Review",
+      "riskLevel": "Critical",
+      "lastAssessment": "2026-07-28",
+      "installedSoftware": [],
+      "securityConfiguration": [
+        "IDS: On",
+        "Config backup: Daily"
+      ],
+      "frameworks": [
+        "ISO 27001",
+        "SAMA CSF"
+      ],
+      "failedControls": [],
+      "findings": [],
+      "remediation": [],
+      "historicalAssessments": [
+        "2026-07-05 — Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-05 — Automated NET control scan"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "No open gaps. Keep daily config backup validation."
+    },
+    {
+      "id": "ast-cloud-aks-x56",
+      "name": "Endpoint-056",
+      "assetType": "Endpoint",
+      "owner": "Cloud SRE",
+      "department": "IT",
+      "operatingSystem": "Azure Kubernetes Service",
+      "framework": "NCA ECC",
+      "failedControlId": "—",
+      "failedControlName": "—",
+      "complianceStatus": "Compliant",
+      "riskLevel": "Low",
+      "lastAssessment": "2026-07-01",
+      "installedSoftware": [
+        "ingress-nginx",
+        "cert-manager"
+      ],
+      "securityConfiguration": [
+        "Pod security: Baseline",
+        "Public ingress: Enabled"
+      ],
+      "frameworks": [
+        "NCA ECC",
+        "PCI DSS"
+      ],
+      "failedControls": [],
+      "findings": [],
+      "remediation": [],
+      "historicalAssessments": [
+        "2026-04-18 — Partially Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-13 — PCI cloud posture scan"
+      ],
+      "relatedIncidents": [
+        "INC-90201 — Privileged pod admission"
+      ],
+      "aiRecommendation": "Isolate CDE workloads to a dedicated cluster before next PCI ROC."
+    },
+    {
+      "id": "ast-laptop-023-x57",
+      "name": "Server-057",
+      "assetType": "Server",
+      "owner": "Mohammed",
+      "department": "Finance",
+      "operatingSystem": "Windows 11",
+      "framework": "SAMA CSF",
+      "failedControlId": "ECC-2-3",
+      "failedControlName": "Endpoint Protection",
+      "complianceStatus": "Partially Compliant",
+      "riskLevel": "Medium",
+      "lastAssessment": "2026-07-02",
+      "installedSoftware": [
+        "Microsoft 365",
+        "CrowdStrike",
+        "BitLocker (disabled)"
+      ],
+      "securityConfiguration": [
+        "Disk encryption: Off",
+        "Firewall: On",
+        "Local admin: Restricted"
+      ],
+      "frameworks": [
+        "SAMA CSF",
+        "NCA ECC"
+      ],
+      "failedControls": [
+        {
+          "framework": "NCA ECC",
+          "controlId": "ECC-2-3",
+          "controlName": "Endpoint Protection",
+          "status": "Failed",
+          "reason": "BitLocker is disabled.",
+          "recommendation": "Enable BitLocker and escrow recovery keys to Entra."
+        }
+      ],
+      "findings": [
+        "BitLocker policy not applied",
+        "Recovery key missing from MDM"
+      ],
+      "remediation": [
+        "Enable BitLocker via Intune",
+        "Validate escrow within 24 hours"
+      ],
+      "historicalAssessments": [
+        "2026-04-10 — Partially Compliant",
+        "2026-07-12 — Non-Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-12 — Automated ECC scan"
+      ],
+      "relatedIncidents": [
+        "INC-90112 — Endpoint encryption gap"
+      ],
+      "aiRecommendation": "Prioritize encryption remediation before the next NCA evidence pack submission."
+    },
+    {
+      "id": "ast-db-oracle-01-x58",
+      "name": "Employee-058",
+      "assetType": "Employee",
+      "owner": "Huda",
+      "department": "Operations",
+      "operatingSystem": "N/A",
+      "framework": "PCI DSS",
+      "failedControlId": "PCI 3.4",
+      "failedControlName": "Cryptographic protection of CHD",
+      "complianceStatus": "Non-Compliant",
+      "riskLevel": "High",
+      "lastAssessment": "2026-07-03",
+      "installedSoftware": [
+        "Oracle 19c",
+        "Oracle Audit Vault"
+      ],
+      "securityConfiguration": [
+        "TDE: Disabled",
+        "Network encryption: Partial"
+      ],
+      "frameworks": [
+        "PCI DSS",
+        "PCI DSS"
+      ],
+      "failedControls": [
+        {
+          "framework": "PCI DSS",
+          "controlId": "PCI 3.4",
+          "controlName": "Cryptographic protection of CHD",
+          "status": "Failed",
+          "reason": "Sensitive cardholder data is not encrypted.",
+          "recommendation": "Enable TDE and rotate encryption keys under dual control."
+        }
+      ],
+      "findings": [
+        "CHD columns stored in plaintext",
+        "Key management SOP incomplete"
+      ],
+      "remediation": [
+        "Enable Oracle TDE",
+        "Migrate CHD tablespace",
+        "Re-run PCI evidence scan"
+      ],
+      "historicalAssessments": [
+        "2026-01-20 — Non-Compliant",
+        "2026-07-10 — Non-Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-10 — QSA sample review"
+      ],
+      "relatedIncidents": [
+        "INC-90140 — Unencrypted CHD store"
+      ],
+      "aiRecommendation": "Treat as Priority-1 PCI gap. Block new CHD writes until TDE is verified."
+    },
+    {
+      "id": "ast-finance-app-x59",
+      "name": "Service-Account-059",
+      "assetType": "Service Account",
+      "owner": "Sara",
+      "department": "Retail Banking",
+      "operatingSystem": "N/A",
+      "framework": "ISO 27001",
+      "failedControlId": "IAM-04",
+      "failedControlName": "Privileged access control",
+      "complianceStatus": "Under Review",
+      "riskLevel": "Critical",
+      "lastAssessment": "2026-07-04",
+      "installedSoftware": [
+        "Finance ERP",
+        "SSO connector"
+      ],
+      "securityConfiguration": [
+        "SSO: Enforced",
+        "Standing admin roles: 14"
+      ],
+      "frameworks": [
+        "ISO 27001",
+        "SAMA CSF"
+      ],
+      "failedControls": [
+        {
+          "framework": "SAMA CSF",
+          "controlId": "IAM-04",
+          "controlName": "Privileged access control",
+          "status": "Failed",
+          "reason": "Excessive privileged accounts detected.",
+          "recommendation": "Convert standing admins to JIT and recertify monthly."
+        }
+      ],
+      "findings": [
+        "14 standing privileged roles",
+        "3 orphaned service admins"
+      ],
+      "remediation": [
+        "Enable PIM",
+        "Remove orphaned admins",
+        "Recertify access"
+      ],
+      "historicalAssessments": [
+        "2026-03-01 — Compliant",
+        "2026-07-08 — Partially Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-08 — SAMA CSF control sample"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "Reduce privileged footprint before Peak Payday; align with Identity Monitoring findings."
+    },
+    {
+      "id": "ast-emp-sara-x60",
+      "name": "Application-060",
+      "assetType": "Application",
+      "owner": "People & Culture",
+      "department": "Security",
+      "operatingSystem": "N/A (Identity)",
+      "framework": "NCA ECC",
+      "failedControlId": "—",
+      "failedControlName": "—",
+      "complianceStatus": "Compliant",
+      "riskLevel": "Low",
+      "lastAssessment": "2026-07-05",
+      "installedSoftware": [],
+      "securityConfiguration": [
+        "MFA: Disabled",
+        "Phishing-resistant methods: None"
+      ],
+      "frameworks": [
+        "NCA ECC",
+        "NCA ECC"
+      ],
+      "failedControls": [],
+      "findings": [],
+      "remediation": [],
+      "historicalAssessments": [
+        "2026-06-01 — Compliant",
+        "2026-07-14 — Non-Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-14 — Continuous IAM monitoring"
+      ],
+      "relatedIncidents": [
+        "INC-88470 — Privileged MFA removal"
+      ],
+      "aiRecommendation": "Correlate with Identity Monitoring anomaly and open a GRC case if MFA remains disabled."
+    },
+    {
+      "id": "ast-srv-ad-01-x61",
+      "name": "Database-061",
+      "assetType": "Database",
+      "owner": "Identity Ops",
+      "department": "Treasury",
+      "operatingSystem": "Windows Server 2022",
+      "framework": "SAMA CSF",
+      "failedControlId": "ECC-1-2",
+      "failedControlName": "Secure configuration",
+      "complianceStatus": "Partially Compliant",
+      "riskLevel": "Medium",
+      "lastAssessment": "2026-07-06",
+      "installedSoftware": [
+        "AD DS",
+        "DNS"
+      ],
+      "securityConfiguration": [
+        "Hardening baseline: Partial",
+        "LAPS: Enabled"
+      ],
+      "frameworks": [
+        "SAMA CSF",
+        "NCA ECC"
+      ],
+      "failedControls": [
+        {
+          "framework": "NCA ECC",
+          "controlId": "ECC-1-2",
+          "controlName": "Secure configuration",
+          "status": "Partial",
+          "reason": "CIS benchmark drift on 6 hardening settings.",
+          "recommendation": "Re-apply domain hardening GPO and re-scan."
+        }
+      ],
+      "findings": [
+        "SMB signing exception present"
+      ],
+      "remediation": [
+        "Remove temporary SMB exception",
+        "Re-run CIS scan"
+      ],
+      "historicalAssessments": [
+        "2026-05-02 — Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-11 — Configuration drift alert"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "Close drift within the Under Review SLA (7 days)."
+    },
+    {
+      "id": "ast-svc-backup-x62",
+      "name": "Network-Device-062",
+      "assetType": "Network Device",
+      "owner": "Infrastructure",
+      "department": "HR",
+      "operatingSystem": "N/A (Service Account)",
+      "framework": "PCI DSS",
+      "failedControlId": "A.8.2",
+      "failedControlName": "Privileged access rights",
+      "complianceStatus": "Non-Compliant",
+      "riskLevel": "High",
+      "lastAssessment": "2026-07-07",
+      "installedSoftware": [],
+      "securityConfiguration": [
+        "Password age: 240 days",
+        "Interactive logon: Allowed"
+      ],
+      "frameworks": [
+        "PCI DSS",
+        "ISO 27001"
+      ],
+      "failedControls": [
+        {
+          "framework": "ISO 27001",
+          "controlId": "A.8.2",
+          "controlName": "Privileged access rights",
+          "status": "Failed",
+          "reason": "Service account allows interactive logon.",
+          "recommendation": "Deny interactive logon and rotate credentials."
+        }
+      ],
+      "findings": [
+        "Interactive logon right granted"
+      ],
+      "remediation": [
+        "Apply GPO deny logon",
+        "Rotate secret in vault"
+      ],
+      "historicalAssessments": [
+        "2026-02-14 — Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-09 — Service account review"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "Treat as medium priority; include in monthly service-account recertification."
+    },
+    {
+      "id": "ast-fw-edge-02-x63",
+      "name": "Cloud-Resource-063",
+      "assetType": "Cloud Resource",
+      "owner": "Network Engineering",
+      "department": "IT",
+      "operatingSystem": "FortiOS 7.4",
+      "framework": "ISO 27001",
+      "failedControlId": "NET-07",
+      "failedControlName": "Network security monitoring",
+      "complianceStatus": "Under Review",
+      "riskLevel": "Critical",
+      "lastAssessment": "2026-07-08",
+      "installedSoftware": [],
+      "securityConfiguration": [
+        "IDS: On",
+        "Config backup: Daily"
+      ],
+      "frameworks": [
+        "ISO 27001",
+        "SAMA CSF"
+      ],
+      "failedControls": [],
+      "findings": [],
+      "remediation": [],
+      "historicalAssessments": [
+        "2026-07-05 — Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-05 — Automated NET control scan"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "No open gaps. Keep daily config backup validation."
+    },
+    {
+      "id": "ast-cloud-aks-x64",
+      "name": "Endpoint-064",
+      "assetType": "Endpoint",
+      "owner": "Cloud SRE",
+      "department": "Finance",
+      "operatingSystem": "Azure Kubernetes Service",
+      "framework": "NCA ECC",
+      "failedControlId": "—",
+      "failedControlName": "—",
+      "complianceStatus": "Compliant",
+      "riskLevel": "Low",
+      "lastAssessment": "2026-07-09",
+      "installedSoftware": [
+        "ingress-nginx",
+        "cert-manager"
+      ],
+      "securityConfiguration": [
+        "Pod security: Baseline",
+        "Public ingress: Enabled"
+      ],
+      "frameworks": [
+        "NCA ECC",
+        "PCI DSS"
+      ],
+      "failedControls": [],
+      "findings": [],
+      "remediation": [],
+      "historicalAssessments": [
+        "2026-04-18 — Partially Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-13 — PCI cloud posture scan"
+      ],
+      "relatedIncidents": [
+        "INC-90201 — Privileged pod admission"
+      ],
+      "aiRecommendation": "Isolate CDE workloads to a dedicated cluster before next PCI ROC."
+    },
+    {
+      "id": "ast-laptop-023-x65",
+      "name": "Server-065",
+      "assetType": "Server",
+      "owner": "Mohammed",
+      "department": "Operations",
+      "operatingSystem": "Windows 11",
+      "framework": "SAMA CSF",
+      "failedControlId": "ECC-2-3",
+      "failedControlName": "Endpoint Protection",
+      "complianceStatus": "Partially Compliant",
+      "riskLevel": "Medium",
+      "lastAssessment": "2026-07-10",
+      "installedSoftware": [
+        "Microsoft 365",
+        "CrowdStrike",
+        "BitLocker (disabled)"
+      ],
+      "securityConfiguration": [
+        "Disk encryption: Off",
+        "Firewall: On",
+        "Local admin: Restricted"
+      ],
+      "frameworks": [
+        "SAMA CSF",
+        "NCA ECC"
+      ],
+      "failedControls": [
+        {
+          "framework": "NCA ECC",
+          "controlId": "ECC-2-3",
+          "controlName": "Endpoint Protection",
+          "status": "Failed",
+          "reason": "BitLocker is disabled.",
+          "recommendation": "Enable BitLocker and escrow recovery keys to Entra."
+        }
+      ],
+      "findings": [
+        "BitLocker policy not applied",
+        "Recovery key missing from MDM"
+      ],
+      "remediation": [
+        "Enable BitLocker via Intune",
+        "Validate escrow within 24 hours"
+      ],
+      "historicalAssessments": [
+        "2026-04-10 — Partially Compliant",
+        "2026-07-12 — Non-Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-12 — Automated ECC scan"
+      ],
+      "relatedIncidents": [
+        "INC-90112 — Endpoint encryption gap"
+      ],
+      "aiRecommendation": "Prioritize encryption remediation before the next NCA evidence pack submission."
+    },
+    {
+      "id": "ast-db-oracle-01-x66",
+      "name": "Employee-066",
+      "assetType": "Employee",
+      "owner": "Huda",
+      "department": "Retail Banking",
+      "operatingSystem": "N/A",
+      "framework": "PCI DSS",
+      "failedControlId": "PCI 3.4",
+      "failedControlName": "Cryptographic protection of CHD",
+      "complianceStatus": "Non-Compliant",
+      "riskLevel": "High",
+      "lastAssessment": "2026-07-11",
+      "installedSoftware": [
+        "Oracle 19c",
+        "Oracle Audit Vault"
+      ],
+      "securityConfiguration": [
+        "TDE: Disabled",
+        "Network encryption: Partial"
+      ],
+      "frameworks": [
+        "PCI DSS",
+        "PCI DSS"
+      ],
+      "failedControls": [
+        {
+          "framework": "PCI DSS",
+          "controlId": "PCI 3.4",
+          "controlName": "Cryptographic protection of CHD",
+          "status": "Failed",
+          "reason": "Sensitive cardholder data is not encrypted.",
+          "recommendation": "Enable TDE and rotate encryption keys under dual control."
+        }
+      ],
+      "findings": [
+        "CHD columns stored in plaintext",
+        "Key management SOP incomplete"
+      ],
+      "remediation": [
+        "Enable Oracle TDE",
+        "Migrate CHD tablespace",
+        "Re-run PCI evidence scan"
+      ],
+      "historicalAssessments": [
+        "2026-01-20 — Non-Compliant",
+        "2026-07-10 — Non-Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-10 — QSA sample review"
+      ],
+      "relatedIncidents": [
+        "INC-90140 — Unencrypted CHD store"
+      ],
+      "aiRecommendation": "Treat as Priority-1 PCI gap. Block new CHD writes until TDE is verified."
+    },
+    {
+      "id": "ast-finance-app-x67",
+      "name": "Service-Account-067",
+      "assetType": "Service Account",
+      "owner": "Sara",
+      "department": "Security",
+      "operatingSystem": "N/A",
+      "framework": "ISO 27001",
+      "failedControlId": "IAM-04",
+      "failedControlName": "Privileged access control",
+      "complianceStatus": "Under Review",
+      "riskLevel": "Critical",
+      "lastAssessment": "2026-07-12",
+      "installedSoftware": [
+        "Finance ERP",
+        "SSO connector"
+      ],
+      "securityConfiguration": [
+        "SSO: Enforced",
+        "Standing admin roles: 14"
+      ],
+      "frameworks": [
+        "ISO 27001",
+        "SAMA CSF"
+      ],
+      "failedControls": [
+        {
+          "framework": "SAMA CSF",
+          "controlId": "IAM-04",
+          "controlName": "Privileged access control",
+          "status": "Failed",
+          "reason": "Excessive privileged accounts detected.",
+          "recommendation": "Convert standing admins to JIT and recertify monthly."
+        }
+      ],
+      "findings": [
+        "14 standing privileged roles",
+        "3 orphaned service admins"
+      ],
+      "remediation": [
+        "Enable PIM",
+        "Remove orphaned admins",
+        "Recertify access"
+      ],
+      "historicalAssessments": [
+        "2026-03-01 — Compliant",
+        "2026-07-08 — Partially Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-08 — SAMA CSF control sample"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "Reduce privileged footprint before Peak Payday; align with Identity Monitoring findings."
+    },
+    {
+      "id": "ast-emp-sara-x68",
+      "name": "Application-068",
+      "assetType": "Application",
+      "owner": "People & Culture",
+      "department": "Treasury",
+      "operatingSystem": "N/A (Identity)",
+      "framework": "NCA ECC",
+      "failedControlId": "—",
+      "failedControlName": "—",
+      "complianceStatus": "Compliant",
+      "riskLevel": "Low",
+      "lastAssessment": "2026-07-13",
+      "installedSoftware": [],
+      "securityConfiguration": [
+        "MFA: Disabled",
+        "Phishing-resistant methods: None"
+      ],
+      "frameworks": [
+        "NCA ECC",
+        "NCA ECC"
+      ],
+      "failedControls": [],
+      "findings": [],
+      "remediation": [],
+      "historicalAssessments": [
+        "2026-06-01 — Compliant",
+        "2026-07-14 — Non-Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-14 — Continuous IAM monitoring"
+      ],
+      "relatedIncidents": [
+        "INC-88470 — Privileged MFA removal"
+      ],
+      "aiRecommendation": "Correlate with Identity Monitoring anomaly and open a GRC case if MFA remains disabled."
+    },
+    {
+      "id": "ast-srv-ad-01-x69",
+      "name": "Database-069",
+      "assetType": "Database",
+      "owner": "Identity Ops",
+      "department": "HR",
+      "operatingSystem": "Windows Server 2022",
+      "framework": "SAMA CSF",
+      "failedControlId": "ECC-1-2",
+      "failedControlName": "Secure configuration",
+      "complianceStatus": "Partially Compliant",
+      "riskLevel": "Medium",
+      "lastAssessment": "2026-07-14",
+      "installedSoftware": [
+        "AD DS",
+        "DNS"
+      ],
+      "securityConfiguration": [
+        "Hardening baseline: Partial",
+        "LAPS: Enabled"
+      ],
+      "frameworks": [
+        "SAMA CSF",
+        "NCA ECC"
+      ],
+      "failedControls": [
+        {
+          "framework": "NCA ECC",
+          "controlId": "ECC-1-2",
+          "controlName": "Secure configuration",
+          "status": "Partial",
+          "reason": "CIS benchmark drift on 6 hardening settings.",
+          "recommendation": "Re-apply domain hardening GPO and re-scan."
+        }
+      ],
+      "findings": [
+        "SMB signing exception present"
+      ],
+      "remediation": [
+        "Remove temporary SMB exception",
+        "Re-run CIS scan"
+      ],
+      "historicalAssessments": [
+        "2026-05-02 — Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-11 — Configuration drift alert"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "Close drift within the Under Review SLA (7 days)."
+    },
+    {
+      "id": "ast-svc-backup-x70",
+      "name": "Network-Device-070",
+      "assetType": "Network Device",
+      "owner": "Infrastructure",
+      "department": "IT",
+      "operatingSystem": "N/A (Service Account)",
+      "framework": "PCI DSS",
+      "failedControlId": "A.8.2",
+      "failedControlName": "Privileged access rights",
+      "complianceStatus": "Non-Compliant",
+      "riskLevel": "High",
+      "lastAssessment": "2026-07-15",
+      "installedSoftware": [],
+      "securityConfiguration": [
+        "Password age: 240 days",
+        "Interactive logon: Allowed"
+      ],
+      "frameworks": [
+        "PCI DSS",
+        "ISO 27001"
+      ],
+      "failedControls": [
+        {
+          "framework": "ISO 27001",
+          "controlId": "A.8.2",
+          "controlName": "Privileged access rights",
+          "status": "Failed",
+          "reason": "Service account allows interactive logon.",
+          "recommendation": "Deny interactive logon and rotate credentials."
+        }
+      ],
+      "findings": [
+        "Interactive logon right granted"
+      ],
+      "remediation": [
+        "Apply GPO deny logon",
+        "Rotate secret in vault"
+      ],
+      "historicalAssessments": [
+        "2026-02-14 — Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-09 — Service account review"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "Treat as medium priority; include in monthly service-account recertification."
+    },
+    {
+      "id": "ast-fw-edge-02-x71",
+      "name": "Cloud-Resource-071",
+      "assetType": "Cloud Resource",
+      "owner": "Network Engineering",
+      "department": "Finance",
+      "operatingSystem": "FortiOS 7.4",
+      "framework": "ISO 27001",
+      "failedControlId": "NET-07",
+      "failedControlName": "Network security monitoring",
+      "complianceStatus": "Under Review",
+      "riskLevel": "Critical",
+      "lastAssessment": "2026-07-16",
+      "installedSoftware": [],
+      "securityConfiguration": [
+        "IDS: On",
+        "Config backup: Daily"
+      ],
+      "frameworks": [
+        "ISO 27001",
+        "SAMA CSF"
+      ],
+      "failedControls": [],
+      "findings": [],
+      "remediation": [],
+      "historicalAssessments": [
+        "2026-07-05 — Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-05 — Automated NET control scan"
+      ],
+      "relatedIncidents": [],
+      "aiRecommendation": "No open gaps. Keep daily config backup validation."
+    },
+    {
+      "id": "ast-cloud-aks-x72",
+      "name": "Endpoint-072",
+      "assetType": "Endpoint",
+      "owner": "Cloud SRE",
+      "department": "Operations",
+      "operatingSystem": "Azure Kubernetes Service",
+      "framework": "NCA ECC",
+      "failedControlId": "—",
+      "failedControlName": "—",
+      "complianceStatus": "Compliant",
+      "riskLevel": "Low",
+      "lastAssessment": "2026-07-17",
+      "installedSoftware": [
+        "ingress-nginx",
+        "cert-manager"
+      ],
+      "securityConfiguration": [
+        "Pod security: Baseline",
+        "Public ingress: Enabled"
+      ],
+      "frameworks": [
+        "NCA ECC",
+        "PCI DSS"
+      ],
+      "failedControls": [],
+      "findings": [],
+      "remediation": [],
+      "historicalAssessments": [
+        "2026-04-18 — Partially Compliant"
+      ],
+      "auditHistory": [
+        "2026-07-13 — PCI cloud posture scan"
+      ],
+      "relatedIncidents": [
+        "INC-90201 — Privileged pod admission"
+      ],
+      "aiRecommendation": "Isolate CDE workloads to a dedicated cluster before next PCI ROC."
+    }
+  ]
+}

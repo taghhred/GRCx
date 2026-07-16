@@ -1,0 +1,241 @@
+.wizard {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  overflow: hidden;
+  min-height: 100%;
+}
+
+.head {
+  padding: 24px 24px 16px;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.head h2 {
+  margin: 0 0 4px;
+  font-size: var(--text-section);
+  font-weight: var(--weight-section);
+}
+
+.head p {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.step {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-background) 35%, transparent);
+  font-size: 12px;
+  color: var(--color-text-muted);
+  transition:
+    background 160ms ease-out,
+    border-color 160ms ease-out,
+    color 160ms ease-out;
+}
+
+.stepActive {
+  border-color: color-mix(in srgb, var(--color-primary) 45%, transparent);
+  background: var(--color-nav-active-bg);
+  color: var(--color-text-primary);
+}
+
+.stepDone {
+  color: var(--color-text-secondary);
+}
+
+.stepNum {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: var(--weight-section);
+  background: color-mix(in srgb, var(--color-background) 50%, transparent);
+}
+
+.stepActive .stepNum {
+  background: color-mix(in srgb, var(--color-primary) 18%, transparent);
+  color: var(--color-primary);
+}
+
+.body {
+  padding: 24px;
+  min-height: 320px;
+}
+
+.panel h3 {
+  margin: 0 0 16px;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-section);
+  color: var(--color-text-primary);
+}
+
+.hint {
+  margin: -8px 0 16px;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.typeGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.typeCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  min-height: 72px;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-background) 30%, transparent);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 160ms ease-out,
+    background 160ms ease-out,
+    box-shadow 160ms ease-out;
+}
+
+.typeCard strong {
+  font-size: 13px;
+  color: var(--color-text-primary);
+}
+
+.typeCard span {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}
+
+.typeCard:hover {
+  border-color: var(--color-border-strong);
+  background: var(--color-nav-hover-bg);
+}
+
+.typeCardActive {
+  border-color: color-mix(in srgb, var(--color-primary) 45%, transparent);
+  background: var(--color-nav-active-bg);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-primary) 20%, transparent);
+}
+
+.filterGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.filterGrid label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: var(--weight-section);
+  color: var(--color-text-muted);
+}
+
+.filterGrid select,
+.filterGrid input {
+  min-height: 40px;
+  height: 40px;
+  font-size: var(--text-sm);
+}
+
+.sectionGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.checkCard {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-background) 30%, transparent);
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition:
+    background 160ms ease-out,
+    border-color 160ms ease-out;
+}
+
+.checkCard:hover {
+  background: var(--color-nav-hover-bg);
+  color: var(--color-text-primary);
+}
+
+.checkCard input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--color-primary);
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 24px;
+  border-top: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-surface-elevated) 80%, transparent);
+}
+
+.footerLeft,
+.footerRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+@media (max-width: 1100px) {
+  .typeGrid,
+  .filterGrid,
+  .sectionGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .typeGrid,
+  .filterGrid,
+  .sectionGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .head,
+  .body,
+  .footer {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}

@@ -1,0 +1,132 @@
+.card {
+  border-radius: 16px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.wrap {
+  overflow-x: auto;
+  max-height: min(70vh, 720px);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1320px;
+}
+
+.table th,
+.table td {
+  padding: 14px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  vertical-align: middle;
+}
+
+.table th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  color: var(--color-text-muted);
+  font-weight: var(--weight-section);
+  white-space: nowrap;
+  background: color-mix(in srgb, var(--color-surface) 94%, var(--color-background));
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.sortBtn {
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: var(--weight-section);
+  cursor: pointer;
+  padding: 0;
+  min-height: 40px;
+}
+
+.sortActive {
+  color: var(--color-text-primary);
+}
+
+.row {
+  cursor: pointer;
+}
+
+.row:hover td {
+  background: color-mix(in srgb, var(--color-nav-hover-bg) 70%, transparent);
+}
+
+.row:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}
+
+.empty {
+  text-align: center !important;
+  padding: 36px 16px !important;
+  color: var(--color-text-muted) !important;
+}
+
+.quickActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.linkBtn {
+  min-height: 36px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.linkBtn:hover {
+  background: var(--color-nav-hover-bg);
+  color: var(--color-text-primary);
+}
+
+.typeBadge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  font-size: 12px;
+  font-weight: var(--weight-section);
+}
+
+.typeExecutive {
+  color: var(--color-text-primary);
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+}
+
+.typeDetailed {
+  color: var(--color-text-primary);
+  background: color-mix(in srgb, var(--color-info, #38bdf8) 14%, transparent);
+}
+
+.classTag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  font-size: 12px;
+  font-weight: var(--weight-section);
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}

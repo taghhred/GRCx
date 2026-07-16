@@ -1,0 +1,127 @@
+.sidebar {
+  position: relative;
+  width: var(--sidebar-width);
+  height: 100vh;
+  flex-shrink: 0;
+  overflow: visible;
+  background: var(--color-sidebar);
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  transition:
+    width var(--motion-slow) var(--ease-out),
+    background var(--motion-normal) ease,
+    border-color var(--motion-normal) ease;
+}
+
+.sidebarInner {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0 16px 24px;
+  box-sizing: border-box;
+  transition: padding var(--motion-slow) var(--ease-out);
+}
+
+.collapsed {
+  width: var(--sidebar-width-collapsed);
+  align-items: center;
+}
+
+.collapsed .sidebarInner {
+  align-items: center;
+  padding: 0 12px 24px;
+}
+
+.navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  padding: 24px 0 8px;
+}
+
+.collapsed .navigation {
+  align-items: center;
+  padding-top: 16px;
+  gap: 8px;
+}
+
+.navBlock {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 4px;
+}
+
+.separator {
+  height: 1px;
+  margin: 12px 4px;
+  background: var(--color-border);
+  border: none;
+  flex-shrink: 0;
+  opacity: 1;
+}
+
+.collapsed .separator {
+  margin: 8px 0;
+  width: 28px;
+  align-self: center;
+}
+
+/* Edge collapse/expand handle — sits on sidebar ↔ content boundary */
+.edgeToggle {
+  position: absolute;
+  top: 80px;
+  right: -17px;
+  z-index: 25;
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  padding: 0;
+  border-radius: 11px;
+  border: 1px solid var(--color-border);
+  background: var(--color-sidebar);
+  color: var(--color-text-secondary);
+  box-shadow: var(--shadow-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition:
+    transform 160ms ease-out,
+    background-color 160ms ease-out,
+    border-color 160ms ease-out,
+    opacity 160ms ease-out;
+}
+
+.edgeToggle:hover {
+  background-color: var(--color-surface-elevated);
+  border-color: var(--color-border-strong);
+  color: var(--color-text-primary);
+  transform: translateY(-50%) scale(1.04);
+}
+
+.edgeToggle:active {
+  transform: translateY(-50%) scale(0.97);
+}
+
+.edgeToggle:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+@media (max-width: 900px) {
+  .edgeToggle {
+    display: none;
+  }
+}

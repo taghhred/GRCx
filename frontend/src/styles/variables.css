@@ -1,0 +1,158 @@
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-primary-muted: rgba(37, 99, 235, 0.12);
+  --color-nav-active-bg: rgba(37, 99, 235, 0.1);
+  --color-nav-hover-bg: rgba(255, 255, 255, 0.04);
+
+  --color-background: #0f172a;
+  --color-sidebar: #111827;
+  --color-surface: #1e293b;
+  --color-surface-elevated: #243349;
+  --color-surface-hover: #243349;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(255, 255, 255, 0.14);
+
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #cbd5e1;
+  --color-text-muted: #94a3b8;
+
+  --color-success: #22c55e;
+  --color-success-muted: rgba(34, 197, 94, 0.12);
+  --color-warning: #f59e0b;
+  --color-warning-muted: rgba(245, 158, 11, 0.12);
+  --color-danger: #ef4444;
+  --color-danger-muted: rgba(239, 68, 68, 0.12);
+  --color-info: #38bdf8;
+  --color-info-muted: rgba(56, 189, 248, 0.12);
+  --color-critical: #ef4444;
+  --color-high: #f59e0b;
+  --color-medium: #eab308;
+  --color-low: #38bdf8;
+
+  --sidebar-width: 280px;
+  --sidebar-width-collapsed: 72px;
+  --sidebar-logo-reserve: 140px;
+  --topbar-height: 64px;
+
+  /* 8px spacing scale */
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-28: 28px;
+  --space-32: 32px;
+  --space-40: 40px;
+  --space-48: 48px;
+  --space-64: 64px;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 16px;
+  --radius-card: 16px;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.14);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.18);
+  --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.26);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.14);
+  --shadow-menu: 0 8px 24px rgba(0, 0, 0, 0.36);
+
+  --font-sans: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  --weight-body: 400;
+  --weight-child: 450;
+  --weight-section: 600;
+  --weight-title: 700;
+  --weight-active: 600;
+
+  /* Enterprise type hierarchy */
+  --text-xs: 12px;
+  --text-label: 12px;
+  --text-sm: 14px;
+  --text-body: 14px;
+  --text-md: 14px;
+  --text-button: 14px;
+  --text-table: 13px;
+  --text-table-head: 12px;
+  --text-sidebar: 14px;
+  --text-sidebar-group: 14px;
+  --text-card-title: 16px;
+  --text-section: 22px;
+  --text-lg: 16px;
+  --text-xl: 22px;
+  --text-2xl: 22px;
+  --text-page-title: 32px;
+  --text-metric: 32px;
+
+  --leading-tight: 1.25;
+  --leading-title: 1.3;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.6;
+
+  --icon-size: 20px;
+  --icon-gap: 12px;
+  --control-height: 40px;
+  --nav-row-height: 44px;
+  --table-row-height: 48px;
+  --page-max-width: 1440px;
+  --content-pad-x: 32px;
+  --content-pad-y: 32px;
+  --section-gap: 32px;
+  --card-pad: 24px;
+  --card-gap: 16px;
+
+  --motion-hover: 160ms;
+  --motion-chevron: 180ms;
+  --motion-accordion: 200ms;
+  --motion-fast: 150ms;
+  --motion-normal: 180ms;
+  --motion-slow: 220ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-primary-muted: rgba(37, 99, 235, 0.08);
+  --color-nav-active-bg: rgba(37, 99, 235, 0.06);
+  --color-nav-hover-bg: rgba(15, 23, 42, 0.04);
+
+  --color-background: #f1f5f9;
+  --color-sidebar: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-elevated: #f8fafc;
+  --color-surface-hover: #eef2f7;
+  --color-border: rgba(15, 23, 42, 0.08);
+  --color-border-strong: rgba(15, 23, 42, 0.14);
+
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-muted: #64748b;
+
+  --color-success: #16a34a;
+  --color-success-muted: rgba(22, 163, 74, 0.1);
+  --color-warning: #d97706;
+  --color-warning-muted: rgba(217, 119, 6, 0.1);
+  --color-danger: #dc2626;
+  --color-danger-muted: rgba(220, 38, 38, 0.1);
+  --color-info: #0284c7;
+  --color-info-muted: rgba(2, 132, 199, 0.1);
+  --color-critical: #dc2626;
+  --color-high: #d97706;
+  --color-medium: #ca8a04;
+  --color-low: #0284c7;
+
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.06);
+  --shadow-lg: 0 12px 28px rgba(15, 23, 42, 0.08);
+  --shadow-card: 0 1px 3px rgba(15, 23, 42, 0.05);
+  --shadow-menu: 0 8px 24px rgba(15, 23, 42, 0.12);
+}

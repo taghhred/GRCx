@@ -1,0 +1,6150 @@
+{
+  "kpis": [
+    {
+      "id": "readiness",
+      "label": "Business Continuity Readiness",
+      "value": "86%",
+      "description": "Weighted readiness across plans, tests, and documentation.",
+      "tone": "success",
+      "trend": "+2.1% vs prior quarter",
+      "trendDirection": "up",
+      "badge": "On Track"
+    },
+    {
+      "id": "processes",
+      "label": "Critical Business Processes",
+      "value": "25",
+      "description": "Processes classified Critical or High in the live BIA.",
+      "tone": "info",
+      "trend": "+3 since last BIA",
+      "trendDirection": "up",
+      "badge": "Inventory"
+    },
+    {
+      "id": "recovery",
+      "label": "Recovery Compliance",
+      "value": "88%",
+      "description": "RTO / RPO adherence against last validated exercises.",
+      "tone": "warning",
+      "trend": "-4% vs prior month",
+      "trendDirection": "down",
+      "badge": "Watch"
+    },
+    {
+      "id": "health",
+      "label": "Business Continuity Health Score",
+      "value": "82",
+      "description": "Composite of readiness, overdue plans, and critical gaps.",
+      "tone": "success",
+      "trend": "Stable this month",
+      "trendDirection": "stable",
+      "badge": "Healthy"
+    }
+  ],
+  "processes": [
+    {
+      "businessImpact": "Severe",
+      "dependencies": [
+        "IAM Identity",
+        "VPC Networking",
+        "Monitoring"
+      ],
+      "nextTest": "2026-09-28",
+      "nextReview": "2026-10-15",
+      "version": "3.2",
+      "riskLevel": "High",
+      "riskScore": 4.2,
+      "checklist": [
+        {
+          "id": "c1",
+          "label": "Recovery runbook reviewed",
+          "done": true
+        },
+        {
+          "id": "c2",
+          "label": "Backup restore validated",
+          "done": true
+        },
+        {
+          "id": "c3",
+          "label": "Call tree confirmed",
+          "done": false
+        },
+        {
+          "id": "c4",
+          "label": "Vendor SLA checked",
+          "done": false
+        }
+      ],
+      "documents": [
+        "BIA-AWS-001-BCP.pdf"
+      ],
+      "aiRecommendations": [
+        "Validate recovery dependencies before next exercise."
+      ],
+      "bia": {
+        "financialImpact": "Severe revenue interruption across digital channels.",
+        "operationalImpact": "Customer-facing workloads unavailable.",
+        "regulatoryImpact": "Service continuity reporting may be required.",
+        "reputationalImpact": "High public visibility outage risk.",
+        "peakDependency": "Business day peak traffic",
+        "downtimeCostPerHour": 85000,
+        "recoveryPriority": 1,
+        "riskScenario": "Region capacity failure"
+      },
+      "recoveryPlan": {
+        "primarySite": "Primary AWS Region",
+        "drSite": "DR Region",
+        "backupType": "Snapshot",
+        "backupFrequency": "Hourly",
+        "recoveryMethod": "Failover",
+        "alternateService": "DR Region",
+        "runbookRef": "BIA-AWS-001-RUNBOOK",
+        "steps": [
+          "Confirm health of DR region capacity",
+          "Fail over ASG / traffic routing",
+          "Validate application health checks",
+          "Communicate restoration to crisis team"
+        ]
+      },
+      "communicationPlan": {
+        "internalContacts": [
+          "Ahmed",
+          "BCM Office",
+          "Crisis Manager"
+        ],
+        "externalContacts": [
+          "Primary vendor CSM",
+          "Regulator liaison"
+        ],
+        "escalationPath": [
+          "Process Owner",
+          "BCM Lead",
+          "CRO",
+          "Board Risk Committee"
+        ],
+        "channels": [
+          "Teams",
+          "Email",
+          "SMS bridge",
+          "War room"
+        ],
+        "templates": [
+          "Initial incident notice",
+          "Status update",
+          "All-clear"
+        ]
+      },
+      "evidence": [
+        {
+          "id": "BIA-AWS-001-ev1",
+          "title": "Last recovery test evidence pack",
+          "type": "Test Report",
+          "date": "2026-06-28",
+          "owner": "Ahmed",
+          "status": "Approved"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "BIA-AWS-001-att1",
+          "name": "BIA-AWS-001-BCP.pdf",
+          "size": "1.2 MB",
+          "uploadedBy": "Ahmed",
+          "uploadedAt": "2026-06-28"
+        }
+      ],
+      "testHistory": [
+        {
+          "id": "BIA-AWS-001-t1",
+          "date": "2026-06-28",
+          "type": "Technical",
+          "scenario": "Primary site disruption",
+          "result": "Passed",
+          "targetRto": "30 min",
+          "actualRto": "30 min",
+          "observations": "Within policy targets"
+        }
+      ],
+      "auditHistory": [
+        {
+          "id": "BIA-AWS-001-a1",
+          "date": "2026-06-28",
+          "action": "Plan reviewed",
+          "actor": "BCM Office",
+          "detail": "Annual continuity plan review completed."
+        }
+      ],
+      "lessonsLearned": [
+        {
+          "id": "BIA-AWS-001-l1",
+          "date": "2026-06-28",
+          "source": "Recovery test",
+          "finding": "Communication lag between teams under pressure.",
+          "action": "Pre-stage war-room agenda and escalation SLAs.",
+          "owner": "Ahmed",
+          "status": "In Progress"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "BIA-AWS-001-tl1",
+          "date": "2026-01-15",
+          "title": "BIA completed",
+          "detail": "Business impact analysis signed off.",
+          "complete": true
+        },
+        {
+          "id": "BIA-AWS-001-tl2",
+          "date": "2026-06-28",
+          "title": "Recovery test",
+          "detail": "Most recent validated recovery exercise.",
+          "complete": true
+        },
+        {
+          "id": "BIA-AWS-001-tl3",
+          "date": "2026-10-15",
+          "title": "Plan review due",
+          "detail": "Next scheduled BCP review window.",
+          "complete": false
+        }
+      ],
+      "comments": [
+        {
+          "id": "BIA-AWS-001-cm1",
+          "author": "Ahmed",
+          "date": "2026-06-28",
+          "body": "Recovery posture reviewed with BCM Office."
+        }
+      ],
+      "versionHistory": [
+        {
+          "id": "BIA-AWS-001-v1",
+          "version": "3.2",
+          "date": "2026-06-28",
+          "author": "Ahmed",
+          "changeSummary": "Baseline continuity plan published."
+        }
+      ],
+      "id": "BIA-AWS-001",
+      "name": "EC2 Production",
+      "businessUnit": "Cloud",
+      "department": "Cloud Operations",
+      "owner": "Ahmed",
+      "criticality": "Critical",
+      "rto": "30 min",
+      "rpo": "15 min",
+      "mao": "1 hr",
+      "recoveryStrategy": "Failover",
+      "status": "Ready",
+      "lastTest": "2026-06-28",
+      "recoveryTeam": "Cloud SRE"
+    },
+    {
+      "businessImpact": "Moderate",
+      "dependencies": [
+        "Object Lock Policies",
+        "KMS"
+      ],
+      "nextTest": "2026-11-20",
+      "nextReview": "2026-12-01",
+      "version": "2.1",
+      "riskLevel": "Medium",
+      "riskScore": 2.4,
+      "checklist": [
+        {
+          "id": "c1",
+          "label": "Recovery runbook reviewed",
+          "done": true
+        },
+        {
+          "id": "c2",
+          "label": "Backup restore validated",
+          "done": true
+        },
+        {
+          "id": "c3",
+          "label": "Call tree confirmed",
+          "done": false
+        },
+        {
+          "id": "c4",
+          "label": "Vendor SLA checked",
+          "done": false
+        }
+      ],
+      "documents": [
+        "BIA-AWS-002-BCP.pdf"
+      ],
+      "aiRecommendations": [
+        "Validate recovery dependencies before next exercise."
+      ],
+      "bia": {
+        "financialImpact": "Limited direct revenue impact; archive retrieval delays.",
+        "operationalImpact": "Historical data retrieval slows investigations.",
+        "regulatoryImpact": "Evidence retrieval SLAs may slip.",
+        "reputationalImpact": "Low external visibility.",
+        "peakDependency": "Audit and investigation windows",
+        "downtimeCostPerHour": 12000,
+        "recoveryPriority": 3,
+        "riskScenario": "Bucket or region access failure"
+      },
+      "recoveryPlan": {
+        "primarySite": "Primary AWS Region",
+        "drSite": "Glacier / Secondary bucket",
+        "backupType": "Cross-region replica",
+        "backupFrequency": "Continuous",
+        "recoveryMethod": "Restore Backup",
+        "alternateService": "Glacier",
+        "runbookRef": "BIA-AWS-002-RUNBOOK",
+        "steps": [
+          "Validate replica integrity",
+          "Promote secondary bucket path",
+          "Update application endpoints"
+        ]
+      },
+      "communicationPlan": {
+        "internalContacts": [
+          "Sara",
+          "BCM Office",
+          "Crisis Manager"
+        ],
+        "externalContacts": [
+          "Primary vendor CSM",
+          "Regulator liaison"
+        ],
+        "escalationPath": [
+          "Process Owner",
+          "BCM Lead",
+          "CRO",
+          "Board Risk Committee"
+        ],
+        "channels": [
+          "Teams",
+          "Email",
+          "SMS bridge",
+          "War room"
+        ],
+        "templates": [
+          "Initial incident notice",
+          "Status update",
+          "All-clear"
+        ]
+      },
+      "evidence": [
+        {
+          "id": "BIA-AWS-002-ev1",
+          "title": "Last recovery test evidence pack",
+          "type": "Test Report",
+          "date": "2026-05-20",
+          "owner": "Sara",
+          "status": "Approved"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "BIA-AWS-002-att1",
+          "name": "BIA-AWS-002-BCP.pdf",
+          "size": "1.2 MB",
+          "uploadedBy": "Sara",
+          "uploadedAt": "2026-05-20"
+        }
+      ],
+      "testHistory": [
+        {
+          "id": "BIA-AWS-002-t1",
+          "date": "2026-05-20",
+          "type": "Technical",
+          "scenario": "Primary site disruption",
+          "result": "Passed",
+          "targetRto": "4 hrs",
+          "actualRto": "4 hrs",
+          "observations": "Within policy targets"
+        }
+      ],
+      "auditHistory": [
+        {
+          "id": "BIA-AWS-002-a1",
+          "date": "2026-05-20",
+          "action": "Plan reviewed",
+          "actor": "BCM Office",
+          "detail": "Annual continuity plan review completed."
+        }
+      ],
+      "lessonsLearned": [
+        {
+          "id": "BIA-AWS-002-l1",
+          "date": "2026-05-20",
+          "source": "Recovery test",
+          "finding": "Communication lag between teams under pressure.",
+          "action": "Pre-stage war-room agenda and escalation SLAs.",
+          "owner": "Sara",
+          "status": "In Progress"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "BIA-AWS-002-tl1",
+          "date": "2026-01-15",
+          "title": "BIA completed",
+          "detail": "Business impact analysis signed off.",
+          "complete": true
+        },
+        {
+          "id": "BIA-AWS-002-tl2",
+          "date": "2026-05-20",
+          "title": "Recovery test",
+          "detail": "Most recent validated recovery exercise.",
+          "complete": true
+        },
+        {
+          "id": "BIA-AWS-002-tl3",
+          "date": "2026-12-01",
+          "title": "Plan review due",
+          "detail": "Next scheduled BCP review window.",
+          "complete": false
+        }
+      ],
+      "comments": [
+        {
+          "id": "BIA-AWS-002-cm1",
+          "author": "Sara",
+          "date": "2026-05-20",
+          "body": "Recovery posture reviewed with BCM Office."
+        }
+      ],
+      "versionHistory": [
+        {
+          "id": "BIA-AWS-002-v1",
+          "version": "2.1",
+          "date": "2026-05-20",
+          "author": "Sara",
+          "changeSummary": "Baseline continuity plan published."
+        }
+      ],
+      "id": "BIA-AWS-002",
+      "name": "S3 Archive",
+      "businessUnit": "Storage",
+      "department": "Infrastructure",
+      "owner": "Sara",
+      "criticality": "Medium",
+      "rto": "4 hrs",
+      "rpo": "1 hr",
+      "mao": "8 hrs",
+      "recoveryStrategy": "Restore Backup",
+      "status": "Ready",
+      "lastTest": "2026-05-20",
+      "recoveryTeam": "Storage Team"
+    },
+    {
+      "businessImpact": "Severe",
+      "dependencies": [
+        "Directory Services",
+        "MFA Provider",
+        "Privileged Access Vault"
+      ],
+      "nextTest": "2026-08-12",
+      "nextReview": "2026-09-01",
+      "version": "4.0",
+      "riskLevel": "High",
+      "riskScore": 3.9,
+      "checklist": [
+        {
+          "id": "c1",
+          "label": "Directory replica health",
+          "done": true
+        },
+        {
+          "id": "c2",
+          "label": "Break-glass accounts validated",
+          "done": true
+        },
+        {
+          "id": "c3",
+          "label": "MFA provider failover",
+          "done": false
+        },
+        {
+          "id": "c4",
+          "label": "Tabletop exercise",
+          "done": false
+        }
+      ],
+      "documents": [
+        "BIA-AWS-003-BCP.pdf"
+      ],
+      "aiRecommendations": [
+        "Validate recovery dependencies before next exercise."
+      ],
+      "bia": {
+        "financialImpact": "Authentication outage blocks commercial activity.",
+        "operationalImpact": "Enterprise login and privileged access disrupted.",
+        "regulatoryImpact": "Access control continuity evidence required.",
+        "reputationalImpact": "High if workforce / customer auth fails.",
+        "peakDependency": "Login storms at shift start",
+        "downtimeCostPerHour": 94000,
+        "recoveryPriority": 1,
+        "riskScenario": "Identity control-plane failure"
+      },
+      "recoveryPlan": {
+        "primarySite": "Primary AWS Region",
+        "drSite": "Backup IAM",
+        "backupType": "Config export",
+        "backupFrequency": "Hourly",
+        "recoveryMethod": "Active-Standby",
+        "alternateService": "Backup IAM",
+        "runbookRef": "BIA-AWS-003-RUNBOOK",
+        "steps": [
+          "Activate standby identity control plane",
+          "Validate break-glass accounts",
+          "Confirm MFA provider failover"
+        ]
+      },
+      "communicationPlan": {
+        "internalContacts": [
+          "Omar",
+          "BCM Office",
+          "Crisis Manager"
+        ],
+        "externalContacts": [
+          "Primary vendor CSM",
+          "Regulator liaison"
+        ],
+        "escalationPath": [
+          "Process Owner",
+          "BCM Lead",
+          "CRO",
+          "Board Risk Committee"
+        ],
+        "channels": [
+          "Teams",
+          "Email",
+          "SMS bridge",
+          "War room"
+        ],
+        "templates": [
+          "Initial incident notice",
+          "Status update",
+          "All-clear"
+        ]
+      },
+      "evidence": [
+        {
+          "id": "BIA-AWS-003-ev1",
+          "title": "Last recovery test evidence pack",
+          "type": "Test Report",
+          "date": "2026-06-12",
+          "owner": "Omar",
+          "status": "Approved"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "BIA-AWS-003-att1",
+          "name": "BIA-AWS-003-BCP.pdf",
+          "size": "1.2 MB",
+          "uploadedBy": "Omar",
+          "uploadedAt": "2026-06-12"
+        }
+      ],
+      "testHistory": [
+        {
+          "id": "BIA-AWS-003-t1",
+          "date": "2026-06-12",
+          "type": "Technical",
+          "scenario": "Primary site disruption",
+          "result": "Passed",
+          "targetRto": "20 min",
+          "actualRto": "20 min",
+          "observations": "Within policy targets"
+        }
+      ],
+      "auditHistory": [
+        {
+          "id": "BIA-AWS-003-a1",
+          "date": "2026-06-12",
+          "action": "Plan reviewed",
+          "actor": "BCM Office",
+          "detail": "Annual continuity plan review completed."
+        }
+      ],
+      "lessonsLearned": [
+        {
+          "id": "BIA-AWS-003-l1",
+          "date": "2026-06-12",
+          "source": "Recovery test",
+          "finding": "Communication lag between teams under pressure.",
+          "action": "Pre-stage war-room agenda and escalation SLAs.",
+          "owner": "Omar",
+          "status": "In Progress"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "BIA-AWS-003-tl1",
+          "date": "2026-01-15",
+          "title": "BIA completed",
+          "detail": "Business impact analysis signed off.",
+          "complete": true
+        },
+        {
+          "id": "BIA-AWS-003-tl2",
+          "date": "2026-06-12",
+          "title": "Recovery test",
+          "detail": "Most recent validated recovery exercise.",
+          "complete": true
+        },
+        {
+          "id": "BIA-AWS-003-tl3",
+          "date": "2026-09-01",
+          "title": "Plan review due",
+          "detail": "Next scheduled BCP review window.",
+          "complete": false
+        }
+      ],
+      "comments": [
+        {
+          "id": "BIA-AWS-003-cm1",
+          "author": "Omar",
+          "date": "2026-06-12",
+          "body": "Recovery posture reviewed with BCM Office."
+        }
+      ],
+      "versionHistory": [
+        {
+          "id": "BIA-AWS-003-v1",
+          "version": "4.0",
+          "date": "2026-06-12",
+          "author": "Omar",
+          "changeSummary": "Baseline continuity plan published."
+        }
+      ],
+      "id": "BIA-AWS-003",
+      "name": "IAM Identity",
+      "businessUnit": "Security",
+      "department": "Security",
+      "owner": "Omar",
+      "criticality": "Critical",
+      "rto": "20 min",
+      "rpo": "10 min",
+      "mao": "30 min",
+      "recoveryStrategy": "Active-Standby",
+      "status": "Testing",
+      "lastTest": "2026-06-12",
+      "recoveryTeam": "Identity Engineering"
+    },
+    {
+      "businessImpact": "Major",
+      "dependencies": [
+        "Log Lake",
+        "SIEM"
+      ],
+      "nextTest": "2026-09-02",
+      "nextReview": "2026-10-05",
+      "version": "2.4",
+      "riskLevel": "Medium",
+      "riskScore": 3.2,
+      "checklist": [
+        {
+          "id": "c1",
+          "label": "Recovery runbook reviewed",
+          "done": true
+        },
+        {
+          "id": "c2",
+          "label": "Backup restore validated",
+          "done": true
+        },
+        {
+          "id": "c3",
+          "label": "Call tree confirmed",
+          "done": false
+        },
+        {
+          "id": "c4",
+          "label": "Vendor SLA checked",
+          "done": false
+        }
+      ],
+      "documents": [
+        "BIA-AWS-004-BCP.pdf"
+      ],
+      "aiRecommendations": [
+        "Validate recovery dependencies before next exercise."
+      ],
+      "bia": {
+        "financialImpact": "Indirect; investigation delays increase loss window.",
+        "operationalImpact": "Audit trail gap during incident response.",
+        "regulatoryImpact": "Logging continuity is supervisory-sensitive.",
+        "reputationalImpact": "Medium if forensic capability degraded.",
+        "peakDependency": "Incident response windows",
+        "downtimeCostPerHour": 42000,
+        "recoveryPriority": 2,
+        "riskScenario": "Logging pipeline failure"
+      },
+      "recoveryPlan": {
+        "primarySite": "Primary AWS Region",
+        "drSite": "Secondary Logs",
+        "backupType": "Streaming replica",
+        "backupFrequency": "Continuous",
+        "recoveryMethod": "Replication",
+        "alternateService": "Secondary Logs",
+        "runbookRef": "BIA-AWS-004-RUNBOOK",
+        "steps": [
+          "Confirm secondary trail ingestion",
+          "Repoint SIEM collectors",
+          "Validate sample event delivery"
+        ]
+      },
+      "communicationPlan": {
+        "internalContacts": [
+          "Khalid",
+          "BCM Office",
+          "Crisis Manager"
+        ],
+        "externalContacts": [
+          "Primary vendor CSM",
+          "Regulator liaison"
+        ],
+        "escalationPath": [
+          "Process Owner",
+          "BCM Lead",
+          "CRO",
+          "Board Risk Committee"
+        ],
+        "channels": [
+          "Teams",
+          "Email",
+          "SMS bridge",
+          "War room"
+        ],
+        "templates": [
+          "Initial incident notice",
+          "Status update",
+          "All-clear"
+        ]
+      },
+      "evidence": [
+        {
+          "id": "BIA-AWS-004-ev1",
+          "title": "Last recovery test evidence pack",
+          "type": "Test Report",
+          "date": "2026-06-02",
+          "owner": "Khalid",
+          "status": "Approved"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "BIA-AWS-004-att1",
+          "name": "BIA-AWS-004-BCP.pdf",
+          "size": "1.2 MB",
+          "uploadedBy": "Khalid",
+          "uploadedAt": "2026-06-02"
+        }
+      ],
+      "testHistory": [
+        {
+          "id": "BIA-AWS-004-t1",
+          "date": "2026-06-02",
+          "type": "Technical",
+          "scenario": "Primary site disruption",
+          "result": "Passed",
+          "targetRto": "1 hr",
+          "actualRto": "1 hr",
+          "observations": "Within policy targets"
+        }
+      ],
+      "auditHistory": [
+        {
+          "id": "BIA-AWS-004-a1",
+          "date": "2026-06-02",
+          "action": "Plan reviewed",
+          "actor": "BCM Office",
+          "detail": "Annual continuity plan review completed."
+        }
+      ],
+      "lessonsLearned": [
+        {
+          "id": "BIA-AWS-004-l1",
+          "date": "2026-06-02",
+          "source": "Recovery test",
+          "finding": "Communication lag between teams under pressure.",
+          "action": "Pre-stage war-room agenda and escalation SLAs.",
+          "owner": "Khalid",
+          "status": "In Progress"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "BIA-AWS-004-tl1",
+          "date": "2026-01-15",
+          "title": "BIA completed",
+          "detail": "Business impact analysis signed off.",
+          "complete": true
+        },
+        {
+          "id": "BIA-AWS-004-tl2",
+          "date": "2026-06-02",
+          "title": "Recovery test",
+          "detail": "Most recent validated recovery exercise.",
+          "complete": true
+        },
+        {
+          "id": "BIA-AWS-004-tl3",
+          "date": "2026-10-05",
+          "title": "Plan review due",
+          "detail": "Next scheduled BCP review window.",
+          "complete": false
+        }
+      ],
+      "comments": [
+        {
+          "id": "BIA-AWS-004-cm1",
+          "author": "Khalid",
+          "date": "2026-06-02",
+          "body": "Recovery posture reviewed with BCM Office."
+        }
+      ],
+      "versionHistory": [
+        {
+          "id": "BIA-AWS-004-v1",
+          "version": "2.4",
+          "date": "2026-06-02",
+          "author": "Khalid",
+          "changeSummary": "Baseline continuity plan published."
+        }
+      ],
+      "id": "BIA-AWS-004",
+      "name": "CloudTrail",
+      "businessUnit": "Security",
+      "department": "Security",
+      "owner": "Khalid",
+      "criticality": "High",
+      "rto": "1 hr",
+      "rpo": "15 min",
+      "mao": "4 hrs",
+      "recoveryStrategy": "Replication",
+      "status": "Ready",
+      "lastTest": "2026-06-02",
+      "recoveryTeam": "Security Ops"
+    },
+    {
+      "businessImpact": "Severe",
+      "dependencies": [
+        "Payment Processing",
+        "Oracle ERP",
+        "Network"
+      ],
+      "nextTest": "2026-07-20",
+      "nextReview": "2026-07-25",
+      "version": "3.1",
+      "riskLevel": "Critical",
+      "riskScore": 4.6,
+      "checklist": [
+        {
+          "id": "c1",
+          "label": "Recovery runbook reviewed",
+          "done": true
+        },
+        {
+          "id": "c2",
+          "label": "Backup restore validated",
+          "done": true
+        },
+        {
+          "id": "c3",
+          "label": "Call tree confirmed",
+          "done": false
+        },
+        {
+          "id": "c4",
+          "label": "Vendor SLA checked",
+          "done": false
+        }
+      ],
+      "documents": [
+        "BIA-AWS-005-BCP.pdf"
+      ],
+      "aiRecommendations": [
+        "Schedule immediate recovery retest — last test exceeds policy window.",
+        "Align Finance RTO with Payment Processing dependency chain.",
+        "Update downstream dependencies before next audit."
+      ],
+      "bia": {
+        "financialImpact": "Direct settlement and ledger unavailable.",
+        "operationalImpact": "Finance and payments halt.",
+        "regulatoryImpact": "High — payment and reporting obligations.",
+        "reputationalImpact": "Severe for banking-grade customers.",
+        "peakDependency": "Settlement cut-off windows",
+        "downtimeCostPerHour": 98000,
+        "recoveryPriority": 1,
+        "riskScenario": "Database corruption / AZ failure"
+      },
+      "recoveryPlan": {
+        "primarySite": "Primary AWS Region",
+        "drSite": "Replica DB",
+        "backupType": "Snapshot",
+        "backupFrequency": "Hourly",
+        "recoveryMethod": "Replication",
+        "alternateService": "Replica DB",
+        "runbookRef": "BIA-AWS-005-RUNBOOK",
+        "steps": [
+          "Promote read replica",
+          "Validate financial data integrity",
+          "Reconnect payment and ERP consumers"
+        ]
+      },
+      "communicationPlan": {
+        "internalContacts": [
+          "Faisal",
+          "BCM Office",
+          "Crisis Manager"
+        ],
+        "externalContacts": [
+          "Primary vendor CSM",
+          "Regulator liaison"
+        ],
+        "escalationPath": [
+          "Process Owner",
+          "BCM Lead",
+          "CRO",
+          "Board Risk Committee"
+        ],
+        "channels": [
+          "Teams",
+          "Email",
+          "SMS bridge",
+          "War room"
+        ],
+        "templates": [
+          "Initial incident notice",
+          "Status update",
+          "All-clear"
+        ]
+      },
+      "evidence": [
+        {
+          "id": "BIA-AWS-005-ev1",
+          "title": "Last recovery test evidence pack",
+          "type": "Test Report",
+          "date": "2026-04-18",
+          "owner": "Faisal",
+          "status": "Approved"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "BIA-AWS-005-att1",
+          "name": "BIA-AWS-005-BCP.pdf",
+          "size": "1.2 MB",
+          "uploadedBy": "Faisal",
+          "uploadedAt": "2026-04-18"
+        }
+      ],
+      "testHistory": [
+        {
+          "id": "BIA-AWS-005-t1",
+          "date": "2026-04-18",
+          "type": "Technical",
+          "scenario": "Primary site disruption",
+          "result": "Passed",
+          "targetRto": "45 min",
+          "actualRto": "45 min",
+          "observations": "Within policy targets"
+        }
+      ],
+      "auditHistory": [
+        {
+          "id": "BIA-AWS-005-a1",
+          "date": "2026-04-18",
+          "action": "Plan reviewed",
+          "actor": "BCM Office",
+          "detail": "Annual continuity plan review completed."
+        }
+      ],
+      "lessonsLearned": [
+        {
+          "id": "BIA-AWS-005-l1",
+          "date": "2026-04-18",
+          "source": "Recovery test",
+          "finding": "Communication lag between teams under pressure.",
+          "action": "Pre-stage war-room agenda and escalation SLAs.",
+          "owner": "Faisal",
+          "status": "In Progress"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "BIA-AWS-005-tl1",
+          "date": "2026-01-15",
+          "title": "BIA completed",
+          "detail": "Business impact analysis signed off.",
+          "complete": true
+        },
+        {
+          "id": "BIA-AWS-005-tl2",
+          "date": "2026-04-18",
+          "title": "Recovery test",
+          "detail": "Most recent validated recovery exercise.",
+          "complete": true
+        },
+        {
+          "id": "BIA-AWS-005-tl3",
+          "date": "2026-07-25",
+          "title": "Plan review due",
+          "detail": "Next scheduled BCP review window.",
+          "complete": false
+        }
+      ],
+      "comments": [
+        {
+          "id": "BIA-AWS-005-cm1",
+          "author": "Faisal",
+          "date": "2026-04-18",
+          "body": "Recovery posture reviewed with BCM Office."
+        }
+      ],
+      "versionHistory": [
+        {
+          "id": "BIA-AWS-005-v1",
+          "version": "3.1",
+          "date": "2026-04-18",
+          "author": "Faisal",
+          "changeSummary": "Baseline continuity plan published."
+        }
+      ],
+      "id": "BIA-AWS-005",
+      "name": "RDS Finance",
+      "businessUnit": "Finance",
+      "department": "Finance",
+      "owner": "Faisal",
+      "criticality": "Critical",
+      "rto": "45 min",
+      "rpo": "15 min",
+      "mao": "1 hr",
+      "recoveryStrategy": "Replication",
+      "status": "At Risk",
+      "lastTest": "2026-04-18",
+      "recoveryTeam": "DBA Team"
+    },
+    {
+      "businessImpact": "Severe",
+      "dependencies": [
+        "RDS Finance",
+        "Card Network Connectors",
+        "Fraud Engine"
+      ],
+      "nextTest": "2026-10-02",
+      "nextReview": "2026-10-20",
+      "version": "4.2",
+      "riskLevel": "High",
+      "riskScore": 3.8,
+      "checklist": [
+        {
+          "id": "c1",
+          "label": "Recovery runbook reviewed",
+          "done": true
+        },
+        {
+          "id": "c2",
+          "label": "Backup restore validated",
+          "done": true
+        },
+        {
+          "id": "c3",
+          "label": "Call tree confirmed",
+          "done": false
+        },
+        {
+          "id": "c4",
+          "label": "Vendor SLA checked",
+          "done": false
+        }
+      ],
+      "documents": [
+        "PROC-PAY-001-BCP.pdf"
+      ],
+      "aiRecommendations": [
+        "Validate recovery dependencies before next exercise."
+      ],
+      "bia": {
+        "financialImpact": "Transaction processing outage with material loss.",
+        "operationalImpact": "Channels cannot complete payments.",
+        "regulatoryImpact": "Payment service continuity obligations.",
+        "reputationalImpact": "High customer impact.",
+        "peakDependency": "Payday and settlement peaks",
+        "downtimeCostPerHour": 120000,
+        "recoveryPriority": 1,
+        "riskScenario": "Payment platform failure"
+      },
+      "recoveryPlan": {
+        "primarySite": "Riyadh DC",
+        "drSite": "Jeddah DC",
+        "backupType": "Incremental",
+        "backupFrequency": "Daily",
+        "recoveryMethod": "Failover",
+        "alternateService": "Secondary capability",
+        "runbookRef": "PROC-PAY-001-RUNBOOK",
+        "steps": [
+          "Declare incident and activate BCM team",
+          "Assess impact against RTO / RPO / MAO",
+          "Execute failover or restore procedure",
+          "Validate services and communicate status",
+          "Stand down and capture lessons learned"
+        ]
+      },
+      "communicationPlan": {
+        "internalContacts": [
+          "Sara",
+          "BCM Office",
+          "Crisis Manager"
+        ],
+        "externalContacts": [
+          "Primary vendor CSM",
+          "Regulator liaison"
+        ],
+        "escalationPath": [
+          "Process Owner",
+          "BCM Lead",
+          "CRO",
+          "Board Risk Committee"
+        ],
+        "channels": [
+          "Teams",
+          "Email",
+          "SMS bridge",
+          "War room"
+        ],
+        "templates": [
+          "Initial incident notice",
+          "Status update",
+          "All-clear"
+        ]
+      },
+      "evidence": [
+        {
+          "id": "PROC-PAY-001-ev1",
+          "title": "Last recovery test evidence pack",
+          "type": "Test Report",
+          "date": "2026-07-02",
+          "owner": "Sara",
+          "status": "Approved"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "PROC-PAY-001-att1",
+          "name": "PROC-PAY-001-BCP.pdf",
+          "size": "1.2 MB",
+          "uploadedBy": "Sara",
+          "uploadedAt": "2026-07-02"
+        }
+      ],
+      "testHistory": [
+        {
+          "id": "PROC-PAY-001-t1",
+          "date": "2026-07-02",
+          "type": "Technical",
+          "scenario": "Primary site disruption",
+          "result": "Passed",
+          "targetRto": "2 hrs",
+          "actualRto": "2 hrs",
+          "observations": "Within policy targets"
+        }
+      ],
+      "auditHistory": [
+        {
+          "id": "PROC-PAY-001-a1",
+          "date": "2026-07-02",
+          "action": "Plan reviewed",
+          "actor": "BCM Office",
+          "detail": "Annual continuity plan review completed."
+        }
+      ],
+      "lessonsLearned": [
+        {
+          "id": "PROC-PAY-001-l1",
+          "date": "2026-07-02",
+          "source": "Recovery test",
+          "finding": "Communication lag between teams under pressure.",
+          "action": "Pre-stage war-room agenda and escalation SLAs.",
+          "owner": "Sara",
+          "status": "In Progress"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "PROC-PAY-001-tl1",
+          "date": "2026-01-15",
+          "title": "BIA completed",
+          "detail": "Business impact analysis signed off.",
+          "complete": true
+        },
+        {
+          "id": "PROC-PAY-001-tl2",
+          "date": "2026-07-02",
+          "title": "Recovery test",
+          "detail": "Most recent validated recovery exercise.",
+          "complete": true
+        },
+        {
+          "id": "PROC-PAY-001-tl3",
+          "date": "2026-10-20",
+          "title": "Plan review due",
+          "detail": "Next scheduled BCP review window.",
+          "complete": false
+        }
+      ],
+      "comments": [
+        {
+          "id": "PROC-PAY-001-cm1",
+          "author": "Sara",
+          "date": "2026-07-02",
+          "body": "Recovery posture reviewed with BCM Office."
+        }
+      ],
+      "versionHistory": [
+        {
+          "id": "PROC-PAY-001-v1",
+          "version": "4.2",
+          "date": "2026-07-02",
+          "author": "Sara",
+          "changeSummary": "Baseline continuity plan published."
+        }
+      ],
+      "id": "PROC-PAY-001",
+      "name": "Payment Processing",
+      "businessUnit": "Retail Banking",
+      "department": "Finance",
+      "owner": "Sara",
+      "criticality": "Critical",
+      "rto": "2 hrs",
+      "rpo": "30 min",
+      "mao": "2 hrs",
+      "recoveryStrategy": "Failover",
+      "status": "Ready",
+      "lastTest": "2026-07-02",
+      "recoveryTeam": "Payments Ops"
+    },
+    {
+      "businessImpact": "Severe",
+      "dependencies": [
+        "Cisco ISE",
+        "Directory Services",
+        "MFA Provider"
+      ],
+      "nextTest": "2026-09-20",
+      "nextReview": "2026-10-01",
+      "version": "2.8",
+      "riskLevel": "High",
+      "riskScore": 4.1,
+      "checklist": [
+        {
+          "id": "c1",
+          "label": "Recovery runbook reviewed",
+          "done": true
+        },
+        {
+          "id": "c2",
+          "label": "Backup restore validated",
+          "done": true
+        },
+        {
+          "id": "c3",
+          "label": "Call tree confirmed",
+          "done": false
+        },
+        {
+          "id": "c4",
+          "label": "Vendor SLA checked",
+          "done": false
+        }
+      ],
+      "documents": [
+        "PROC-ID-001-BCP.pdf"
+      ],
+      "aiRecommendations": [
+        "Validate recovery dependencies before next exercise."
+      ],
+      "bia": {
+        "financialImpact": "Material revenue and settlement exposure during outage.",
+        "operationalImpact": "Service degradation across dependent channels.",
+        "regulatoryImpact": "Potential supervisory notification if MAO exceeded.",
+        "reputationalImpact": "Customer confidence impact if prolonged.",
+        "peakDependency": "Peak business hours and settlement windows",
+        "downtimeCostPerHour": 25000,
+        "recoveryPriority": 2,
+        "riskScenario": "Site or platform failure"
+      },
+      "recoveryPlan": {
+        "primarySite": "Riyadh DC",
+        "drSite": "Jeddah DC",
+        "backupType": "Incremental",
+        "backupFrequency": "Daily",
+        "recoveryMethod": "HA Cluster",
+        "alternateService": "Secondary capability",
+        "runbookRef": "PROC-ID-001-RUNBOOK",
+        "steps": [
+          "Declare incident and activate BCM team",
+          "Assess impact against RTO / RPO / MAO",
+          "Execute failover or restore procedure",
+          "Validate services and communicate status",
+          "Stand down and capture lessons learned"
+        ]
+      },
+      "communicationPlan": {
+        "internalContacts": [
+          "Ahmed",
+          "BCM Office",
+          "Crisis Manager"
+        ],
+        "externalContacts": [
+          "Primary vendor CSM",
+          "Regulator liaison"
+        ],
+        "escalationPath": [
+          "Process Owner",
+          "BCM Lead",
+          "CRO",
+          "Board Risk Committee"
+        ],
+        "channels": [
+          "Teams",
+          "Email",
+          "SMS bridge",
+          "War room"
+        ],
+        "templates": [
+          "Initial incident notice",
+          "Status update",
+          "All-clear"
+        ]
+      },
+      "evidence": [
+        {
+          "id": "PROC-ID-001-ev1",
+          "title": "Last recovery test evidence pack",
+          "type": "Test Report",
+          "date": "2026-06-20",
+          "owner": "Ahmed",
+          "status": "Approved"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "PROC-ID-001-att1",
+          "name": "PROC-ID-001-BCP.pdf",
+          "size": "1.2 MB",
+          "uploadedBy": "Ahmed",
+          "uploadedAt": "2026-06-20"
+        }
+      ],
+      "testHistory": [
+        {
+          "id": "PROC-ID-001-t1",
+          "date": "2026-06-20",
+          "type": "Technical",
+          "scenario": "Primary site disruption",
+          "result": "Passed",
+          "targetRto": "30 min",
+          "actualRto": "30 min",
+          "observations": "Within policy targets"
+        }
+      ],
+      "auditHistory": [
+        {
+          "id": "PROC-ID-001-a1",
+          "date": "2026-06-20",
+          "action": "Plan reviewed",
+          "actor": "BCM Office",
+          "detail": "Annual continuity plan review completed."
+        }
+      ],
+      "lessonsLearned": [
+        {
+          "id": "PROC-ID-001-l1",
+          "date": "2026-06-20",
+          "source": "Recovery test",
+          "finding": "Communication lag between teams under pressure.",
+          "action": "Pre-stage war-room agenda and escalation SLAs.",
+          "owner": "Ahmed",
+          "status": "In Progress"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "PROC-ID-001-tl1",
+          "date": "2026-01-15",
+          "title": "BIA completed",
+          "detail": "Business impact analysis signed off.",
+          "complete": true
+        },
+        {
+          "id": "PROC-ID-001-tl2",
+          "date": "2026-06-20",
+          "title": "Recovery test",
+          "detail": "Most recent validated recovery exercise.",
+          "complete": true
+        },
+        {
+          "id": "PROC-ID-001-tl3",
+          "date": "2026-10-01",
+          "title": "Plan review due",
+          "detail": "Next scheduled BCP review window.",
+          "complete": false
+        }
+      ],
+      "comments": [
+        {
+          "id": "PROC-ID-001-cm1",
+          "author": "Ahmed",
+          "date": "2026-06-20",
+          "body": "Recovery posture reviewed with BCM Office."
+        }
+      ],
+      "versionHistory": [
+        {
+          "id": "PROC-ID-001-v1",
+          "version": "2.8",
+          "date": "2026-06-20",
+          "author": "Ahmed",
+          "changeSummary": "Baseline continuity plan published."
+        }
+      ],
+      "id": "PROC-ID-001",
+      "name": "Identity Authentication",
+      "businessUnit": "Enterprise Services",
+      "department": "IAM",
+      "owner": "Ahmed",
+      "criticality": "Critical",
+      "rto": "30 min",
+      "rpo": "10 min",
+      "mao": "30 min",
+      "recoveryStrategy": "HA Cluster",
+      "status": "Ready",
+      "lastTest": "2026-06-20",
+      "recoveryTeam": "IAM Team"
+    },
+    {
+      "businessImpact": "Major",
+      "dependencies": [
+        "SIEM",
+        "Ticketing",
+        "Comms Bridge"
+      ],
+      "nextTest": "2026-08-28",
+      "nextReview": "2026-09-15",
+      "version": "1.9",
+      "riskLevel": "Medium",
+      "riskScore": 3.2,
+      "checklist": [
+        {
+          "id": "c1",
+          "label": "Recovery runbook reviewed",
+          "done": true
+        },
+        {
+          "id": "c2",
+          "label": "Backup restore validated",
+          "done": true
+        },
+        {
+          "id": "c3",
+          "label": "Call tree confirmed",
+          "done": false
+        },
+        {
+          "id": "c4",
+          "label": "Vendor SLA checked",
+          "done": false
+        }
+      ],
+      "documents": [
+        "PROC-SOC-001-BCP.pdf"
+      ],
+      "aiRecommendations": [
+        "Validate recovery dependencies before next exercise."
+      ],
+      "bia": {
+        "financialImpact": "Material revenue and settlement exposure during outage.",
+        "operationalImpact": "Service degradation across dependent channels.",
+        "regulatoryImpact": "Potential supervisory notification if MAO exceeded.",
+        "reputationalImpact": "Customer confidence impact if prolonged.",
+        "peakDependency": "Peak business hours and settlement windows",
+        "downtimeCostPerHour": 25000,
+        "recoveryPriority": 2,
+        "riskScenario": "Site or platform failure"
+      },
+      "recoveryPlan": {
+        "primarySite": "Riyadh DC",
+        "drSite": "Jeddah DC",
+        "backupType": "Incremental",
+        "backupFrequency": "Daily",
+        "recoveryMethod": "Manual Workaround",
+        "alternateService": "Secondary capability",
+        "runbookRef": "PROC-SOC-001-RUNBOOK",
+        "steps": [
+          "Declare incident and activate BCM team",
+          "Assess impact against RTO / RPO / MAO",
+          "Execute failover or restore procedure",
+          "Validate services and communicate status",
+          "Stand down and capture lessons learned"
+        ]
+      },
+      "communicationPlan": {
+        "internalContacts": [
+          "Omar",
+          "BCM Office",
+          "Crisis Manager"
+        ],
+        "externalContacts": [
+          "Primary vendor CSM",
+          "Regulator liaison"
+        ],
+        "escalationPath": [
+          "Process Owner",
+          "BCM Lead",
+          "CRO",
+          "Board Risk Committee"
+        ],
+        "channels": [
+          "Teams",
+          "Email",
+          "SMS bridge",
+          "War room"
+        ],
+        "templates": [
+          "Initial incident notice",
+          "Status update",
+          "All-clear"
+        ]
+      },
+      "evidence": [
+        {
+          "id": "PROC-SOC-001-ev1",
+          "title": "Last recovery test evidence pack",
+          "type": "Test Report",
+          "date": "2026-05-28",
+          "owner": "Omar",
+          "status": "Approved"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "PROC-SOC-001-att1",
+          "name": "PROC-SOC-001-BCP.pdf",
+          "size": "1.2 MB",
+          "uploadedBy": "Omar",
+          "uploadedAt": "2026-05-28"
+        }
+      ],
+      "testHistory": [
+        {
+          "id": "PROC-SOC-001-t1",
+          "date": "2026-05-28",
+          "type": "Technical",
+          "scenario": "Primary site disruption",
+          "result": "Passed",
+          "targetRto": "1 hr",
+          "actualRto": "1 hr",
+          "observations": "Within policy targets"
+        }
+      ],
+      "auditHistory": [
+        {
+          "id": "PROC-SOC-001-a1",
+          "date": "2026-05-28",
+          "action": "Plan reviewed",
+          "actor": "BCM Office",
+          "detail": "Annual continuity plan review completed."
+        }
+      ],
+      "lessonsLearned": [
+        {
+          "id": "PROC-SOC-001-l1",
+          "date": "2026-05-28",
+          "source": "Recovery test",
+          "finding": "Communication lag between teams under pressure.",
+          "action": "Pre-stage war-room agenda and escalation SLAs.",
+          "owner": "Omar",
+          "status": "In Progress"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "PROC-SOC-001-tl1",
+          "date": "2026-01-15",
+          "title": "BIA completed",
+          "detail": "Business impact analysis signed off.",
+          "complete": true
+        },
+        {
+          "id": "PROC-SOC-001-tl2",
+          "date": "2026-05-28",
+          "title": "Recovery test",
+          "detail": "Most recent validated recovery exercise.",
+          "complete": true
+        },
+        {
+          "id": "PROC-SOC-001-tl3",
+          "date": "2026-09-15",
+          "title": "Plan review due",
+          "detail": "Next scheduled BCP review window.",
+          "complete": false
+        }
+      ],
+      "comments": [
+        {
+          "id": "PROC-SOC-001-cm1",
+          "author": "Omar",
+          "date": "2026-05-28",
+          "body": "Recovery posture reviewed with BCM Office."
+        }
+      ],
+      "versionHistory": [
+        {
+          "id": "PROC-SOC-001-v1",
+          "version": "1.9",
+          "date": "2026-05-28",
+          "author": "Omar",
+          "changeSummary": "Baseline continuity plan published."
+        }
+      ],
+      "id": "PROC-SOC-001",
+      "name": "Incident Management",
+      "businessUnit": "Cyber Defense",
+      "department": "SOC",
+      "owner": "Omar",
+      "criticality": "High",
+      "rto": "1 hr",
+      "rpo": "15 min",
+      "mao": "2 hrs",
+      "recoveryStrategy": "Manual Workaround",
+      "status": "Ready",
+      "lastTest": "2026-05-28",
+      "recoveryTeam": "SOC Leadership"
+    },
+    {
+      "businessImpact": "Major",
+      "dependencies": [
+        "EC2 Production",
+        "IAM Identity",
+        "CDN"
+      ],
+      "nextTest": "2026-09-10",
+      "nextReview": "2026-10-10",
+      "version": "3.0",
+      "riskLevel": "Medium",
+      "riskScore": 3.2,
+      "checklist": [
+        {
+          "id": "c1",
+          "label": "Recovery runbook reviewed",
+          "done": true
+        },
+        {
+          "id": "c2",
+          "label": "Backup restore validated",
+          "done": true
+        },
+        {
+          "id": "c3",
+          "label": "Call tree confirmed",
+          "done": false
+        },
+        {
+          "id": "c4",
+          "label": "Vendor SLA checked",
+          "done": false
+        }
+      ],
+      "documents": [
+        "PROC-OPS-001-BCP.pdf"
+      ],
+      "aiRecommendations": [
+        "Validate recovery dependencies before next exercise."
+      ],
+      "bia": {
+        "financialImpact": "Material revenue and settlement exposure during outage.",
+        "operationalImpact": "Service degradation across dependent channels.",
+        "regulatoryImpact": "Potential supervisory notification if MAO exceeded.",
+        "reputationalImpact": "Customer confidence impact if prolonged.",
+        "peakDependency": "Peak business hours and settlement windows",
+        "downtimeCostPerHour": 25000,
+        "recoveryPriority": 2,
+        "riskScenario": "Site or platform failure"
+      },
+      "recoveryPlan": {
+        "primarySite": "Riyadh DC",
+        "drSite": "Jeddah DC",
+        "backupType": "Incremental",
+        "backupFrequency": "Daily",
+        "recoveryMethod": "Failover",
+        "alternateService": "Secondary capability",
+        "runbookRef": "PROC-OPS-001-RUNBOOK",
+        "steps": [
+          "Declare incident and activate BCM team",
+          "Assess impact against RTO / RPO / MAO",
+          "Execute failover or restore procedure",
+          "Validate services and communicate status",
+          "Stand down and capture lessons learned"
+        ]
+      },
+      "communicationPlan": {
+        "internalContacts": [
+          "Khalid",
+          "BCM Office",
+          "Crisis Manager"
+        ],
+        "externalContacts": [
+          "Primary vendor CSM",
+          "Regulator liaison"
+        ],
+        "escalationPath": [
+          "Process Owner",
+          "BCM Lead",
+          "CRO",
+          "Board Risk Committee"
+        ],
+        "channels": [
+          "Teams",
+          "Email",
+          "SMS bridge",
+          "War room"
+        ],
+        "templates": [
+          "Initial incident notice",
+          "Status update",
+          "All-clear"
+        ]
+      },
+      "evidence": [
+        {
+          "id": "PROC-OPS-001-ev1",
+          "title": "Last recovery test evidence pack",
+          "type": "Test Report",
+          "date": "2026-06-10",
+          "owner": "Khalid",
+          "status": "Approved"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "PROC-OPS-001-att1",
+          "name": "PROC-OPS-001-BCP.pdf",
+          "size": "1.2 MB",
+          "uploadedBy": "Khalid",
+          "uploadedAt": "2026-06-10"
+        }
+      ],
+      "testHistory": [
+        {
+          "id": "PROC-OPS-001-t1",
+          "date": "2026-06-10",
+          "type": "Technical",
+          "scenario": "Primary site disruption",
+          "result": "Passed",
+          "targetRto": "4 hrs",
+          "actualRto": "4 hrs",
+          "observations": "Within policy targets"
+        }
+      ],
+      "auditHistory": [
+        {
+          "id": "PROC-OPS-001-a1",
+          "date": "2026-06-10",
+          "action": "Plan reviewed",
+          "actor": "BCM Office",
+          "detail": "Annual continuity plan review completed."
+        }
+      ],
+      "lessonsLearned": [
+        {
+          "id": "PROC-OPS-001-l1",
+          "date": "2026-06-10",
+          "source": "Recovery test",
+          "finding": "Communication lag between teams under pressure.",
+          "action": "Pre-stage war-room agenda and escalation SLAs.",
+          "owner": "Khalid",
+          "status": "In Progress"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "PROC-OPS-001-tl1",
+          "date": "2026-01-15",
+          "title": "BIA completed",
+          "detail": "Business impact analysis signed off.",
+          "complete": true
+        },
+        {
+          "id": "PROC-OPS-001-tl2",
+          "date": "2026-06-10",
+          "title": "Recovery test",
+          "detail": "Most recent validated recovery exercise.",
+          "complete": true
+        },
+        {
+          "id": "PROC-OPS-001-tl3",
+          "date": "2026-10-10",
+          "title": "Plan review due",
+          "detail": "Next scheduled BCP review window.",
+          "complete": false
+        }
+      ],
+      "comments": [
+        {
+          "id": "PROC-OPS-001-cm1",
+          "author": "Khalid",
+          "date": "2026-06-10",
+          "body": "Recovery posture reviewed with BCM Office."
+        }
+      ],
+      "versionHistory": [
+        {
+          "id": "PROC-OPS-001-v1",
+          "version": "3.0",
+          "date": "2026-06-10",
+          "author": "Khalid",
+          "changeSummary": "Baseline continuity plan published."
+        }
+      ],
+      "id": "PROC-OPS-001",
+      "name": "Customer Portal",
+      "businessUnit": "Digital",
+      "department": "Operations",
+      "owner": "Khalid",
+      "criticality": "High",
+      "rto": "4 hrs",
+      "rpo": "1 hr",
+      "mao": "8 hrs",
+      "recoveryStrategy": "Failover",
+      "status": "Ready",
+      "lastTest": "2026-06-10",
+      "recoveryTeam": "Digital Ops"
+    },
+    {
+      "businessImpact": "Severe",
+      "dependencies": [
+        "Firewall Cluster",
+        "ISP Links",
+        "DNS"
+      ],
+      "nextTest": "2026-09-15",
+      "nextReview": "2026-10-01",
+      "version": "2.5",
+      "riskLevel": "High",
+      "riskScore": 4.1,
+      "checklist": [
+        {
+          "id": "c1",
+          "label": "Recovery runbook reviewed",
+          "done": true
+        },
+        {
+          "id": "c2",
+          "label": "Backup restore validated",
+          "done": true
+        },
+        {
+          "id": "c3",
+          "label": "Call tree confirmed",
+          "done": false
+        },
+        {
+          "id": "c4",
+          "label": "Vendor SLA checked",
+          "done": false
+        }
+      ],
+      "documents": [
+        "BCM-001-BCP.pdf"
+      ],
+      "aiRecommendations": [
+        "Validate recovery dependencies before next exercise."
+      ],
+      "bia": {
+        "financialImpact": "Remote workforce productivity loss.",
+        "operationalImpact": "Secure remote access unavailable.",
+        "regulatoryImpact": "Remote access control evidence impacted.",
+        "reputationalImpact": "Medium.",
+        "peakDependency": "Remote workforce hours",
+        "downtimeCostPerHour": 38000,
+        "recoveryPriority": 1,
+        "riskScenario": "ISP Failure"
+      },
+      "recoveryPlan": {
+        "primarySite": "Riyadh DC",
+        "drSite": "Jeddah DC",
+        "backupType": "Incremental",
+        "backupFrequency": "Daily",
+        "recoveryMethod": "Secondary Site",
+        "alternateService": "Secondary capability",
+        "runbookRef": "BCM-001-RUNBOOK",
+        "steps": [
+          "Declare incident and activate BCM team",
+          "Assess impact against RTO / RPO / MAO",
+          "Execute failover or restore procedure",
+          "Validate services and communicate status",
+          "Stand down and capture lessons learned"
+        ]
+      },
+      "communicationPlan": {
+        "internalContacts": [
+          "Ahmed",
+          "BCM Office",
+          "Crisis Manager"
+        ],
+        "externalContacts": [
+          "Primary vendor CSM",
+          "Regulator liaison"
+        ],
+        "escalationPath": [
+          "Process Owner",
+          "BCM Lead",
+          "CRO",
+          "Board Risk Committee"
+        ],
+        "channels": [
+          "Teams",
+          "Email",
+          "SMS bridge",
+          "War room"
+        ],
+        "templates": [
+          "Initial incident notice",
+          "Status update",
+          "All-clear"
+        ]
+      },
+      "evidence": [
+        {
+          "id": "BCM-001-ev1",
+          "title": "Last recovery test evidence pack",
+          "type": "Test Report",
+          "date": "2026-06-15",
+          "owner": "Ahmed",
+          "status": "Approved"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "BCM-001-att1",
+          "name": "BCM-001-BCP.pdf",
+          "size": "1.2 MB",
+          "uploadedBy": "Ahmed",
+          "uploadedAt": "2026-06-15"
+        }
+      ],
+      "testHistory": [
+        {
+          "id": "BCM-001-t1",
+          "date": "2026-06-15",
+          "type": "Technical",
+          "scenario": "Primary site disruption",
+          "result": "Passed",
+          "targetRto": "20 min",
+          "actualRto": "20 min",
+          "observations": "Within policy targets"
+        }
+      ],
+      "auditHistory": [
+        {
+          "id": "BCM-001-a1",
+          "date": "2026-06-15",
+          "action": "Plan reviewed",
+          "actor": "BCM Office",
+          "detail": "Annual continuity plan review completed."
+        }
+      ],
+      "lessonsLearned": [
+        {
+          "id": "BCM-001-l1",
+          "date": "2026-06-15",
+          "source": "Recovery test",
+          "finding": "Communication lag between teams under pressure.",
+          "action": "Pre-stage war-room agenda and escalation SLAs.",
+          "owner": "Ahmed",
+          "status": "In Progress"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "BCM-001-tl1",
+          "date": "2026-01-15",
+          "title": "BIA completed",
+          "detail": "Business impact analysis signed off.",
+          "complete": true
+        },
+        {
+          "id": "BCM-001-tl2",
+          "date": "2026-06-15",
+          "title": "Recovery test",
+          "detail": "Most recent validated recovery exercise.",
+          "complete": true
+        },
+        {
+          "id": "BCM-001-tl3",
+          "date": "2026-10-01",
+          "title": "Plan review due",
+          "detail": "Next scheduled BCP review window.",
+          "complete": false
+        }
+      ],
+      "comments": [
+        {
+          "id": "BCM-001-cm1",
+          "author": "Ahmed",
+          "date": "2026-06-15",
+          "body": "Recovery posture reviewed with BCM Office."
+        }
+      ],
+      "versionHistory": [
+        {
+          "id": "BCM-001-v1",
+          "version": "2.5",
+          "date": "2026-06-15",
+          "author": "Ahmed",
+          "changeSummary": "Baseline continuity plan published."
+        }
+      ],
+      "id": "BCM-001",
+      "name": "VPN Services",
+      "businessUnit": "Network Services",
+      "department": "Network",
+      "owner": "Ahmed",
+      "criticality": "Critical",
+      "rto": "20 min",
+      "rpo": "10 min",
+      "mao": "1 hr",
+      "recoveryStrategy": "Secondary Site",
+      "status": "Ready",
+      "lastTest": "2026-06-15",
+      "recoveryTeam": "Network Ops"
+    },
+    {
+      "businessImpact": "Severe",
+      "dependencies": [
+        "Core Switching",
+        "Threat Intel Feeds"
+      ],
+      "nextTest": "2026-09-20",
+      "nextReview": "2026-10-05",
+      "version": "5.1",
+      "riskLevel": "High",
+      "riskScore": 4.1,
+      "checklist": [
+        {
+          "id": "c1",
+          "label": "Recovery runbook reviewed",
+          "done": true
+        },
+        {
+          "id": "c2",
+          "label": "Backup restore validated",
+          "done": true
+        },
+        {
+          "id": "c3",
+          "label": "Call tree confirmed",
+          "done": false
+        },
+        {
+          "id": "c4",
+          "label": "Vendor SLA checked",
+          "done": false
+        }
+      ],
+      "documents": [
+        "BCM-002-BCP.pdf"
+      ],
+      "aiRecommendations": [
+        "Validate recovery dependencies before next exercise."
+      ],
+      "bia": {
+        "financialImpact": "East-west / north-south traffic blocked.",
+        "operationalImpact": "Enterprise perimeter unavailable.",
+        "regulatoryImpact": "Network control continuity impacted.",
+        "reputationalImpact": "High if public services drop.",
+        "peakDependency": "Always-on perimeter",
+        "downtimeCostPerHour": 76000,
+        "recoveryPriority": 1,
+        "riskScenario": "Firewall Failure"
+      },
+      "recoveryPlan": {
+        "primarySite": "Riyadh DC",
+        "drSite": "Jeddah DC",
+        "backupType": "Incremental",
+        "backupFrequency": "Daily",
+        "recoveryMethod": "HA Cluster",
+        "alternateService": "Secondary capability",
+        "runbookRef": "BCM-002-RUNBOOK",
+        "steps": [
+          "Declare incident and activate BCM team",
+          "Assess impact against RTO / RPO / MAO",
+          "Execute failover or restore procedure",
+          "Validate services and communicate status",
+          "Stand down and capture lessons learned"
+        ]
+      },
+      "communicationPlan": {
+        "internalContacts": [
+          "Sara",
+          "BCM Office",
+          "Crisis Manager"
+        ],
+        "externalContacts": [
+          "Primary vendor CSM",
+          "Regulator liaison"
+        ],
+        "escalationPath": [
+          "Process Owner",
+          "BCM Lead",
+          "CRO",
+          "Board Risk Committee"
+        ],
+        "channels": [
+          "Teams",
+          "Email",
+          "SMS bridge",
+          "War room"
+        ],
+        "templates": [
+          "Initial incident notice",
+          "Status update",
+          "All-clear"
+        ]
+      },
+      "evidence": [
+        {
+          "id": "BCM-002-ev1",
+          "title": "Last recovery test evidence pack",
+          "type": "Test Report",
+          "date": "2026-06-20",
+          "owner": "Sara",
+          "status": "Approved"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "BCM-002-att1",
+          "name": "BCM-002-BCP.pdf",
+          "size": "1.2 MB",
+          "uploadedBy": "Sara",
+          "uploadedAt": "2026-06-20"
+        }
+      ],
+      "testHistory": [
+        {
+          "id": "BCM-002-t1",
+          "date": "2026-06-20",
+          "type": "Technical",
+          "scenario": "Primary site disruption",
+          "result": "Passed",
+          "targetRto": "15 min",
+          "actualRto": "15 min",
+          "observations": "Within policy targets"
+        }
+      ],
+      "auditHistory": [
+        {
+          "id": "BCM-002-a1",
+          "date": "2026-06-20",
+          "action": "Plan reviewed",
+          "actor": "BCM Office",
+          "detail": "Annual continuity plan review completed."
+        }
+      ],
+      "lessonsLearned": [
+        {
+          "id": "BCM-002-l1",
+          "date": "2026-06-20",
+          "source": "Recovery test",
+          "finding": "Communication lag between teams under pressure.",
+          "action": "Pre-stage war-room agenda and escalation SLAs.",
+          "owner": "Sara",
+          "status": "In Progress"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "BCM-002-tl1",
+          "date": "2026-01-15",
+          "title": "BIA completed",
+          "detail": "Business impact analysis signed off.",
+          "complete": true
+        },
+        {
+          "id": "BCM-002-tl2",
+          "date": "2026-06-20",
+          "title": "Recovery test",
+          "detail": "Most recent validated recovery exercise.",
+          "complete": true
+        },
+        {
+          "id": "BCM-002-tl3",
+          "date": "2026-10-05",
+          "title": "Plan review due",
+          "detail": "Next scheduled BCP review window.",
+          "complete": false
+        }
+      ],
+      "comments": [
+        {
+          "id": "BCM-002-cm1",
+          "author": "Sara",
+          "date": "2026-06-20",
+          "body": "Recovery posture reviewed with BCM Office."
+        }
+      ],
+      "versionHistory": [
+        {
+          "id": "BCM-002-v1",
+          "version": "5.1",
+          "date": "2026-06-20",
+          "author": "Sara",
+          "changeSummary": "Baseline continuity plan published."
+        }
+      ],
+      "id": "BCM-002",
+      "name": "Firewall Cluster",
+      "businessUnit": "Network Services",
+      "department": "Security",
+      "owner": "Sara",
+      "criticality": "Critical",
+      "rto": "15 min",
+      "rpo": "5 min",
+      "mao": "30 min",
+      "recoveryStrategy": "HA Cluster",
+      "status": "Ready",
+      "lastTest": "2026-06-20",
+      "recoveryTeam": "Network Security"
+    },
+    {
+      "businessImpact": "Moderate",
+      "dependencies": [
+        "Wireless Controllers",
+        "DHCP",
+        "AAA"
+      ],
+      "nextTest": "2026-11-18",
+      "nextReview": "2026-12-01",
+      "version": "1.7",
+      "riskLevel": "Medium",
+      "riskScore": 2.4,
+      "checklist": [
+        {
+          "id": "c1",
+          "label": "Recovery runbook reviewed",
+          "done": true
+        },
+        {
+          "id": "c2",
+          "label": "Backup restore validated",
+          "done": true
+        },
+        {
+          "id": "c3",
+          "label": "Call tree confirmed",
+          "done": false
+        },
+        {
+          "id": "c4",
+          "label": "Vendor SLA checked",
+          "done": false
+        }
+      ],
+      "documents": [
+        "BCM-003-BCP.pdf"
+      ],
+      "aiRecommendations": [
+        "Validate recovery dependencies before next exercise."
+      ],
+      "bia": {
+        "financialImpact": "Campus productivity slowdown.",
+        "operationalImpact": "Office wireless unavailable.",
+        "regulatoryImpact": "Low.",
+        "reputationalImpact": "Low.",
+        "peakDependency": "Office business hours",
+        "downtimeCostPerHour": 9000,
+        "recoveryPriority": 3,
+        "riskScenario": "Controller Failure"
+      },
+      "recoveryPlan": {
+        "primarySite": "Riyadh DC",
+        "drSite": "Jeddah DC",
+        "backupType": "Incremental",
+        "backupFrequency": "Daily",
+        "recoveryMethod": "Secondary Site",
+        "alternateService": "Secondary capability",
+        "runbookRef": "BCM-003-RUNBOOK",
+        "steps": [
+          "Declare incident and activate BCM team",
+          "Assess impact against RTO / RPO / MAO",
+          "Execute failover or restore procedure",
+          "Validate services and communicate status",
+          "Stand down and capture lessons learned"
+        ]
+      },
+      "communicationPlan": {
+        "internalContacts": [
+          "Omar",
+          "BCM Office",
+          "Crisis Manager"
+        ],
+        "externalContacts": [
+          "Primary vendor CSM",
+          "Regulator liaison"
+        ],
+        "escalationPath": [
+          "Process Owner",
+          "BCM Lead",
+          "CRO",
+          "Board Risk Committee"
+        ],
+        "channels": [
+          "Teams",
+          "Email",
+          "SMS bridge",
+          "War room"
+        ],
+        "templates": [
+          "Initial incident notice",
+          "Status update",
+          "All-clear"
+        ]
+      },
+      "evidence": [
+        {
+          "id": "BCM-003-ev1",
+          "title": "Last recovery test evidence pack",
+          "type": "Test Report",
+          "date": "2026-05-18",
+          "owner": "Omar",
+          "status": "Approved"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "BCM-003-att1",
+          "name": "BCM-003-BCP.pdf",
+          "size": "1.2 MB",
+          "uploadedBy": "Omar",
+          "uploadedAt": "2026-05-18"
+        }
+      ],
+      "testHistory": [
+        {
+          "id": "BCM-003-t1",
+          "date": "2026-05-18",
+          "type": "Technical",
+          "scenario": "Primary site disruption",
+          "result": "Passed",
+          "targetRto": "1 hr",
+          "actualRto": "1 hr",
+          "observations": "Within policy targets"
+        }
+      ],
+      "auditHistory": [
+        {
+          "id": "BCM-003-a1",
+          "date": "2026-05-18",
+          "action": "Plan reviewed",
+          "actor": "BCM Office",
+          "detail": "Annual continuity plan review completed."
+        }
+      ],
+      "lessonsLearned": [
+        {
+          "id": "BCM-003-l1",
+          "date": "2026-05-18",
+          "source": "Recovery test",
+          "finding": "Communication lag between teams under pressure.",
+          "action": "Pre-stage war-room agenda and escalation SLAs.",
+          "owner": "Omar",
+          "status": "In Progress"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "BCM-003-tl1",
+          "date": "2026-01-15",
+          "title": "BIA completed",
+          "detail": "Business impact analysis signed off.",
+          "complete": true
+        },
+        {
+          "id": "BCM-003-tl2",
+          "date": "2026-05-18",
+          "title": "Recovery test",
+          "detail": "Most recent validated recovery exercise.",
+          "complete": true
+        },
+        {
+          "id": "BCM-003-tl3",
+          "date": "2026-12-01",
+          "title": "Plan review due",
+          "detail": "Next scheduled BCP review window.",
+          "complete": false
+        }
+      ],
+      "comments": [
+        {
+          "id": "BCM-003-cm1",
+          "author": "Omar",
+          "date": "2026-05-18",
+          "body": "Recovery posture reviewed with BCM Office."
+        }
+      ],
+      "versionHistory": [
+        {
+          "id": "BCM-003-v1",
+          "version": "1.7",
+          "date": "2026-05-18",
+          "author": "Omar",
+          "changeSummary": "Baseline continuity plan published."
+        }
+      ],
+      "id": "BCM-003",
+      "name": "Wireless Network",
+      "businessUnit": "Network Services",
+      "department": "Network",
+      "owner": "Omar",
+      "criticality": "Medium",
+      "rto": "1 hr",
+      "rpo": "30 min",
+      "mao": "4 hrs",
+      "recoveryStrategy": "Secondary Site",
+      "status": "Ready",
+      "lastTest": "2026-05-18",
+      "recoveryTeam": "Network Ops"
+    },
+    {
+      "businessImpact": "Major",
+      "dependencies": [
+        "Directory Services",
+        "Certificates",
+        "Network Devices"
+      ],
+      "nextTest": "2026-07-25",
+      "nextReview": "2026-07-30",
+      "version": "3.4",
+      "riskLevel": "High",
+      "riskScore": 3.5,
+      "checklist": [
+        {
+          "id": "c1",
+          "label": "Recovery runbook reviewed",
+          "done": true
+        },
+        {
+          "id": "c2",
+          "label": "Backup restore validated",
+          "done": true
+        },
+        {
+          "id": "c3",
+          "label": "Call tree confirmed",
+          "done": false
+        },
+        {
+          "id": "c4",
+          "label": "Vendor SLA checked",
+          "done": false
+        }
+      ],
+      "documents": [
+        "BCM-004-BCP.pdf"
+      ],
+      "aiRecommendations": [
+        "Validate recovery dependencies before next exercise."
+      ],
+      "bia": {
+        "financialImpact": "Network admission control outage.",
+        "operationalImpact": "Device authentication disrupted.",
+        "regulatoryImpact": "NAC control evidence risk.",
+        "reputationalImpact": "Medium.",
+        "peakDependency": "Device onboarding windows",
+        "downtimeCostPerHour": 28000,
+        "recoveryPriority": 2,
+        "riskScenario": "Authentication Failure"
+      },
+      "recoveryPlan": {
+        "primarySite": "Riyadh DC",
+        "drSite": "DR ISE",
+        "backupType": "Config backup",
+        "backupFrequency": "Daily",
+        "recoveryMethod": "Failover",
+        "alternateService": "DR ISE",
+        "runbookRef": "BCM-004-RUNBOOK",
+        "steps": [
+          "Promote DR ISE node",
+          "Validate RADIUS / TACACS responses",
+          "Confirm certificate trust chain"
+        ]
+      },
+      "communicationPlan": {
+        "internalContacts": [
+          "Khalid",
+          "BCM Office",
+          "Crisis Manager"
+        ],
+        "externalContacts": [
+          "Primary vendor CSM",
+          "Regulator liaison"
+        ],
+        "escalationPath": [
+          "Process Owner",
+          "BCM Lead",
+          "CRO",
+          "Board Risk Committee"
+        ],
+        "channels": [
+          "Teams",
+          "Email",
+          "SMS bridge",
+          "War room"
+        ],
+        "templates": [
+          "Initial incident notice",
+          "Status update",
+          "All-clear"
+        ]
+      },
+      "evidence": [
+        {
+          "id": "BCM-004-ev1",
+          "title": "Last recovery test evidence pack",
+          "type": "Test Report",
+          "date": "2026-04-25",
+          "owner": "Khalid",
+          "status": "Approved"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "BCM-004-att1",
+          "name": "BCM-004-BCP.pdf",
+          "size": "1.2 MB",
+          "uploadedBy": "Khalid",
+          "uploadedAt": "2026-04-25"
+        }
+      ],
+      "testHistory": [
+        {
+          "id": "BCM-004-t1",
+          "date": "2026-04-25",
+          "type": "Technical",
+          "scenario": "Primary site disruption",
+          "result": "Passed",
+          "targetRto": "30 min",
+          "actualRto": "30 min",
+          "observations": "Within policy targets"
+        }
+      ],
+      "auditHistory": [
+        {
+          "id": "BCM-004-a1",
+          "date": "2026-04-25",
+          "action": "Plan reviewed",
+          "actor": "BCM Office",
+          "detail": "Annual continuity plan review completed."
+        }
+      ],
+      "lessonsLearned": [
+        {
+          "id": "BCM-004-l1",
+          "date": "2026-04-25",
+          "source": "Recovery test",
+          "finding": "Communication lag between teams under pressure.",
+          "action": "Pre-stage war-room agenda and escalation SLAs.",
+          "owner": "Khalid",
+          "status": "In Progress"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "BCM-004-tl1",
+          "date": "2026-01-15",
+          "title": "BIA completed",
+          "detail": "Business impact analysis signed off.",
+          "complete": true
+        },
+        {
+          "id": "BCM-004-tl2",
+          "date": "2026-04-25",
+          "title": "Recovery test",
+          "detail": "Most recent validated recovery exercise.",
+          "complete": true
+        },
+        {
+          "id": "BCM-004-tl3",
+          "date": "2026-07-30",
+          "title": "Plan review due",
+          "detail": "Next scheduled BCP review window.",
+          "complete": false
+        }
+      ],
+      "comments": [
+        {
+          "id": "BCM-004-cm1",
+          "author": "Khalid",
+          "date": "2026-04-25",
+          "body": "Recovery posture reviewed with BCM Office."
+        }
+      ],
+      "versionHistory": [
+        {
+          "id": "BCM-004-v1",
+          "version": "3.4",
+          "date": "2026-04-25",
+          "author": "Khalid",
+          "changeSummary": "Baseline continuity plan published."
+        }
+      ],
+      "id": "BCM-004",
+      "name": "Cisco ISE",
+      "businessUnit": "Enterprise Services",
+      "department": "IAM",
+      "owner": "Khalid",
+      "criticality": "High",
+      "rto": "30 min",
+      "rpo": "15 min",
+      "mao": "2 hrs",
+      "recoveryStrategy": "Failover",
+      "status": "Review",
+      "lastTest": "2026-04-25",
+      "recoveryTeam": "IAM Team"
+    },
+    {
+      "businessImpact": "Major",
+      "dependencies": [
+        "Directory Services",
+        "Network Devices"
+      ],
+      "nextTest": "2026-09-02",
+      "nextReview": "2026-10-02",
+      "version": "2.0",
+      "riskLevel": "Medium",
+      "riskScore": 3.2,
+      "checklist": [
+        {
+          "id": "c1",
+          "label": "Recovery runbook reviewed",
+          "done": true
+        },
+        {
+          "id": "c2",
+          "label": "Backup restore validated",
+          "done": true
+        },
+        {
+          "id": "c3",
+          "label": "Call tree confirmed",
+          "done": false
+        },
+        {
+          "id": "c4",
+          "label": "Vendor SLA checked",
+          "done": false
+        }
+      ],
+      "documents": [
+        "BCM-005-BCP.pdf"
+      ],
+      "aiRecommendations": [
+        "Validate recovery dependencies before next exercise."
+      ],
+      "bia": {
+        "financialImpact": "Privileged device admin delays.",
+        "operationalImpact": "AAA for network devices impacted.",
+        "regulatoryImpact": "Privileged access continuity.",
+        "reputationalImpact": "Low external.",
+        "peakDependency": "Change windows",
+        "downtimeCostPerHour": 18000,
+        "recoveryPriority": 2,
+        "riskScenario": "AAA Failure"
+      },
+      "recoveryPlan": {
+        "primarySite": "Riyadh DC",
+        "drSite": "Jeddah DC",
+        "backupType": "Incremental",
+        "backupFrequency": "Daily",
+        "recoveryMethod": "Secondary Site",
+        "alternateService": "Secondary capability",
+        "runbookRef": "BCM-005-RUNBOOK",
+        "steps": [
+          "Declare incident and activate BCM team",
+          "Assess impact against RTO / RPO / MAO",
+          "Execute failover or restore procedure",
+          "Validate services and communicate status",
+          "Stand down and capture lessons learned"
+        ]
+      },
+      "communicationPlan": {
+        "internalContacts": [
+          "Faisal",
+          "BCM Office",
+          "Crisis Manager"
+        ],
+        "externalContacts": [
+          "Primary vendor CSM",
+          "Regulator liaison"
+        ],
+        "escalationPath": [
+          "Process Owner",
+          "BCM Lead",
+          "CRO",
+          "Board Risk Committee"
+        ],
+        "channels": [
+          "Teams",
+          "Email",
+          "SMS bridge",
+          "War room"
+        ],
+        "templates": [
+          "Initial incident notice",
+          "Status update",
+          "All-clear"
+        ]
+      },
+      "evidence": [
+        {
+          "id": "BCM-005-ev1",
+          "title": "Last recovery test evidence pack",
+          "type": "Test Report",
+          "date": "2026-06-02",
+          "owner": "Faisal",
+          "status": "Approved"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "BCM-005-att1",
+          "name": "BCM-005-BCP.pdf",
+          "size": "1.2 MB",
+          "uploadedBy": "Faisal",
+          "uploadedAt": "2026-06-02"
+        }
+      ],
+      "testHistory": [
+        {
+          "id": "BCM-005-t1",
+          "date": "2026-06-02",
+          "type": "Technical",
+          "scenario": "Primary site disruption",
+          "result": "Passed",
+          "targetRto": "30 min",
+          "actualRto": "30 min",
+          "observations": "Within policy targets"
+        }
+      ],
+      "auditHistory": [
+        {
+          "id": "BCM-005-a1",
+          "date": "2026-06-02",
+          "action": "Plan reviewed",
+          "actor": "BCM Office",
+          "detail": "Annual continuity plan review completed."
+        }
+      ],
+      "lessonsLearned": [
+        {
+          "id": "BCM-005-l1",
+          "date": "2026-06-02",
+          "source": "Recovery test",
+          "finding": "Communication lag between teams under pressure.",
+          "action": "Pre-stage war-room agenda and escalation SLAs.",
+          "owner": "Faisal",
+          "status": "In Progress"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "BCM-005-tl1",
+          "date": "2026-01-15",
+          "title": "BIA completed",
+          "detail": "Business impact analysis signed off.",
+          "complete": true
+        },
+        {
+          "id": "BCM-005-tl2",
+          "date": "2026-06-02",
+          "title": "Recovery test",
+          "detail": "Most recent validated recovery exercise.",
+          "complete": true
+        },
+        {
+          "id": "BCM-005-tl3",
+          "date": "2026-10-02",
+          "title": "Plan review due",
+          "detail": "Next scheduled BCP review window.",
+          "complete": false
+        }
+      ],
+      "comments": [
+        {
+          "id": "BCM-005-cm1",
+          "author": "Faisal",
+          "date": "2026-06-02",
+          "body": "Recovery posture reviewed with BCM Office."
+        }
+      ],
+      "versionHistory": [
+        {
+          "id": "BCM-005-v1",
+          "version": "2.0",
+          "date": "2026-06-02",
+          "author": "Faisal",
+          "changeSummary": "Baseline continuity plan published."
+        }
+      ],
+      "id": "BCM-005",
+      "name": "TACACS Server",
+      "businessUnit": "Security",
+      "department": "Security",
+      "owner": "Faisal",
+      "criticality": "High",
+      "rto": "30 min",
+      "rpo": "15 min",
+      "mao": "2 hrs",
+      "recoveryStrategy": "Secondary Site",
+      "status": "Ready",
+      "lastTest": "2026-06-02",
+      "recoveryTeam": "Network Security"
+    },
+    {
+      "businessImpact": "Severe",
+      "dependencies": [
+        "Oracle DB",
+        "Identity Authentication",
+        "Network"
+      ],
+      "nextTest": "2026-09-14",
+      "nextReview": "2026-10-01",
+      "version": "6.1",
+      "riskLevel": "High",
+      "riskScore": 4.1,
+      "checklist": [
+        {
+          "id": "c1",
+          "label": "Recovery runbook reviewed",
+          "done": true
+        },
+        {
+          "id": "c2",
+          "label": "Backup restore validated",
+          "done": true
+        },
+        {
+          "id": "c3",
+          "label": "Call tree confirmed",
+          "done": false
+        },
+        {
+          "id": "c4",
+          "label": "Vendor SLA checked",
+          "done": false
+        }
+      ],
+      "documents": [
+        "DR-001-BCP.pdf"
+      ],
+      "aiRecommendations": [
+        "Validate recovery dependencies before next exercise."
+      ],
+      "bia": {
+        "financialImpact": "Material revenue and settlement exposure during outage.",
+        "operationalImpact": "Service degradation across dependent channels.",
+        "regulatoryImpact": "Potential supervisory notification if MAO exceeded.",
+        "reputationalImpact": "Customer confidence impact if prolonged.",
+        "peakDependency": "Peak business hours and settlement windows",
+        "downtimeCostPerHour": 25000,
+        "recoveryPriority": 2,
+        "riskScenario": "Site or platform failure"
+      },
+      "recoveryPlan": {
+        "primarySite": "Riyadh DC",
+        "drSite": "Jeddah DC",
+        "backupType": "Incremental",
+        "backupFrequency": "Daily",
+        "recoveryMethod": "Replication",
+        "alternateService": "Jeddah ERP replica",
+        "runbookRef": "DR-001-RUNBOOK",
+        "steps": [
+          "Declare ERP disaster",
+          "Promote Jeddah replica",
+          "Validate GL / AP / AR modules",
+          "Resume batch jobs"
+        ]
+      },
+      "communicationPlan": {
+        "internalContacts": [
+          "Noor",
+          "BCM Office",
+          "Crisis Manager"
+        ],
+        "externalContacts": [
+          "Primary vendor CSM",
+          "Regulator liaison"
+        ],
+        "escalationPath": [
+          "Process Owner",
+          "BCM Lead",
+          "CRO",
+          "Board Risk Committee"
+        ],
+        "channels": [
+          "Teams",
+          "Email",
+          "SMS bridge",
+          "War room"
+        ],
+        "templates": [
+          "Initial incident notice",
+          "Status update",
+          "All-clear"
+        ]
+      },
+      "evidence": [
+        {
+          "id": "DR-001-ev1",
+          "title": "Last recovery test evidence pack",
+          "type": "Test Report",
+          "date": "2026-06-14",
+          "owner": "Noor",
+          "status": "Approved"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "DR-001-att1",
+          "name": "DR-001-BCP.pdf",
+          "size": "1.2 MB",
+          "uploadedBy": "Noor",
+          "uploadedAt": "2026-06-14"
+        }
+      ],
+      "testHistory": [
+        {
+          "id": "TEST-003",
+          "date": "2026-06-14",
+          "type": "Technical",
+          "scenario": "Database Corruption",
+          "result": "Partial",
+          "targetRto": "45 min",
+          "actualRto": "52 min",
+          "observations": "Slow Recovery"
+        },
+        {
+          "id": "TEST-001",
+          "date": "2026-04-10",
+          "type": "Full Simulation",
+          "scenario": "Datacenter Failure",
+          "result": "Passed",
+          "targetRto": "30 min",
+          "actualRto": "24 min",
+          "observations": "Within SLA"
+        }
+      ],
+      "auditHistory": [
+        {
+          "id": "DR-001-a1",
+          "date": "2026-06-14",
+          "action": "Plan reviewed",
+          "actor": "BCM Office",
+          "detail": "Annual continuity plan review completed."
+        }
+      ],
+      "lessonsLearned": [
+        {
+          "id": "DR-001-l1",
+          "date": "2026-06-14",
+          "source": "Recovery test",
+          "finding": "Communication lag between teams under pressure.",
+          "action": "Pre-stage war-room agenda and escalation SLAs.",
+          "owner": "Noor",
+          "status": "In Progress"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "DR-001-tl1",
+          "date": "2026-01-15",
+          "title": "BIA completed",
+          "detail": "Business impact analysis signed off.",
+          "complete": true
+        },
+        {
+          "id": "DR-001-tl2",
+          "date": "2026-06-14",
+          "title": "Recovery test",
+          "detail": "Most recent validated recovery exercise.",
+          "complete": true
+        },
+        {
+          "id": "DR-001-tl3",
+          "date": "2026-10-01",
+          "title": "Plan review due",
+          "detail": "Next scheduled BCP review window.",
+          "complete": false
+        }
+      ],
+      "comments": [
+        {
+          "id": "DR-001-cm1",
+          "author": "Noor",
+          "date": "2026-06-14",
+          "body": "Recovery posture reviewed with BCM Office."
+        }
+      ],
+      "versionHistory": [
+        {
+          "id": "DR-001-v1",
+          "version": "6.1",
+          "date": "2026-06-14",
+          "author": "Noor",
+          "changeSummary": "Baseline continuity plan published."
+        }
+      ],
+      "id": "DR-001",
+      "name": "Oracle ERP",
+      "businessUnit": "Finance",
+      "department": "Finance",
+      "owner": "Noor",
+      "criticality": "Critical",
+      "rto": "2 hrs",
+      "rpo": "30 min",
+      "mao": "4 hrs",
+      "recoveryStrategy": "Replication",
+      "status": "Ready",
+      "lastTest": "2026-06-14",
+      "recoveryTeam": "Infrastructure"
+    },
+    {
+      "businessImpact": "Major",
+      "dependencies": [
+        "Oracle DB",
+        "IAM Identity"
+      ],
+      "nextTest": "2026-11-08",
+      "nextReview": "2026-12-01",
+      "version": "2.3",
+      "riskLevel": "Medium",
+      "riskScore": 3.2,
+      "checklist": [
+        {
+          "id": "c1",
+          "label": "Recovery runbook reviewed",
+          "done": true
+        },
+        {
+          "id": "c2",
+          "label": "Backup restore validated",
+          "done": true
+        },
+        {
+          "id": "c3",
+          "label": "Call tree confirmed",
+          "done": false
+        },
+        {
+          "id": "c4",
+          "label": "Vendor SLA checked",
+          "done": false
+        }
+      ],
+      "documents": [
+        "DR-002-BCP.pdf"
+      ],
+      "aiRecommendations": [
+        "Validate recovery dependencies before next exercise."
+      ],
+      "bia": {
+        "financialImpact": "Material revenue and settlement exposure during outage.",
+        "operationalImpact": "Service degradation across dependent channels.",
+        "regulatoryImpact": "Potential supervisory notification if MAO exceeded.",
+        "reputationalImpact": "Customer confidence impact if prolonged.",
+        "peakDependency": "Peak business hours and settlement windows",
+        "downtimeCostPerHour": 25000,
+        "recoveryPriority": 2,
+        "riskScenario": "Site or platform failure"
+      },
+      "recoveryPlan": {
+        "primarySite": "Riyadh DC",
+        "drSite": "Dammam DR",
+        "backupType": "Full",
+        "backupFrequency": "Weekly",
+        "recoveryMethod": "Restore Backup",
+        "alternateService": "HR read-only portal",
+        "runbookRef": "DR-002-RUNBOOK",
+        "steps": [
+          "Restore latest approved backup",
+          "Validate payroll and attendance modules",
+          "Enable user access in controlled mode"
+        ]
+      },
+      "communicationPlan": {
+        "internalContacts": [
+          "Mona",
+          "BCM Office",
+          "Crisis Manager"
+        ],
+        "externalContacts": [
+          "Primary vendor CSM",
+          "Regulator liaison"
+        ],
+        "escalationPath": [
+          "Process Owner",
+          "BCM Lead",
+          "CRO",
+          "Board Risk Committee"
+        ],
+        "channels": [
+          "Teams",
+          "Email",
+          "SMS bridge",
+          "War room"
+        ],
+        "templates": [
+          "Initial incident notice",
+          "Status update",
+          "All-clear"
+        ]
+      },
+      "evidence": [
+        {
+          "id": "DR-002-ev1",
+          "title": "Last recovery test evidence pack",
+          "type": "Test Report",
+          "date": "2026-05-08",
+          "owner": "Mona",
+          "status": "Approved"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "DR-002-att1",
+          "name": "DR-002-BCP.pdf",
+          "size": "1.2 MB",
+          "uploadedBy": "Mona",
+          "uploadedAt": "2026-05-08"
+        }
+      ],
+      "testHistory": [
+        {
+          "id": "DR-002-t1",
+          "date": "2026-05-08",
+          "type": "Technical",
+          "scenario": "Primary site disruption",
+          "result": "Passed",
+          "targetRto": "8 hrs",
+          "actualRto": "8 hrs",
+          "observations": "Within policy targets"
+        }
+      ],
+      "auditHistory": [
+        {
+          "id": "DR-002-a1",
+          "date": "2026-05-08",
+          "action": "Plan reviewed",
+          "actor": "BCM Office",
+          "detail": "Annual continuity plan review completed."
+        }
+      ],
+      "lessonsLearned": [
+        {
+          "id": "DR-002-l1",
+          "date": "2026-05-08",
+          "source": "Recovery test",
+          "finding": "Communication lag between teams under pressure.",
+          "action": "Pre-stage war-room agenda and escalation SLAs.",
+          "owner": "Mona",
+          "status": "In Progress"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "DR-002-tl1",
+          "date": "2026-01-15",
+          "title": "BIA completed",
+          "detail": "Business impact analysis signed off.",
+          "complete": true
+        },
+        {
+          "id": "DR-002-tl2",
+          "date": "2026-05-08",
+          "title": "Recovery test",
+          "detail": "Most recent validated recovery exercise.",
+          "complete": true
+        },
+        {
+          "id": "DR-002-tl3",
+          "date": "2026-12-01",
+          "title": "Plan review due",
+          "detail": "Next scheduled BCP review window.",
+          "complete": false
+        }
+      ],
+      "comments": [
+        {
+          "id": "DR-002-cm1",
+          "author": "Mona",
+          "date": "2026-05-08",
+          "body": "Recovery posture reviewed with BCM Office."
+        }
+      ],
+      "versionHistory": [
+        {
+          "id": "DR-002-v1",
+          "version": "2.3",
+          "date": "2026-05-08",
+          "author": "Mona",
+          "changeSummary": "Baseline continuity plan published."
+        }
+      ],
+      "id": "DR-002",
+      "name": "Oracle HR",
+      "businessUnit": "People",
+      "department": "Human Resources",
+      "owner": "Mona",
+      "criticality": "High",
+      "rto": "8 hrs",
+      "rpo": "4 hrs",
+      "mao": "24 hrs",
+      "recoveryStrategy": "Restore Backup",
+      "status": "Ready",
+      "lastTest": "2026-05-08",
+      "recoveryTeam": "IT Ops"
+    },
+    {
+      "businessImpact": "Severe",
+      "dependencies": [
+        "Storage Arrays",
+        "Network",
+        "Monitoring"
+      ],
+      "nextTest": "2026-08-28",
+      "nextReview": "2026-09-10",
+      "version": "7.0",
+      "riskLevel": "High",
+      "riskScore": 4.1,
+      "checklist": [
+        {
+          "id": "c1",
+          "label": "Recovery runbook reviewed",
+          "done": true
+        },
+        {
+          "id": "c2",
+          "label": "Backup restore validated",
+          "done": true
+        },
+        {
+          "id": "c3",
+          "label": "Call tree confirmed",
+          "done": false
+        },
+        {
+          "id": "c4",
+          "label": "Vendor SLA checked",
+          "done": false
+        }
+      ],
+      "documents": [
+        "DR-003-BCP.pdf"
+      ],
+      "aiRecommendations": [
+        "Validate recovery dependencies before next exercise."
+      ],
+      "bia": {
+        "financialImpact": "Material revenue and settlement exposure during outage.",
+        "operationalImpact": "Service degradation across dependent channels.",
+        "regulatoryImpact": "Potential supervisory notification if MAO exceeded.",
+        "reputationalImpact": "Customer confidence impact if prolonged.",
+        "peakDependency": "Peak business hours and settlement windows",
+        "downtimeCostPerHour": 25000,
+        "recoveryPriority": 2,
+        "riskScenario": "Site or platform failure"
+      },
+      "recoveryPlan": {
+        "primarySite": "Riyadh DC",
+        "drSite": "Azure",
+        "backupType": "Snapshot",
+        "backupFrequency": "Hourly",
+        "recoveryMethod": "Failover",
+        "alternateService": "Azure standby DB",
+        "runbookRef": "DR-003-RUNBOOK",
+        "steps": [
+          "Fail over Data Guard / standby",
+          "Validate listener and schemas",
+          "Notify dependent application owners"
+        ]
+      },
+      "communicationPlan": {
+        "internalContacts": [
+          "Turki",
+          "BCM Office",
+          "Crisis Manager"
+        ],
+        "externalContacts": [
+          "Primary vendor CSM",
+          "Regulator liaison"
+        ],
+        "escalationPath": [
+          "Process Owner",
+          "BCM Lead",
+          "CRO",
+          "Board Risk Committee"
+        ],
+        "channels": [
+          "Teams",
+          "Email",
+          "SMS bridge",
+          "War room"
+        ],
+        "templates": [
+          "Initial incident notice",
+          "Status update",
+          "All-clear"
+        ]
+      },
+      "evidence": [
+        {
+          "id": "DR-003-ev1",
+          "title": "Last recovery test evidence pack",
+          "type": "Test Report",
+          "date": "2026-06-28",
+          "owner": "Turki",
+          "status": "Approved"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "DR-003-att1",
+          "name": "DR-003-BCP.pdf",
+          "size": "1.2 MB",
+          "uploadedBy": "Turki",
+          "uploadedAt": "2026-06-28"
+        }
+      ],
+      "testHistory": [
+        {
+          "id": "TEST-004",
+          "date": "2026-06-28",
+          "type": "Technical",
+          "scenario": "Network Outage",
+          "result": "Passed",
+          "targetRto": "20 min",
+          "actualRto": "18 min",
+          "observations": "Successful"
+        },
+        {
+          "id": "TEST-002",
+          "date": "2026-05-08",
+          "type": "Technical",
+          "scenario": "Storage Failure",
+          "result": "Passed",
+          "targetRto": "1 hr",
+          "actualRto": "54 min",
+          "observations": "Normal"
+        }
+      ],
+      "auditHistory": [
+        {
+          "id": "DR-003-a1",
+          "date": "2026-06-28",
+          "action": "Plan reviewed",
+          "actor": "BCM Office",
+          "detail": "Annual continuity plan review completed."
+        }
+      ],
+      "lessonsLearned": [
+        {
+          "id": "DR-003-l1",
+          "date": "2026-06-28",
+          "source": "Recovery test",
+          "finding": "Communication lag between teams under pressure.",
+          "action": "Pre-stage war-room agenda and escalation SLAs.",
+          "owner": "Turki",
+          "status": "In Progress"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "DR-003-tl1",
+          "date": "2026-01-15",
+          "title": "BIA completed",
+          "detail": "Business impact analysis signed off.",
+          "complete": true
+        },
+        {
+          "id": "DR-003-tl2",
+          "date": "2026-06-28",
+          "title": "Recovery test",
+          "detail": "Most recent validated recovery exercise.",
+          "complete": true
+        },
+        {
+          "id": "DR-003-tl3",
+          "date": "2026-09-10",
+          "title": "Plan review due",
+          "detail": "Next scheduled BCP review window.",
+          "complete": false
+        }
+      ],
+      "comments": [
+        {
+          "id": "DR-003-cm1",
+          "author": "Turki",
+          "date": "2026-06-28",
+          "body": "Recovery posture reviewed with BCM Office."
+        }
+      ],
+      "versionHistory": [
+        {
+          "id": "DR-003-v1",
+          "version": "7.0",
+          "date": "2026-06-28",
+          "author": "Turki",
+          "changeSummary": "Baseline continuity plan published."
+        }
+      ],
+      "id": "DR-003",
+      "name": "Oracle DB",
+      "businessUnit": "Technology",
+      "department": "Database",
+      "owner": "Turki",
+      "criticality": "Critical",
+      "rto": "45 min",
+      "rpo": "15 min",
+      "mao": "1 hr",
+      "recoveryStrategy": "Failover",
+      "status": "Testing",
+      "lastTest": "2026-06-28",
+      "recoveryTeam": "DBA Team"
+    },
+    {
+      "businessImpact": "Severe",
+      "dependencies": [
+        "Oracle DB",
+        "Certificates",
+        "Directory Services"
+      ],
+      "nextTest": "2026-09-05",
+      "nextReview": "2026-10-01",
+      "version": "4.5",
+      "riskLevel": "High",
+      "riskScore": 4.1,
+      "checklist": [
+        {
+          "id": "c1",
+          "label": "Recovery runbook reviewed",
+          "done": true
+        },
+        {
+          "id": "c2",
+          "label": "Backup restore validated",
+          "done": true
+        },
+        {
+          "id": "c3",
+          "label": "Call tree confirmed",
+          "done": false
+        },
+        {
+          "id": "c4",
+          "label": "Vendor SLA checked",
+          "done": false
+        }
+      ],
+      "documents": [
+        "DR-004-BCP.pdf"
+      ],
+      "aiRecommendations": [
+        "Validate recovery dependencies before next exercise."
+      ],
+      "bia": {
+        "financialImpact": "Material revenue and settlement exposure during outage.",
+        "operationalImpact": "Service degradation across dependent channels.",
+        "regulatoryImpact": "Potential supervisory notification if MAO exceeded.",
+        "reputationalImpact": "Customer confidence impact if prolonged.",
+        "peakDependency": "Peak business hours and settlement windows",
+        "downtimeCostPerHour": 25000,
+        "recoveryPriority": 2,
+        "riskScenario": "Site or platform failure"
+      },
+      "recoveryPlan": {
+        "primarySite": "Riyadh DC",
+        "drSite": "Azure",
+        "backupType": "Incremental",
+        "backupFrequency": "Daily",
+        "recoveryMethod": "Active-Standby",
+        "alternateService": "Azure IAM standby",
+        "runbookRef": "DR-004-RUNBOOK",
+        "steps": [
+          "Activate standby IAM",
+          "Validate federation and SSO",
+          "Confirm privileged role mappings"
+        ]
+      },
+      "communicationPlan": {
+        "internalContacts": [
+          "Lama",
+          "BCM Office",
+          "Crisis Manager"
+        ],
+        "externalContacts": [
+          "Primary vendor CSM",
+          "Regulator liaison"
+        ],
+        "escalationPath": [
+          "Process Owner",
+          "BCM Lead",
+          "CRO",
+          "Board Risk Committee"
+        ],
+        "channels": [
+          "Teams",
+          "Email",
+          "SMS bridge",
+          "War room"
+        ],
+        "templates": [
+          "Initial incident notice",
+          "Status update",
+          "All-clear"
+        ]
+      },
+      "evidence": [
+        {
+          "id": "DR-004-ev1",
+          "title": "Last recovery test evidence pack",
+          "type": "Test Report",
+          "date": "2026-06-05",
+          "owner": "Lama",
+          "status": "Approved"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "DR-004-att1",
+          "name": "DR-004-BCP.pdf",
+          "size": "1.2 MB",
+          "uploadedBy": "Lama",
+          "uploadedAt": "2026-06-05"
+        }
+      ],
+      "testHistory": [
+        {
+          "id": "DR-004-t1",
+          "date": "2026-06-05",
+          "type": "Technical",
+          "scenario": "Primary site disruption",
+          "result": "Passed",
+          "targetRto": "30 min",
+          "actualRto": "30 min",
+          "observations": "Within policy targets"
+        }
+      ],
+      "auditHistory": [
+        {
+          "id": "DR-004-a1",
+          "date": "2026-06-05",
+          "action": "Plan reviewed",
+          "actor": "BCM Office",
+          "detail": "Annual continuity plan review completed."
+        }
+      ],
+      "lessonsLearned": [
+        {
+          "id": "DR-004-l1",
+          "date": "2026-06-05",
+          "source": "Recovery test",
+          "finding": "Communication lag between teams under pressure.",
+          "action": "Pre-stage war-room agenda and escalation SLAs.",
+          "owner": "Lama",
+          "status": "In Progress"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "DR-004-tl1",
+          "date": "2026-01-15",
+          "title": "BIA completed",
+          "detail": "Business impact analysis signed off.",
+          "complete": true
+        },
+        {
+          "id": "DR-004-tl2",
+          "date": "2026-06-05",
+          "title": "Recovery test",
+          "detail": "Most recent validated recovery exercise.",
+          "complete": true
+        },
+        {
+          "id": "DR-004-tl3",
+          "date": "2026-10-01",
+          "title": "Plan review due",
+          "detail": "Next scheduled BCP review window.",
+          "complete": false
+        }
+      ],
+      "comments": [
+        {
+          "id": "DR-004-cm1",
+          "author": "Lama",
+          "date": "2026-06-05",
+          "body": "Recovery posture reviewed with BCM Office."
+        }
+      ],
+      "versionHistory": [
+        {
+          "id": "DR-004-v1",
+          "version": "4.5",
+          "date": "2026-06-05",
+          "author": "Lama",
+          "changeSummary": "Baseline continuity plan published."
+        }
+      ],
+      "id": "DR-004",
+      "name": "Oracle IAM",
+      "businessUnit": "Security",
+      "department": "Security",
+      "owner": "Lama",
+      "criticality": "Critical",
+      "rto": "30 min",
+      "rpo": "10 min",
+      "mao": "1 hr",
+      "recoveryStrategy": "Active-Standby",
+      "status": "Ready",
+      "lastTest": "2026-06-05",
+      "recoveryTeam": "Security"
+    },
+    {
+      "businessImpact": "Moderate",
+      "dependencies": [
+        "Oracle DB",
+        "Data Warehouse"
+      ],
+      "nextTest": "2026-09-12",
+      "nextReview": "2026-08-01",
+      "version": "1.2",
+      "riskLevel": "Medium",
+      "riskScore": 2.4,
+      "checklist": [
+        {
+          "id": "c1",
+          "label": "Recovery runbook reviewed",
+          "done": true
+        },
+        {
+          "id": "c2",
+          "label": "Backup restore validated",
+          "done": true
+        },
+        {
+          "id": "c3",
+          "label": "Call tree confirmed",
+          "done": false
+        },
+        {
+          "id": "c4",
+          "label": "Vendor SLA checked",
+          "done": false
+        }
+      ],
+      "documents": [
+        "DR-005-BCP.pdf"
+      ],
+      "aiRecommendations": [
+        "Validate recovery dependencies before next exercise."
+      ],
+      "bia": {
+        "financialImpact": "Material revenue and settlement exposure during outage.",
+        "operationalImpact": "Service degradation across dependent channels.",
+        "regulatoryImpact": "Potential supervisory notification if MAO exceeded.",
+        "reputationalImpact": "Customer confidence impact if prolonged.",
+        "peakDependency": "Peak business hours and settlement windows",
+        "downtimeCostPerHour": 25000,
+        "recoveryPriority": 2,
+        "riskScenario": "Site or platform failure"
+      },
+      "recoveryPlan": {
+        "primarySite": "Riyadh DC",
+        "drSite": "Jeddah DR",
+        "backupType": "Snapshot",
+        "backupFrequency": "Daily",
+        "recoveryMethod": "Restore",
+        "alternateService": "Cached executive dashboards",
+        "runbookRef": "DR-005-RUNBOOK",
+        "steps": [
+          "Restore analytics warehouse",
+          "Republish critical dashboards",
+          "Validate executive KPI accuracy"
+        ]
+      },
+      "communicationPlan": {
+        "internalContacts": [
+          "Nasser",
+          "BCM Office",
+          "Crisis Manager"
+        ],
+        "externalContacts": [
+          "Primary vendor CSM",
+          "Regulator liaison"
+        ],
+        "escalationPath": [
+          "Process Owner",
+          "BCM Lead",
+          "CRO",
+          "Board Risk Committee"
+        ],
+        "channels": [
+          "Teams",
+          "Email",
+          "SMS bridge",
+          "War room"
+        ],
+        "templates": [
+          "Initial incident notice",
+          "Status update",
+          "All-clear"
+        ]
+      },
+      "evidence": [
+        {
+          "id": "DR-005-ev1",
+          "title": "Last recovery test evidence pack",
+          "type": "Test Report",
+          "date": "2026-03-12",
+          "owner": "Nasser",
+          "status": "Approved"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "DR-005-att1",
+          "name": "DR-005-BCP.pdf",
+          "size": "1.2 MB",
+          "uploadedBy": "Nasser",
+          "uploadedAt": "2026-03-12"
+        }
+      ],
+      "testHistory": [
+        {
+          "id": "DR-005-t1",
+          "date": "2026-03-12",
+          "type": "Technical",
+          "scenario": "Primary site disruption",
+          "result": "Passed",
+          "targetRto": "24 hrs",
+          "actualRto": "24 hrs",
+          "observations": "Within policy targets"
+        }
+      ],
+      "auditHistory": [
+        {
+          "id": "DR-005-a1",
+          "date": "2026-03-12",
+          "action": "Plan reviewed",
+          "actor": "BCM Office",
+          "detail": "Annual continuity plan review completed."
+        }
+      ],
+      "lessonsLearned": [
+        {
+          "id": "DR-005-l1",
+          "date": "2026-03-12",
+          "source": "Recovery test",
+          "finding": "Communication lag between teams under pressure.",
+          "action": "Pre-stage war-room agenda and escalation SLAs.",
+          "owner": "Nasser",
+          "status": "In Progress"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "DR-005-tl1",
+          "date": "2026-01-15",
+          "title": "BIA completed",
+          "detail": "Business impact analysis signed off.",
+          "complete": true
+        },
+        {
+          "id": "DR-005-tl2",
+          "date": "2026-03-12",
+          "title": "Recovery test",
+          "detail": "Most recent validated recovery exercise.",
+          "complete": true
+        },
+        {
+          "id": "DR-005-tl3",
+          "date": "2026-08-01",
+          "title": "Plan review due",
+          "detail": "Next scheduled BCP review window.",
+          "complete": false
+        }
+      ],
+      "comments": [
+        {
+          "id": "DR-005-cm1",
+          "author": "Nasser",
+          "date": "2026-03-12",
+          "body": "Recovery posture reviewed with BCM Office."
+        }
+      ],
+      "versionHistory": [
+        {
+          "id": "DR-005-v1",
+          "version": "1.2",
+          "date": "2026-03-12",
+          "author": "Nasser",
+          "changeSummary": "Baseline continuity plan published."
+        }
+      ],
+      "id": "DR-005",
+      "name": "Oracle Analytics",
+      "businessUnit": "Strategy",
+      "department": "Business Intelligence",
+      "owner": "Nasser",
+      "criticality": "Medium",
+      "rto": "24 hrs",
+      "rpo": "8 hrs",
+      "mao": "72 hrs",
+      "recoveryStrategy": "Restore Backup",
+      "status": "Draft",
+      "lastTest": "2026-03-12",
+      "recoveryTeam": "BI Team"
+    },
+    {
+      "businessImpact": "Severe",
+      "dependencies": [
+        "Core Banking",
+        "Identity Services",
+        "Payment Gateway"
+      ],
+      "nextTest": "2026-09-28",
+      "nextReview": "2026-10-15",
+      "version": "4.2",
+      "riskLevel": "High",
+      "riskScore": 3.4,
+      "checklist": [
+        {
+          "id": "c1",
+          "label": "Recovery runbook reviewed",
+          "done": true
+        },
+        {
+          "id": "c2",
+          "label": "Backup restore validated",
+          "done": true
+        },
+        {
+          "id": "c3",
+          "label": "Call tree confirmed",
+          "done": false
+        },
+        {
+          "id": "c4",
+          "label": "Vendor SLA checked",
+          "done": false
+        }
+      ],
+      "documents": [
+        "proc-online-banking-BCP.pdf"
+      ],
+      "aiRecommendations": [
+        "Validate recovery dependencies before next exercise."
+      ],
+      "bia": {
+        "financialImpact": "Material revenue and settlement exposure during outage.",
+        "operationalImpact": "Service degradation across dependent channels.",
+        "regulatoryImpact": "Potential supervisory notification if MAO exceeded.",
+        "reputationalImpact": "Customer confidence impact if prolonged.",
+        "peakDependency": "Peak business hours and settlement windows",
+        "downtimeCostPerHour": 25000,
+        "recoveryPriority": 2,
+        "riskScenario": "Site or platform failure"
+      },
+      "recoveryPlan": {
+        "primarySite": "Riyadh DC",
+        "drSite": "Jeddah DC",
+        "backupType": "Incremental",
+        "backupFrequency": "Daily",
+        "recoveryMethod": "Failover",
+        "alternateService": "Secondary capability",
+        "runbookRef": "proc-online-banking-RUNBOOK",
+        "steps": [
+          "Declare incident and activate BCM team",
+          "Assess impact against RTO / RPO / MAO",
+          "Execute failover or restore procedure",
+          "Validate services and communicate status",
+          "Stand down and capture lessons learned"
+        ]
+      },
+      "communicationPlan": {
+        "internalContacts": [
+          "Lama",
+          "BCM Office",
+          "Crisis Manager"
+        ],
+        "externalContacts": [
+          "Primary vendor CSM",
+          "Regulator liaison"
+        ],
+        "escalationPath": [
+          "Process Owner",
+          "BCM Lead",
+          "CRO",
+          "Board Risk Committee"
+        ],
+        "channels": [
+          "Teams",
+          "Email",
+          "SMS bridge",
+          "War room"
+        ],
+        "templates": [
+          "Initial incident notice",
+          "Status update",
+          "All-clear"
+        ]
+      },
+      "evidence": [
+        {
+          "id": "proc-online-banking-ev1",
+          "title": "Last recovery test evidence pack",
+          "type": "Test Report",
+          "date": "2026-06-28",
+          "owner": "Lama",
+          "status": "Approved"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "proc-online-banking-att1",
+          "name": "proc-online-banking-BCP.pdf",
+          "size": "1.2 MB",
+          "uploadedBy": "Lama",
+          "uploadedAt": "2026-06-28"
+        }
+      ],
+      "testHistory": [
+        {
+          "id": "proc-online-banking-t1",
+          "date": "2026-06-28",
+          "type": "Technical",
+          "scenario": "Primary site disruption",
+          "result": "Passed",
+          "targetRto": "4 hrs",
+          "actualRto": "4 hrs",
+          "observations": "Within policy targets"
+        }
+      ],
+      "auditHistory": [
+        {
+          "id": "proc-online-banking-a1",
+          "date": "2026-06-28",
+          "action": "Plan reviewed",
+          "actor": "BCM Office",
+          "detail": "Annual continuity plan review completed."
+        }
+      ],
+      "lessonsLearned": [
+        {
+          "id": "proc-online-banking-l1",
+          "date": "2026-06-28",
+          "source": "Recovery test",
+          "finding": "Communication lag between teams under pressure.",
+          "action": "Pre-stage war-room agenda and escalation SLAs.",
+          "owner": "Lama",
+          "status": "In Progress"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "proc-online-banking-tl1",
+          "date": "2026-01-15",
+          "title": "BIA completed",
+          "detail": "Business impact analysis signed off.",
+          "complete": true
+        },
+        {
+          "id": "proc-online-banking-tl2",
+          "date": "2026-06-28",
+          "title": "Recovery test",
+          "detail": "Most recent validated recovery exercise.",
+          "complete": true
+        },
+        {
+          "id": "proc-online-banking-tl3",
+          "date": "2026-10-15",
+          "title": "Plan review due",
+          "detail": "Next scheduled BCP review window.",
+          "complete": false
+        }
+      ],
+      "comments": [
+        {
+          "id": "proc-online-banking-cm1",
+          "author": "Lama",
+          "date": "2026-06-28",
+          "body": "Recovery posture reviewed with BCM Office."
+        }
+      ],
+      "versionHistory": [
+        {
+          "id": "proc-online-banking-v1",
+          "version": "4.2",
+          "date": "2026-06-28",
+          "author": "Lama",
+          "changeSummary": "Baseline continuity plan published."
+        }
+      ],
+      "id": "proc-online-banking",
+      "name": "Online Banking",
+      "businessUnit": "Retail Banking",
+      "department": "IT Operations",
+      "owner": "Lama",
+      "criticality": "Critical",
+      "rto": "4 hrs",
+      "rpo": "1 hr",
+      "mao": "4 hrs",
+      "recoveryStrategy": "Failover",
+      "status": "Ready",
+      "lastTest": "2026-06-28",
+      "recoveryTeam": "Digital Channels"
+    },
+    {
+      "businessImpact": "Severe",
+      "dependencies": [
+        "Card Network Connectors",
+        "Fraud Engine",
+        "Settlement Bus"
+      ],
+      "nextTest": "2026-10-02",
+      "nextReview": "2026-10-20",
+      "version": "3.1",
+      "riskLevel": "High",
+      "riskScore": 3.8,
+      "checklist": [
+        {
+          "id": "c1",
+          "label": "Recovery runbook reviewed",
+          "done": true
+        },
+        {
+          "id": "c2",
+          "label": "Backup restore validated",
+          "done": true
+        },
+        {
+          "id": "c3",
+          "label": "Call tree confirmed",
+          "done": false
+        },
+        {
+          "id": "c4",
+          "label": "Vendor SLA checked",
+          "done": false
+        }
+      ],
+      "documents": [
+        "proc-payment-gateway-BCP.pdf"
+      ],
+      "aiRecommendations": [
+        "Reduce RTO from 2 hrs to 90 minutes for Peak Payday.",
+        "Duplicate settlement channel through secondary region."
+      ],
+      "bia": {
+        "financialImpact": "Material revenue and settlement exposure during outage.",
+        "operationalImpact": "Service degradation across dependent channels.",
+        "regulatoryImpact": "Potential supervisory notification if MAO exceeded.",
+        "reputationalImpact": "Customer confidence impact if prolonged.",
+        "peakDependency": "Peak business hours and settlement windows",
+        "downtimeCostPerHour": 25000,
+        "recoveryPriority": 2,
+        "riskScenario": "Site or platform failure"
+      },
+      "recoveryPlan": {
+        "primarySite": "Riyadh DC",
+        "drSite": "Jeddah DC",
+        "backupType": "Incremental",
+        "backupFrequency": "Daily",
+        "recoveryMethod": "HA Cluster",
+        "alternateService": "Secondary capability",
+        "runbookRef": "proc-payment-gateway-RUNBOOK",
+        "steps": [
+          "Declare incident and activate BCM team",
+          "Assess impact against RTO / RPO / MAO",
+          "Execute failover or restore procedure",
+          "Validate services and communicate status",
+          "Stand down and capture lessons learned"
+        ]
+      },
+      "communicationPlan": {
+        "internalContacts": [
+          "Faisal",
+          "BCM Office",
+          "Crisis Manager"
+        ],
+        "externalContacts": [
+          "Primary vendor CSM",
+          "Regulator liaison"
+        ],
+        "escalationPath": [
+          "Process Owner",
+          "BCM Lead",
+          "CRO",
+          "Board Risk Committee"
+        ],
+        "channels": [
+          "Teams",
+          "Email",
+          "SMS bridge",
+          "War room"
+        ],
+        "templates": [
+          "Initial incident notice",
+          "Status update",
+          "All-clear"
+        ]
+      },
+      "evidence": [
+        {
+          "id": "proc-payment-gateway-ev1",
+          "title": "Last recovery test evidence pack",
+          "type": "Test Report",
+          "date": "2026-07-02",
+          "owner": "Faisal",
+          "status": "Approved"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "proc-payment-gateway-att1",
+          "name": "proc-payment-gateway-BCP.pdf",
+          "size": "1.2 MB",
+          "uploadedBy": "Faisal",
+          "uploadedAt": "2026-07-02"
+        }
+      ],
+      "testHistory": [
+        {
+          "id": "proc-payment-gateway-t1",
+          "date": "2026-07-02",
+          "type": "Technical",
+          "scenario": "Primary site disruption",
+          "result": "Passed",
+          "targetRto": "2 hrs",
+          "actualRto": "2 hrs",
+          "observations": "Within policy targets"
+        }
+      ],
+      "auditHistory": [
+        {
+          "id": "proc-payment-gateway-a1",
+          "date": "2026-07-02",
+          "action": "Plan reviewed",
+          "actor": "BCM Office",
+          "detail": "Annual continuity plan review completed."
+        }
+      ],
+      "lessonsLearned": [
+        {
+          "id": "proc-payment-gateway-l1",
+          "date": "2026-07-02",
+          "source": "Recovery test",
+          "finding": "Communication lag between teams under pressure.",
+          "action": "Pre-stage war-room agenda and escalation SLAs.",
+          "owner": "Faisal",
+          "status": "In Progress"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "proc-payment-gateway-tl1",
+          "date": "2026-01-15",
+          "title": "BIA completed",
+          "detail": "Business impact analysis signed off.",
+          "complete": true
+        },
+        {
+          "id": "proc-payment-gateway-tl2",
+          "date": "2026-07-02",
+          "title": "Recovery test",
+          "detail": "Most recent validated recovery exercise.",
+          "complete": true
+        },
+        {
+          "id": "proc-payment-gateway-tl3",
+          "date": "2026-10-20",
+          "title": "Plan review due",
+          "detail": "Next scheduled BCP review window.",
+          "complete": false
+        }
+      ],
+      "comments": [
+        {
+          "id": "proc-payment-gateway-cm1",
+          "author": "Faisal",
+          "date": "2026-07-02",
+          "body": "Recovery posture reviewed with BCM Office."
+        }
+      ],
+      "versionHistory": [
+        {
+          "id": "proc-payment-gateway-v1",
+          "version": "3.1",
+          "date": "2026-07-02",
+          "author": "Faisal",
+          "changeSummary": "Baseline continuity plan published."
+        }
+      ],
+      "id": "proc-payment-gateway",
+      "name": "Payment Gateway",
+      "businessUnit": "Retail Banking",
+      "department": "Operations",
+      "owner": "Faisal",
+      "criticality": "Critical",
+      "rto": "2 hrs",
+      "rpo": "30 min",
+      "mao": "2 hrs",
+      "recoveryStrategy": "HA Cluster",
+      "status": "Ready",
+      "lastTest": "2026-07-02",
+      "recoveryTeam": "Payments Ops"
+    },
+    {
+      "businessImpact": "Severe",
+      "dependencies": [
+        "SWIFT Gateway",
+        "Liquidity Engine",
+        "Online Banking"
+      ],
+      "nextTest": "2026-07-18",
+      "nextReview": "2026-07-22",
+      "version": "2.3",
+      "riskLevel": "High",
+      "riskScore": 4.1,
+      "checklist": [
+        {
+          "id": "c1",
+          "label": "Recovery runbook reviewed",
+          "done": true
+        },
+        {
+          "id": "c2",
+          "label": "Backup restore validated",
+          "done": true
+        },
+        {
+          "id": "c3",
+          "label": "Call tree confirmed",
+          "done": false
+        },
+        {
+          "id": "c4",
+          "label": "Vendor SLA checked",
+          "done": false
+        }
+      ],
+      "documents": [
+        "proc-treasury-BCP.pdf"
+      ],
+      "aiRecommendations": [
+        "Prioritize SWIFT alternate channel before Q3 audit.",
+        "Align Treasury RTO with Payment Gateway dependencies."
+      ],
+      "bia": {
+        "financialImpact": "Material revenue and settlement exposure during outage.",
+        "operationalImpact": "Service degradation across dependent channels.",
+        "regulatoryImpact": "Potential supervisory notification if MAO exceeded.",
+        "reputationalImpact": "Customer confidence impact if prolonged.",
+        "peakDependency": "Peak business hours and settlement windows",
+        "downtimeCostPerHour": 25000,
+        "recoveryPriority": 2,
+        "riskScenario": "Site or platform failure"
+      },
+      "recoveryPlan": {
+        "primarySite": "Riyadh DC",
+        "drSite": "Jeddah DC",
+        "backupType": "Incremental",
+        "backupFrequency": "Daily",
+        "recoveryMethod": "Manual Workaround",
+        "alternateService": "Secondary capability",
+        "runbookRef": "proc-treasury-RUNBOOK",
+        "steps": [
+          "Declare incident and activate BCM team",
+          "Assess impact against RTO / RPO / MAO",
+          "Execute failover or restore procedure",
+          "Validate services and communicate status",
+          "Stand down and capture lessons learned"
+        ]
+      },
+      "communicationPlan": {
+        "internalContacts": [
+          "Noor",
+          "BCM Office",
+          "Crisis Manager"
+        ],
+        "externalContacts": [
+          "Primary vendor CSM",
+          "Regulator liaison"
+        ],
+        "escalationPath": [
+          "Process Owner",
+          "BCM Lead",
+          "CRO",
+          "Board Risk Committee"
+        ],
+        "channels": [
+          "Teams",
+          "Email",
+          "SMS bridge",
+          "War room"
+        ],
+        "templates": [
+          "Initial incident notice",
+          "Status update",
+          "All-clear"
+        ]
+      },
+      "evidence": [
+        {
+          "id": "proc-treasury-ev1",
+          "title": "Last recovery test evidence pack",
+          "type": "Test Report",
+          "date": "2026-04-18",
+          "owner": "Noor",
+          "status": "Approved"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "proc-treasury-att1",
+          "name": "proc-treasury-BCP.pdf",
+          "size": "1.2 MB",
+          "uploadedBy": "Noor",
+          "uploadedAt": "2026-04-18"
+        }
+      ],
+      "testHistory": [
+        {
+          "id": "proc-treasury-t1",
+          "date": "2026-04-18",
+          "type": "Technical",
+          "scenario": "Primary site disruption",
+          "result": "Passed",
+          "targetRto": "6 hrs",
+          "actualRto": "6 hrs",
+          "observations": "Within policy targets"
+        }
+      ],
+      "auditHistory": [
+        {
+          "id": "proc-treasury-a1",
+          "date": "2026-04-18",
+          "action": "Plan reviewed",
+          "actor": "BCM Office",
+          "detail": "Annual continuity plan review completed."
+        }
+      ],
+      "lessonsLearned": [
+        {
+          "id": "proc-treasury-l1",
+          "date": "2026-04-18",
+          "source": "Recovery test",
+          "finding": "Communication lag between teams under pressure.",
+          "action": "Pre-stage war-room agenda and escalation SLAs.",
+          "owner": "Noor",
+          "status": "In Progress"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "proc-treasury-tl1",
+          "date": "2026-01-15",
+          "title": "BIA completed",
+          "detail": "Business impact analysis signed off.",
+          "complete": true
+        },
+        {
+          "id": "proc-treasury-tl2",
+          "date": "2026-04-18",
+          "title": "Recovery test",
+          "detail": "Most recent validated recovery exercise.",
+          "complete": true
+        },
+        {
+          "id": "proc-treasury-tl3",
+          "date": "2026-07-22",
+          "title": "Plan review due",
+          "detail": "Next scheduled BCP review window.",
+          "complete": false
+        }
+      ],
+      "comments": [
+        {
+          "id": "proc-treasury-cm1",
+          "author": "Noor",
+          "date": "2026-04-18",
+          "body": "Recovery posture reviewed with BCM Office."
+        }
+      ],
+      "versionHistory": [
+        {
+          "id": "proc-treasury-v1",
+          "version": "2.3",
+          "date": "2026-04-18",
+          "author": "Noor",
+          "changeSummary": "Baseline continuity plan published."
+        }
+      ],
+      "id": "proc-treasury",
+      "name": "Treasury Settlement",
+      "businessUnit": "Treasury",
+      "department": "Finance",
+      "owner": "Noor",
+      "criticality": "Critical",
+      "rto": "6 hrs",
+      "rpo": "1 hr",
+      "mao": "6 hrs",
+      "recoveryStrategy": "Manual Workaround",
+      "status": "At Risk",
+      "lastTest": "2026-04-18",
+      "recoveryTeam": "Treasury Ops"
+    },
+    {
+      "businessImpact": "Moderate",
+      "dependencies": [
+        "Exchange Hybrid",
+        "DNS",
+        "Anti-Phishing Gateway"
+      ],
+      "nextTest": "2026-11-20",
+      "nextReview": "2026-12-01",
+      "version": "1.8",
+      "riskLevel": "Low",
+      "riskScore": 1.8,
+      "checklist": [
+        {
+          "id": "c1",
+          "label": "Recovery runbook reviewed",
+          "done": true
+        },
+        {
+          "id": "c2",
+          "label": "Backup restore validated",
+          "done": true
+        },
+        {
+          "id": "c3",
+          "label": "Call tree confirmed",
+          "done": false
+        },
+        {
+          "id": "c4",
+          "label": "Vendor SLA checked",
+          "done": false
+        }
+      ],
+      "documents": [
+        "proc-email-BCP.pdf"
+      ],
+      "aiRecommendations": [
+        "Validate recovery dependencies before next exercise."
+      ],
+      "bia": {
+        "financialImpact": "Material revenue and settlement exposure during outage.",
+        "operationalImpact": "Service degradation across dependent channels.",
+        "regulatoryImpact": "Potential supervisory notification if MAO exceeded.",
+        "reputationalImpact": "Customer confidence impact if prolonged.",
+        "peakDependency": "Peak business hours and settlement windows",
+        "downtimeCostPerHour": 25000,
+        "recoveryPriority": 2,
+        "riskScenario": "Site or platform failure"
+      },
+      "recoveryPlan": {
+        "primarySite": "Riyadh DC",
+        "drSite": "Jeddah DC",
+        "backupType": "Incremental",
+        "backupFrequency": "Daily",
+        "recoveryMethod": "Failover",
+        "alternateService": "Secondary capability",
+        "runbookRef": "proc-email-RUNBOOK",
+        "steps": [
+          "Declare incident and activate BCM team",
+          "Assess impact against RTO / RPO / MAO",
+          "Execute failover or restore procedure",
+          "Validate services and communicate status",
+          "Stand down and capture lessons learned"
+        ]
+      },
+      "communicationPlan": {
+        "internalContacts": [
+          "Turki",
+          "BCM Office",
+          "Crisis Manager"
+        ],
+        "externalContacts": [
+          "Primary vendor CSM",
+          "Regulator liaison"
+        ],
+        "escalationPath": [
+          "Process Owner",
+          "BCM Lead",
+          "CRO",
+          "Board Risk Committee"
+        ],
+        "channels": [
+          "Teams",
+          "Email",
+          "SMS bridge",
+          "War room"
+        ],
+        "templates": [
+          "Initial incident notice",
+          "Status update",
+          "All-clear"
+        ]
+      },
+      "evidence": [
+        {
+          "id": "proc-email-ev1",
+          "title": "Last recovery test evidence pack",
+          "type": "Test Report",
+          "date": "2026-05-20",
+          "owner": "Turki",
+          "status": "Approved"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "proc-email-att1",
+          "name": "proc-email-BCP.pdf",
+          "size": "1.2 MB",
+          "uploadedBy": "Turki",
+          "uploadedAt": "2026-05-20"
+        }
+      ],
+      "testHistory": [
+        {
+          "id": "proc-email-t1",
+          "date": "2026-05-20",
+          "type": "Technical",
+          "scenario": "Primary site disruption",
+          "result": "Passed",
+          "targetRto": "24 hrs",
+          "actualRto": "24 hrs",
+          "observations": "Within policy targets"
+        }
+      ],
+      "auditHistory": [
+        {
+          "id": "proc-email-a1",
+          "date": "2026-05-20",
+          "action": "Plan reviewed",
+          "actor": "BCM Office",
+          "detail": "Annual continuity plan review completed."
+        }
+      ],
+      "lessonsLearned": [
+        {
+          "id": "proc-email-l1",
+          "date": "2026-05-20",
+          "source": "Recovery test",
+          "finding": "Communication lag between teams under pressure.",
+          "action": "Pre-stage war-room agenda and escalation SLAs.",
+          "owner": "Turki",
+          "status": "In Progress"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "proc-email-tl1",
+          "date": "2026-01-15",
+          "title": "BIA completed",
+          "detail": "Business impact analysis signed off.",
+          "complete": true
+        },
+        {
+          "id": "proc-email-tl2",
+          "date": "2026-05-20",
+          "title": "Recovery test",
+          "detail": "Most recent validated recovery exercise.",
+          "complete": true
+        },
+        {
+          "id": "proc-email-tl3",
+          "date": "2026-12-01",
+          "title": "Plan review due",
+          "detail": "Next scheduled BCP review window.",
+          "complete": false
+        }
+      ],
+      "comments": [
+        {
+          "id": "proc-email-cm1",
+          "author": "Turki",
+          "date": "2026-05-20",
+          "body": "Recovery posture reviewed with BCM Office."
+        }
+      ],
+      "versionHistory": [
+        {
+          "id": "proc-email-v1",
+          "version": "1.8",
+          "date": "2026-05-20",
+          "author": "Turki",
+          "changeSummary": "Baseline continuity plan published."
+        }
+      ],
+      "id": "proc-email",
+      "name": "Email Services",
+      "businessUnit": "Corporate",
+      "department": "Corporate",
+      "owner": "Turki",
+      "criticality": "Medium",
+      "rto": "24 hrs",
+      "rpo": "8 hrs",
+      "mao": "48 hrs",
+      "recoveryStrategy": "Failover",
+      "status": "Ready",
+      "lastTest": "2026-05-20",
+      "recoveryTeam": "Messaging Team"
+    },
+    {
+      "businessImpact": "Severe",
+      "dependencies": [
+        "Oracle DB",
+        "Storage Arrays",
+        "Payment Gateway"
+      ],
+      "nextTest": "2026-09-30",
+      "nextReview": "2026-10-15",
+      "version": "8.0",
+      "riskLevel": "Critical",
+      "riskScore": 4.4,
+      "checklist": [
+        {
+          "id": "c1",
+          "label": "Recovery runbook reviewed",
+          "done": true
+        },
+        {
+          "id": "c2",
+          "label": "Backup restore validated",
+          "done": true
+        },
+        {
+          "id": "c3",
+          "label": "Call tree confirmed",
+          "done": false
+        },
+        {
+          "id": "c4",
+          "label": "Vendor SLA checked",
+          "done": false
+        }
+      ],
+      "documents": [
+        "proc-core-banking-BCP.pdf"
+      ],
+      "aiRecommendations": [
+        "Validate recovery dependencies before next exercise."
+      ],
+      "bia": {
+        "financialImpact": "Material revenue and settlement exposure during outage.",
+        "operationalImpact": "Service degradation across dependent channels.",
+        "regulatoryImpact": "Potential supervisory notification if MAO exceeded.",
+        "reputationalImpact": "Customer confidence impact if prolonged.",
+        "peakDependency": "Peak business hours and settlement windows",
+        "downtimeCostPerHour": 25000,
+        "recoveryPriority": 2,
+        "riskScenario": "Site or platform failure"
+      },
+      "recoveryPlan": {
+        "primarySite": "Riyadh DC",
+        "drSite": "Jeddah DC",
+        "backupType": "Incremental",
+        "backupFrequency": "Daily",
+        "recoveryMethod": "Replication",
+        "alternateService": "Secondary capability",
+        "runbookRef": "proc-core-banking-RUNBOOK",
+        "steps": [
+          "Declare incident and activate BCM team",
+          "Assess impact against RTO / RPO / MAO",
+          "Execute failover or restore procedure",
+          "Validate services and communicate status",
+          "Stand down and capture lessons learned"
+        ]
+      },
+      "communicationPlan": {
+        "internalContacts": [
+          "Ahmed",
+          "BCM Office",
+          "Crisis Manager"
+        ],
+        "externalContacts": [
+          "Primary vendor CSM",
+          "Regulator liaison"
+        ],
+        "escalationPath": [
+          "Process Owner",
+          "BCM Lead",
+          "CRO",
+          "Board Risk Committee"
+        ],
+        "channels": [
+          "Teams",
+          "Email",
+          "SMS bridge",
+          "War room"
+        ],
+        "templates": [
+          "Initial incident notice",
+          "Status update",
+          "All-clear"
+        ]
+      },
+      "evidence": [
+        {
+          "id": "proc-core-banking-ev1",
+          "title": "Last recovery test evidence pack",
+          "type": "Test Report",
+          "date": "2026-06-30",
+          "owner": "Ahmed",
+          "status": "Approved"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "proc-core-banking-att1",
+          "name": "proc-core-banking-BCP.pdf",
+          "size": "1.2 MB",
+          "uploadedBy": "Ahmed",
+          "uploadedAt": "2026-06-30"
+        }
+      ],
+      "testHistory": [
+        {
+          "id": "proc-core-banking-t1",
+          "date": "2026-06-30",
+          "type": "Technical",
+          "scenario": "Primary site disruption",
+          "result": "Passed",
+          "targetRto": "1 hr",
+          "actualRto": "1 hr",
+          "observations": "Within policy targets"
+        }
+      ],
+      "auditHistory": [
+        {
+          "id": "proc-core-banking-a1",
+          "date": "2026-06-30",
+          "action": "Plan reviewed",
+          "actor": "BCM Office",
+          "detail": "Annual continuity plan review completed."
+        }
+      ],
+      "lessonsLearned": [
+        {
+          "id": "proc-core-banking-l1",
+          "date": "2026-06-30",
+          "source": "Recovery test",
+          "finding": "Communication lag between teams under pressure.",
+          "action": "Pre-stage war-room agenda and escalation SLAs.",
+          "owner": "Ahmed",
+          "status": "In Progress"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "proc-core-banking-tl1",
+          "date": "2026-01-15",
+          "title": "BIA completed",
+          "detail": "Business impact analysis signed off.",
+          "complete": true
+        },
+        {
+          "id": "proc-core-banking-tl2",
+          "date": "2026-06-30",
+          "title": "Recovery test",
+          "detail": "Most recent validated recovery exercise.",
+          "complete": true
+        },
+        {
+          "id": "proc-core-banking-tl3",
+          "date": "2026-10-15",
+          "title": "Plan review due",
+          "detail": "Next scheduled BCP review window.",
+          "complete": false
+        }
+      ],
+      "comments": [
+        {
+          "id": "proc-core-banking-cm1",
+          "author": "Ahmed",
+          "date": "2026-06-30",
+          "body": "Recovery posture reviewed with BCM Office."
+        }
+      ],
+      "versionHistory": [
+        {
+          "id": "proc-core-banking-v1",
+          "version": "8.0",
+          "date": "2026-06-30",
+          "author": "Ahmed",
+          "changeSummary": "Baseline continuity plan published."
+        }
+      ],
+      "id": "proc-core-banking",
+      "name": "Core Banking",
+      "businessUnit": "Retail Banking",
+      "department": "IT Operations",
+      "owner": "Ahmed",
+      "criticality": "Critical",
+      "rto": "1 hr",
+      "rpo": "15 min",
+      "mao": "2 hrs",
+      "recoveryStrategy": "Replication",
+      "status": "Ready",
+      "lastTest": "2026-06-30",
+      "recoveryTeam": "Core Banking SRE"
+    },
+    {
+      "businessImpact": "Severe",
+      "dependencies": [
+        "Payment Gateway",
+        "Fraud Engine",
+        "Issuer Switch"
+      ],
+      "nextTest": "2026-08-01",
+      "nextReview": "2026-08-15",
+      "version": "5.3",
+      "riskLevel": "High",
+      "riskScore": 3.7,
+      "checklist": [
+        {
+          "id": "c1",
+          "label": "Recovery runbook reviewed",
+          "done": true
+        },
+        {
+          "id": "c2",
+          "label": "Backup restore validated",
+          "done": true
+        },
+        {
+          "id": "c3",
+          "label": "Call tree confirmed",
+          "done": false
+        },
+        {
+          "id": "c4",
+          "label": "Vendor SLA checked",
+          "done": false
+        }
+      ],
+      "documents": [
+        "proc-card-ops-BCP.pdf"
+      ],
+      "aiRecommendations": [
+        "Validate recovery dependencies before next exercise."
+      ],
+      "bia": {
+        "financialImpact": "Material revenue and settlement exposure during outage.",
+        "operationalImpact": "Service degradation across dependent channels.",
+        "regulatoryImpact": "Potential supervisory notification if MAO exceeded.",
+        "reputationalImpact": "Customer confidence impact if prolonged.",
+        "peakDependency": "Peak business hours and settlement windows",
+        "downtimeCostPerHour": 25000,
+        "recoveryPriority": 2,
+        "riskScenario": "Site or platform failure"
+      },
+      "recoveryPlan": {
+        "primarySite": "Riyadh DC",
+        "drSite": "Jeddah DC",
+        "backupType": "Incremental",
+        "backupFrequency": "Daily",
+        "recoveryMethod": "HA Cluster",
+        "alternateService": "Secondary capability",
+        "runbookRef": "proc-card-ops-RUNBOOK",
+        "steps": [
+          "Declare incident and activate BCM team",
+          "Assess impact against RTO / RPO / MAO",
+          "Execute failover or restore procedure",
+          "Validate services and communicate status",
+          "Stand down and capture lessons learned"
+        ]
+      },
+      "communicationPlan": {
+        "internalContacts": [
+          "Sara",
+          "BCM Office",
+          "Crisis Manager"
+        ],
+        "externalContacts": [
+          "Primary vendor CSM",
+          "Regulator liaison"
+        ],
+        "escalationPath": [
+          "Process Owner",
+          "BCM Lead",
+          "CRO",
+          "Board Risk Committee"
+        ],
+        "channels": [
+          "Teams",
+          "Email",
+          "SMS bridge",
+          "War room"
+        ],
+        "templates": [
+          "Initial incident notice",
+          "Status update",
+          "All-clear"
+        ]
+      },
+      "evidence": [
+        {
+          "id": "proc-card-ops-ev1",
+          "title": "Last recovery test evidence pack",
+          "type": "Test Report",
+          "date": "2026-07-01",
+          "owner": "Sara",
+          "status": "Approved"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "proc-card-ops-att1",
+          "name": "proc-card-ops-BCP.pdf",
+          "size": "1.2 MB",
+          "uploadedBy": "Sara",
+          "uploadedAt": "2026-07-01"
+        }
+      ],
+      "testHistory": [
+        {
+          "id": "proc-card-ops-t1",
+          "date": "2026-07-01",
+          "type": "Technical",
+          "scenario": "Primary site disruption",
+          "result": "Passed",
+          "targetRto": "30 min",
+          "actualRto": "30 min",
+          "observations": "Within policy targets"
+        }
+      ],
+      "auditHistory": [
+        {
+          "id": "proc-card-ops-a1",
+          "date": "2026-07-01",
+          "action": "Plan reviewed",
+          "actor": "BCM Office",
+          "detail": "Annual continuity plan review completed."
+        }
+      ],
+      "lessonsLearned": [
+        {
+          "id": "proc-card-ops-l1",
+          "date": "2026-07-01",
+          "source": "Recovery test",
+          "finding": "Communication lag between teams under pressure.",
+          "action": "Pre-stage war-room agenda and escalation SLAs.",
+          "owner": "Sara",
+          "status": "In Progress"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "proc-card-ops-tl1",
+          "date": "2026-01-15",
+          "title": "BIA completed",
+          "detail": "Business impact analysis signed off.",
+          "complete": true
+        },
+        {
+          "id": "proc-card-ops-tl2",
+          "date": "2026-07-01",
+          "title": "Recovery test",
+          "detail": "Most recent validated recovery exercise.",
+          "complete": true
+        },
+        {
+          "id": "proc-card-ops-tl3",
+          "date": "2026-08-15",
+          "title": "Plan review due",
+          "detail": "Next scheduled BCP review window.",
+          "complete": false
+        }
+      ],
+      "comments": [
+        {
+          "id": "proc-card-ops-cm1",
+          "author": "Sara",
+          "date": "2026-07-01",
+          "body": "Recovery posture reviewed with BCM Office."
+        }
+      ],
+      "versionHistory": [
+        {
+          "id": "proc-card-ops-v1",
+          "version": "5.3",
+          "date": "2026-07-01",
+          "author": "Sara",
+          "changeSummary": "Baseline continuity plan published."
+        }
+      ],
+      "id": "proc-card-ops",
+      "name": "Card Authorization",
+      "businessUnit": "Cards",
+      "department": "Operations",
+      "owner": "Sara",
+      "criticality": "Critical",
+      "rto": "30 min",
+      "rpo": "5 min",
+      "mao": "1 hr",
+      "recoveryStrategy": "HA Cluster",
+      "status": "Testing",
+      "lastTest": "2026-07-01",
+      "recoveryTeam": "Card Ops"
+    },
+    {
+      "businessImpact": "Major",
+      "dependencies": [
+        "Transaction Feed",
+        "Case Management",
+        "SIEM"
+      ],
+      "nextTest": "2026-08-30",
+      "nextReview": "2026-09-20",
+      "version": "2.6",
+      "riskLevel": "Medium",
+      "riskScore": 3,
+      "checklist": [
+        {
+          "id": "c1",
+          "label": "Recovery runbook reviewed",
+          "done": true
+        },
+        {
+          "id": "c2",
+          "label": "Backup restore validated",
+          "done": true
+        },
+        {
+          "id": "c3",
+          "label": "Call tree confirmed",
+          "done": false
+        },
+        {
+          "id": "c4",
+          "label": "Vendor SLA checked",
+          "done": false
+        }
+      ],
+      "documents": [
+        "proc-aml-BCP.pdf"
+      ],
+      "aiRecommendations": [
+        "Validate recovery dependencies before next exercise."
+      ],
+      "bia": {
+        "financialImpact": "Material revenue and settlement exposure during outage.",
+        "operationalImpact": "Service degradation across dependent channels.",
+        "regulatoryImpact": "Potential supervisory notification if MAO exceeded.",
+        "reputationalImpact": "Customer confidence impact if prolonged.",
+        "peakDependency": "Peak business hours and settlement windows",
+        "downtimeCostPerHour": 25000,
+        "recoveryPriority": 2,
+        "riskScenario": "Site or platform failure"
+      },
+      "recoveryPlan": {
+        "primarySite": "Riyadh DC",
+        "drSite": "Jeddah DC",
+        "backupType": "Incremental",
+        "backupFrequency": "Daily",
+        "recoveryMethod": "Restore Backup",
+        "alternateService": "Secondary capability",
+        "runbookRef": "proc-aml-RUNBOOK",
+        "steps": [
+          "Declare incident and activate BCM team",
+          "Assess impact against RTO / RPO / MAO",
+          "Execute failover or restore procedure",
+          "Validate services and communicate status",
+          "Stand down and capture lessons learned"
+        ]
+      },
+      "communicationPlan": {
+        "internalContacts": [
+          "Omar",
+          "BCM Office",
+          "Crisis Manager"
+        ],
+        "externalContacts": [
+          "Primary vendor CSM",
+          "Regulator liaison"
+        ],
+        "escalationPath": [
+          "Process Owner",
+          "BCM Lead",
+          "CRO",
+          "Board Risk Committee"
+        ],
+        "channels": [
+          "Teams",
+          "Email",
+          "SMS bridge",
+          "War room"
+        ],
+        "templates": [
+          "Initial incident notice",
+          "Status update",
+          "All-clear"
+        ]
+      },
+      "evidence": [
+        {
+          "id": "proc-aml-ev1",
+          "title": "Last recovery test evidence pack",
+          "type": "Test Report",
+          "date": "2026-05-30",
+          "owner": "Omar",
+          "status": "Approved"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "proc-aml-att1",
+          "name": "proc-aml-BCP.pdf",
+          "size": "1.2 MB",
+          "uploadedBy": "Omar",
+          "uploadedAt": "2026-05-30"
+        }
+      ],
+      "testHistory": [
+        {
+          "id": "proc-aml-t1",
+          "date": "2026-05-30",
+          "type": "Technical",
+          "scenario": "Primary site disruption",
+          "result": "Passed",
+          "targetRto": "4 hrs",
+          "actualRto": "4 hrs",
+          "observations": "Within policy targets"
+        }
+      ],
+      "auditHistory": [
+        {
+          "id": "proc-aml-a1",
+          "date": "2026-05-30",
+          "action": "Plan reviewed",
+          "actor": "BCM Office",
+          "detail": "Annual continuity plan review completed."
+        }
+      ],
+      "lessonsLearned": [
+        {
+          "id": "proc-aml-l1",
+          "date": "2026-05-30",
+          "source": "Recovery test",
+          "finding": "Communication lag between teams under pressure.",
+          "action": "Pre-stage war-room agenda and escalation SLAs.",
+          "owner": "Omar",
+          "status": "In Progress"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "proc-aml-tl1",
+          "date": "2026-01-15",
+          "title": "BIA completed",
+          "detail": "Business impact analysis signed off.",
+          "complete": true
+        },
+        {
+          "id": "proc-aml-tl2",
+          "date": "2026-05-30",
+          "title": "Recovery test",
+          "detail": "Most recent validated recovery exercise.",
+          "complete": true
+        },
+        {
+          "id": "proc-aml-tl3",
+          "date": "2026-09-20",
+          "title": "Plan review due",
+          "detail": "Next scheduled BCP review window.",
+          "complete": false
+        }
+      ],
+      "comments": [
+        {
+          "id": "proc-aml-cm1",
+          "author": "Omar",
+          "date": "2026-05-30",
+          "body": "Recovery posture reviewed with BCM Office."
+        }
+      ],
+      "versionHistory": [
+        {
+          "id": "proc-aml-v1",
+          "version": "2.6",
+          "date": "2026-05-30",
+          "author": "Omar",
+          "changeSummary": "Baseline continuity plan published."
+        }
+      ],
+      "id": "proc-aml",
+      "name": "AML Monitoring",
+      "businessUnit": "Compliance",
+      "department": "Financial Crime",
+      "owner": "Omar",
+      "criticality": "High",
+      "rto": "4 hrs",
+      "rpo": "1 hr",
+      "mao": "8 hrs",
+      "recoveryStrategy": "Restore Backup",
+      "status": "Ready",
+      "lastTest": "2026-05-30",
+      "recoveryTeam": "FCC Ops"
+    },
+    {
+      "businessImpact": "Severe",
+      "dependencies": [
+        "Network",
+        "Certificates",
+        "Liquidity Engine"
+      ],
+      "nextTest": "2026-07-22",
+      "nextReview": "2026-07-20",
+      "version": "3.0",
+      "riskLevel": "Critical",
+      "riskScore": 4.5,
+      "checklist": [
+        {
+          "id": "c1",
+          "label": "Recovery runbook reviewed",
+          "done": true
+        },
+        {
+          "id": "c2",
+          "label": "Backup restore validated",
+          "done": true
+        },
+        {
+          "id": "c3",
+          "label": "Call tree confirmed",
+          "done": false
+        },
+        {
+          "id": "c4",
+          "label": "Vendor SLA checked",
+          "done": false
+        }
+      ],
+      "documents": [
+        "proc-swift-BCP.pdf"
+      ],
+      "aiRecommendations": [
+        "Finance department has overdue recovery plan revalidation.",
+        "Recommend updating SWIFT alternate-channel dependencies."
+      ],
+      "bia": {
+        "financialImpact": "Material revenue and settlement exposure during outage.",
+        "operationalImpact": "Service degradation across dependent channels.",
+        "regulatoryImpact": "Potential supervisory notification if MAO exceeded.",
+        "reputationalImpact": "Customer confidence impact if prolonged.",
+        "peakDependency": "Peak business hours and settlement windows",
+        "downtimeCostPerHour": 25000,
+        "recoveryPriority": 2,
+        "riskScenario": "Site or platform failure"
+      },
+      "recoveryPlan": {
+        "primarySite": "Riyadh DC",
+        "drSite": "Jeddah DC",
+        "backupType": "Incremental",
+        "backupFrequency": "Daily",
+        "recoveryMethod": "Secondary Site",
+        "alternateService": "Secondary capability",
+        "runbookRef": "proc-swift-RUNBOOK",
+        "steps": [
+          "Declare incident and activate BCM team",
+          "Assess impact against RTO / RPO / MAO",
+          "Execute failover or restore procedure",
+          "Validate services and communicate status",
+          "Stand down and capture lessons learned"
+        ]
+      },
+      "communicationPlan": {
+        "internalContacts": [
+          "Noor",
+          "BCM Office",
+          "Crisis Manager"
+        ],
+        "externalContacts": [
+          "Primary vendor CSM",
+          "Regulator liaison"
+        ],
+        "escalationPath": [
+          "Process Owner",
+          "BCM Lead",
+          "CRO",
+          "Board Risk Committee"
+        ],
+        "channels": [
+          "Teams",
+          "Email",
+          "SMS bridge",
+          "War room"
+        ],
+        "templates": [
+          "Initial incident notice",
+          "Status update",
+          "All-clear"
+        ]
+      },
+      "evidence": [
+        {
+          "id": "proc-swift-ev1",
+          "title": "Last recovery test evidence pack",
+          "type": "Test Report",
+          "date": "2026-03-22",
+          "owner": "Noor",
+          "status": "Approved"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "proc-swift-att1",
+          "name": "proc-swift-BCP.pdf",
+          "size": "1.2 MB",
+          "uploadedBy": "Noor",
+          "uploadedAt": "2026-03-22"
+        }
+      ],
+      "testHistory": [
+        {
+          "id": "proc-swift-t1",
+          "date": "2026-03-22",
+          "type": "Technical",
+          "scenario": "Primary site disruption",
+          "result": "Passed",
+          "targetRto": "1 hr",
+          "actualRto": "1 hr",
+          "observations": "Within policy targets"
+        }
+      ],
+      "auditHistory": [
+        {
+          "id": "proc-swift-a1",
+          "date": "2026-03-22",
+          "action": "Plan reviewed",
+          "actor": "BCM Office",
+          "detail": "Annual continuity plan review completed."
+        }
+      ],
+      "lessonsLearned": [
+        {
+          "id": "proc-swift-l1",
+          "date": "2026-03-22",
+          "source": "Recovery test",
+          "finding": "Communication lag between teams under pressure.",
+          "action": "Pre-stage war-room agenda and escalation SLAs.",
+          "owner": "Noor",
+          "status": "In Progress"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "proc-swift-tl1",
+          "date": "2026-01-15",
+          "title": "BIA completed",
+          "detail": "Business impact analysis signed off.",
+          "complete": true
+        },
+        {
+          "id": "proc-swift-tl2",
+          "date": "2026-03-22",
+          "title": "Recovery test",
+          "detail": "Most recent validated recovery exercise.",
+          "complete": true
+        },
+        {
+          "id": "proc-swift-tl3",
+          "date": "2026-07-20",
+          "title": "Plan review due",
+          "detail": "Next scheduled BCP review window.",
+          "complete": false
+        }
+      ],
+      "comments": [
+        {
+          "id": "proc-swift-cm1",
+          "author": "Noor",
+          "date": "2026-03-22",
+          "body": "Recovery posture reviewed with BCM Office."
+        }
+      ],
+      "versionHistory": [
+        {
+          "id": "proc-swift-v1",
+          "version": "3.0",
+          "date": "2026-03-22",
+          "author": "Noor",
+          "changeSummary": "Baseline continuity plan published."
+        }
+      ],
+      "id": "proc-swift",
+      "name": "SWIFT Gateway",
+      "businessUnit": "Treasury",
+      "department": "Finance",
+      "owner": "Noor",
+      "criticality": "Critical",
+      "rto": "1 hr",
+      "rpo": "15 min",
+      "mao": "2 hrs",
+      "recoveryStrategy": "Secondary Site",
+      "status": "At Risk",
+      "lastTest": "2026-03-22",
+      "recoveryTeam": "Treasury Ops"
+    },
+    {
+      "businessImpact": "Major",
+      "dependencies": [
+        "Oracle HR",
+        "Bank Transfer Rails"
+      ],
+      "nextTest": "2026-11-01",
+      "nextReview": "2026-11-15",
+      "version": "1.5",
+      "riskLevel": "Medium",
+      "riskScore": 3.2,
+      "checklist": [
+        {
+          "id": "c1",
+          "label": "Recovery runbook reviewed",
+          "done": true
+        },
+        {
+          "id": "c2",
+          "label": "Backup restore validated",
+          "done": true
+        },
+        {
+          "id": "c3",
+          "label": "Call tree confirmed",
+          "done": false
+        },
+        {
+          "id": "c4",
+          "label": "Vendor SLA checked",
+          "done": false
+        }
+      ],
+      "documents": [
+        "proc-hr-payroll-BCP.pdf"
+      ],
+      "aiRecommendations": [
+        "Validate recovery dependencies before next exercise."
+      ],
+      "bia": {
+        "financialImpact": "Material revenue and settlement exposure during outage.",
+        "operationalImpact": "Service degradation across dependent channels.",
+        "regulatoryImpact": "Potential supervisory notification if MAO exceeded.",
+        "reputationalImpact": "Customer confidence impact if prolonged.",
+        "peakDependency": "Peak business hours and settlement windows",
+        "downtimeCostPerHour": 25000,
+        "recoveryPriority": 2,
+        "riskScenario": "Site or platform failure"
+      },
+      "recoveryPlan": {
+        "primarySite": "Riyadh DC",
+        "drSite": "Jeddah DC",
+        "backupType": "Incremental",
+        "backupFrequency": "Daily",
+        "recoveryMethod": "Restore Backup",
+        "alternateService": "Secondary capability",
+        "runbookRef": "proc-hr-payroll-RUNBOOK",
+        "steps": [
+          "Declare incident and activate BCM team",
+          "Assess impact against RTO / RPO / MAO",
+          "Execute failover or restore procedure",
+          "Validate services and communicate status",
+          "Stand down and capture lessons learned"
+        ]
+      },
+      "communicationPlan": {
+        "internalContacts": [
+          "Mona",
+          "BCM Office",
+          "Crisis Manager"
+        ],
+        "externalContacts": [
+          "Primary vendor CSM",
+          "Regulator liaison"
+        ],
+        "escalationPath": [
+          "Process Owner",
+          "BCM Lead",
+          "CRO",
+          "Board Risk Committee"
+        ],
+        "channels": [
+          "Teams",
+          "Email",
+          "SMS bridge",
+          "War room"
+        ],
+        "templates": [
+          "Initial incident notice",
+          "Status update",
+          "All-clear"
+        ]
+      },
+      "evidence": [
+        {
+          "id": "proc-hr-payroll-ev1",
+          "title": "Last recovery test evidence pack",
+          "type": "Test Report",
+          "date": "2026-05-01",
+          "owner": "Mona",
+          "status": "Approved"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "proc-hr-payroll-att1",
+          "name": "proc-hr-payroll-BCP.pdf",
+          "size": "1.2 MB",
+          "uploadedBy": "Mona",
+          "uploadedAt": "2026-05-01"
+        }
+      ],
+      "testHistory": [
+        {
+          "id": "proc-hr-payroll-t1",
+          "date": "2026-05-01",
+          "type": "Technical",
+          "scenario": "Primary site disruption",
+          "result": "Passed",
+          "targetRto": "12 hrs",
+          "actualRto": "12 hrs",
+          "observations": "Within policy targets"
+        }
+      ],
+      "auditHistory": [
+        {
+          "id": "proc-hr-payroll-a1",
+          "date": "2026-05-01",
+          "action": "Plan reviewed",
+          "actor": "BCM Office",
+          "detail": "Annual continuity plan review completed."
+        }
+      ],
+      "lessonsLearned": [
+        {
+          "id": "proc-hr-payroll-l1",
+          "date": "2026-05-01",
+          "source": "Recovery test",
+          "finding": "Communication lag between teams under pressure.",
+          "action": "Pre-stage war-room agenda and escalation SLAs.",
+          "owner": "Mona",
+          "status": "In Progress"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "proc-hr-payroll-tl1",
+          "date": "2026-01-15",
+          "title": "BIA completed",
+          "detail": "Business impact analysis signed off.",
+          "complete": true
+        },
+        {
+          "id": "proc-hr-payroll-tl2",
+          "date": "2026-05-01",
+          "title": "Recovery test",
+          "detail": "Most recent validated recovery exercise.",
+          "complete": true
+        },
+        {
+          "id": "proc-hr-payroll-tl3",
+          "date": "2026-11-15",
+          "title": "Plan review due",
+          "detail": "Next scheduled BCP review window.",
+          "complete": false
+        }
+      ],
+      "comments": [
+        {
+          "id": "proc-hr-payroll-cm1",
+          "author": "Mona",
+          "date": "2026-05-01",
+          "body": "Recovery posture reviewed with BCM Office."
+        }
+      ],
+      "versionHistory": [
+        {
+          "id": "proc-hr-payroll-v1",
+          "version": "1.5",
+          "date": "2026-05-01",
+          "author": "Mona",
+          "changeSummary": "Baseline continuity plan published."
+        }
+      ],
+      "id": "proc-hr-payroll",
+      "name": "Payroll Processing",
+      "businessUnit": "People",
+      "department": "Human Resources",
+      "owner": "Mona",
+      "criticality": "High",
+      "rto": "12 hrs",
+      "rpo": "4 hrs",
+      "mao": "24 hrs",
+      "recoveryStrategy": "Restore Backup",
+      "status": "Ready",
+      "lastTest": "2026-05-01",
+      "recoveryTeam": "HRIS Team"
+    },
+    {
+      "businessImpact": "Major",
+      "dependencies": [
+        "Telephony",
+        "CRM",
+        "Identity Authentication"
+      ],
+      "nextTest": "2026-09-18",
+      "nextReview": "2026-10-01",
+      "version": "2.2",
+      "riskLevel": "Medium",
+      "riskScore": 3.2,
+      "checklist": [
+        {
+          "id": "c1",
+          "label": "Recovery runbook reviewed",
+          "done": true
+        },
+        {
+          "id": "c2",
+          "label": "Backup restore validated",
+          "done": true
+        },
+        {
+          "id": "c3",
+          "label": "Call tree confirmed",
+          "done": false
+        },
+        {
+          "id": "c4",
+          "label": "Vendor SLA checked",
+          "done": false
+        }
+      ],
+      "documents": [
+        "proc-contact-center-BCP.pdf"
+      ],
+      "aiRecommendations": [
+        "Validate recovery dependencies before next exercise."
+      ],
+      "bia": {
+        "financialImpact": "Material revenue and settlement exposure during outage.",
+        "operationalImpact": "Service degradation across dependent channels.",
+        "regulatoryImpact": "Potential supervisory notification if MAO exceeded.",
+        "reputationalImpact": "Customer confidence impact if prolonged.",
+        "peakDependency": "Peak business hours and settlement windows",
+        "downtimeCostPerHour": 25000,
+        "recoveryPriority": 2,
+        "riskScenario": "Site or platform failure"
+      },
+      "recoveryPlan": {
+        "primarySite": "Riyadh DC",
+        "drSite": "Jeddah DC",
+        "backupType": "Incremental",
+        "backupFrequency": "Daily",
+        "recoveryMethod": "Failover",
+        "alternateService": "Secondary capability",
+        "runbookRef": "proc-contact-center-RUNBOOK",
+        "steps": [
+          "Declare incident and activate BCM team",
+          "Assess impact against RTO / RPO / MAO",
+          "Execute failover or restore procedure",
+          "Validate services and communicate status",
+          "Stand down and capture lessons learned"
+        ]
+      },
+      "communicationPlan": {
+        "internalContacts": [
+          "Khalid",
+          "BCM Office",
+          "Crisis Manager"
+        ],
+        "externalContacts": [
+          "Primary vendor CSM",
+          "Regulator liaison"
+        ],
+        "escalationPath": [
+          "Process Owner",
+          "BCM Lead",
+          "CRO",
+          "Board Risk Committee"
+        ],
+        "channels": [
+          "Teams",
+          "Email",
+          "SMS bridge",
+          "War room"
+        ],
+        "templates": [
+          "Initial incident notice",
+          "Status update",
+          "All-clear"
+        ]
+      },
+      "evidence": [
+        {
+          "id": "proc-contact-center-ev1",
+          "title": "Last recovery test evidence pack",
+          "type": "Test Report",
+          "date": "2026-06-18",
+          "owner": "Khalid",
+          "status": "Approved"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "proc-contact-center-att1",
+          "name": "proc-contact-center-BCP.pdf",
+          "size": "1.2 MB",
+          "uploadedBy": "Khalid",
+          "uploadedAt": "2026-06-18"
+        }
+      ],
+      "testHistory": [
+        {
+          "id": "proc-contact-center-t1",
+          "date": "2026-06-18",
+          "type": "Technical",
+          "scenario": "Primary site disruption",
+          "result": "Passed",
+          "targetRto": "2 hrs",
+          "actualRto": "2 hrs",
+          "observations": "Within policy targets"
+        }
+      ],
+      "auditHistory": [
+        {
+          "id": "proc-contact-center-a1",
+          "date": "2026-06-18",
+          "action": "Plan reviewed",
+          "actor": "BCM Office",
+          "detail": "Annual continuity plan review completed."
+        }
+      ],
+      "lessonsLearned": [
+        {
+          "id": "proc-contact-center-l1",
+          "date": "2026-06-18",
+          "source": "Recovery test",
+          "finding": "Communication lag between teams under pressure.",
+          "action": "Pre-stage war-room agenda and escalation SLAs.",
+          "owner": "Khalid",
+          "status": "In Progress"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "proc-contact-center-tl1",
+          "date": "2026-01-15",
+          "title": "BIA completed",
+          "detail": "Business impact analysis signed off.",
+          "complete": true
+        },
+        {
+          "id": "proc-contact-center-tl2",
+          "date": "2026-06-18",
+          "title": "Recovery test",
+          "detail": "Most recent validated recovery exercise.",
+          "complete": true
+        },
+        {
+          "id": "proc-contact-center-tl3",
+          "date": "2026-10-01",
+          "title": "Plan review due",
+          "detail": "Next scheduled BCP review window.",
+          "complete": false
+        }
+      ],
+      "comments": [
+        {
+          "id": "proc-contact-center-cm1",
+          "author": "Khalid",
+          "date": "2026-06-18",
+          "body": "Recovery posture reviewed with BCM Office."
+        }
+      ],
+      "versionHistory": [
+        {
+          "id": "proc-contact-center-v1",
+          "version": "2.2",
+          "date": "2026-06-18",
+          "author": "Khalid",
+          "changeSummary": "Baseline continuity plan published."
+        }
+      ],
+      "id": "proc-contact-center",
+      "name": "Contact Center",
+      "businessUnit": "Customer Experience",
+      "department": "Operations",
+      "owner": "Khalid",
+      "criticality": "High",
+      "rto": "2 hrs",
+      "rpo": "30 min",
+      "mao": "4 hrs",
+      "recoveryStrategy": "Failover",
+      "status": "Ready",
+      "lastTest": "2026-06-18",
+      "recoveryTeam": "CX Ops"
+    },
+    {
+      "businessImpact": "Moderate",
+      "dependencies": [
+        "Object Storage",
+        "Spark Cluster",
+        "Catalog"
+      ],
+      "nextTest": "2026-10-02",
+      "nextReview": "2026-08-15",
+      "version": "1.4",
+      "riskLevel": "Medium",
+      "riskScore": 2.4,
+      "checklist": [
+        {
+          "id": "c1",
+          "label": "Recovery runbook reviewed",
+          "done": true
+        },
+        {
+          "id": "c2",
+          "label": "Backup restore validated",
+          "done": true
+        },
+        {
+          "id": "c3",
+          "label": "Call tree confirmed",
+          "done": false
+        },
+        {
+          "id": "c4",
+          "label": "Vendor SLA checked",
+          "done": false
+        }
+      ],
+      "documents": [
+        "proc-data-lake-BCP.pdf"
+      ],
+      "aiRecommendations": [
+        "Validate recovery dependencies before next exercise."
+      ],
+      "bia": {
+        "financialImpact": "Material revenue and settlement exposure during outage.",
+        "operationalImpact": "Service degradation across dependent channels.",
+        "regulatoryImpact": "Potential supervisory notification if MAO exceeded.",
+        "reputationalImpact": "Customer confidence impact if prolonged.",
+        "peakDependency": "Peak business hours and settlement windows",
+        "downtimeCostPerHour": 25000,
+        "recoveryPriority": 2,
+        "riskScenario": "Site or platform failure"
+      },
+      "recoveryPlan": {
+        "primarySite": "Riyadh DC",
+        "drSite": "Jeddah DC",
+        "backupType": "Incremental",
+        "backupFrequency": "Daily",
+        "recoveryMethod": "Replication",
+        "alternateService": "Secondary capability",
+        "runbookRef": "proc-data-lake-RUNBOOK",
+        "steps": [
+          "Declare incident and activate BCM team",
+          "Assess impact against RTO / RPO / MAO",
+          "Execute failover or restore procedure",
+          "Validate services and communicate status",
+          "Stand down and capture lessons learned"
+        ]
+      },
+      "communicationPlan": {
+        "internalContacts": [
+          "Nasser",
+          "BCM Office",
+          "Crisis Manager"
+        ],
+        "externalContacts": [
+          "Primary vendor CSM",
+          "Regulator liaison"
+        ],
+        "escalationPath": [
+          "Process Owner",
+          "BCM Lead",
+          "CRO",
+          "Board Risk Committee"
+        ],
+        "channels": [
+          "Teams",
+          "Email",
+          "SMS bridge",
+          "War room"
+        ],
+        "templates": [
+          "Initial incident notice",
+          "Status update",
+          "All-clear"
+        ]
+      },
+      "evidence": [
+        {
+          "id": "proc-data-lake-ev1",
+          "title": "Last recovery test evidence pack",
+          "type": "Test Report",
+          "date": "2026-04-02",
+          "owner": "Nasser",
+          "status": "Approved"
+        }
+      ],
+      "attachments": [
+        {
+          "id": "proc-data-lake-att1",
+          "name": "proc-data-lake-BCP.pdf",
+          "size": "1.2 MB",
+          "uploadedBy": "Nasser",
+          "uploadedAt": "2026-04-02"
+        }
+      ],
+      "testHistory": [
+        {
+          "id": "proc-data-lake-t1",
+          "date": "2026-04-02",
+          "type": "Technical",
+          "scenario": "Primary site disruption",
+          "result": "Passed",
+          "targetRto": "12 hrs",
+          "actualRto": "12 hrs",
+          "observations": "Within policy targets"
+        }
+      ],
+      "auditHistory": [
+        {
+          "id": "proc-data-lake-a1",
+          "date": "2026-04-02",
+          "action": "Plan reviewed",
+          "actor": "BCM Office",
+          "detail": "Annual continuity plan review completed."
+        }
+      ],
+      "lessonsLearned": [
+        {
+          "id": "proc-data-lake-l1",
+          "date": "2026-04-02",
+          "source": "Recovery test",
+          "finding": "Communication lag between teams under pressure.",
+          "action": "Pre-stage war-room agenda and escalation SLAs.",
+          "owner": "Nasser",
+          "status": "In Progress"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "proc-data-lake-tl1",
+          "date": "2026-01-15",
+          "title": "BIA completed",
+          "detail": "Business impact analysis signed off.",
+          "complete": true
+        },
+        {
+          "id": "proc-data-lake-tl2",
+          "date": "2026-04-02",
+          "title": "Recovery test",
+          "detail": "Most recent validated recovery exercise.",
+          "complete": true
+        },
+        {
+          "id": "proc-data-lake-tl3",
+          "date": "2026-08-15",
+          "title": "Plan review due",
+          "detail": "Next scheduled BCP review window.",
+          "complete": false
+        }
+      ],
+      "comments": [
+        {
+          "id": "proc-data-lake-cm1",
+          "author": "Nasser",
+          "date": "2026-04-02",
+          "body": "Recovery posture reviewed with BCM Office."
+        }
+      ],
+      "versionHistory": [
+        {
+          "id": "proc-data-lake-v1",
+          "version": "1.4",
+          "date": "2026-04-02",
+          "author": "Nasser",
+          "changeSummary": "Baseline continuity plan published."
+        }
+      ],
+      "id": "proc-data-lake",
+      "name": "Enterprise Data Lake",
+      "businessUnit": "Technology",
+      "department": "Data Platform",
+      "owner": "Nasser",
+      "criticality": "Medium",
+      "rto": "12 hrs",
+      "rpo": "4 hrs",
+      "mao": "48 hrs",
+      "recoveryStrategy": "Replication",
+      "status": "Review",
+      "lastTest": "2026-04-02",
+      "recoveryTeam": "Data Platform"
+    }
+  ],
+  "activities": [
+    {
+      "id": "a1",
+      "title": "Treasury Settlement BCP annual review",
+      "category": "BCP Review",
+      "priority": "Critical",
+      "owner": "Noor",
+      "dueDate": "2026-07-22",
+      "status": "Overdue"
+    },
+    {
+      "id": "a2",
+      "title": "Enterprise ransomware tabletop exercise",
+      "category": "Exercise",
+      "priority": "High",
+      "owner": "BCM Office",
+      "dueDate": "2026-08-15",
+      "status": "Scheduled"
+    },
+    {
+      "id": "a3",
+      "title": "RDS Finance recovery retest",
+      "category": "Recovery Test",
+      "priority": "Critical",
+      "owner": "Faisal",
+      "dueDate": "2026-07-20",
+      "status": "Overdue"
+    },
+    {
+      "id": "a4",
+      "title": "Oracle Analytics recovery plan expired",
+      "category": "Expired Plan",
+      "priority": "Medium",
+      "owner": "Nasser",
+      "dueDate": "2026-08-01",
+      "status": "Overdue"
+    },
+    {
+      "id": "a5",
+      "title": "Cisco ISE plan approval pending",
+      "category": "Approval",
+      "priority": "High",
+      "owner": "Khalid",
+      "dueDate": "2026-07-30",
+      "status": "Pending"
+    },
+    {
+      "id": "a6",
+      "title": "Internal audit BCM evidence fieldwork",
+      "category": "Audit",
+      "priority": "High",
+      "owner": "Internal Audit",
+      "dueDate": "2026-07-28",
+      "status": "In Progress"
+    },
+    {
+      "id": "a7",
+      "title": "Payment Gateway quarterly DR drill",
+      "category": "Recovery Test",
+      "priority": "Critical",
+      "owner": "Faisal",
+      "dueDate": "2026-08-05",
+      "status": "Scheduled"
+    },
+    {
+      "id": "a8",
+      "title": "ISP outage functional exercise follow-up",
+      "category": "Exercise",
+      "priority": "Medium",
+      "owner": "Network Ops",
+      "dueDate": "2026-09-01",
+      "status": "Planned"
+    },
+    {
+      "id": "a9",
+      "title": "SWIFT Gateway plan re-approval",
+      "category": "Approval",
+      "priority": "Critical",
+      "owner": "Noor",
+      "dueDate": "2026-07-20",
+      "status": "Overdue"
+    },
+    {
+      "id": "a10",
+      "title": "Online Banking BCP mid-year review",
+      "category": "BCP Review",
+      "priority": "High",
+      "owner": "Lama",
+      "dueDate": "2026-08-20",
+      "status": "Planned"
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "r1",
+      "title": "Finance department has 3 overdue recovery plans",
+      "detail": "RDS Finance, Treasury Settlement, and SWIFT Gateway exceed the retest policy window. Prioritize Finance remediation this sprint.",
+      "severity": "Critical",
+      "actionLabel": "Review Finance plans"
+    },
+    {
+      "id": "r2",
+      "title": "Recovery compliance dropped by 4%",
+      "detail": "Month-over-month decline is driven by partial Oracle ERP recovery and overdue critical retests.",
+      "severity": "High",
+      "actionLabel": "Open compliance view"
+    },
+    {
+      "id": "r3",
+      "title": "2 critical processes exceed target RTO",
+      "detail": "Treasury Settlement and Oracle Analytics targets are outside peer criticality bands for enterprise banking.",
+      "severity": "High",
+      "actionLabel": "Adjust RTO targets"
+    },
+    {
+      "id": "r4",
+      "title": "Recommend scheduling a tabletop exercise",
+      "detail": "Include Identity Services MFA failover and ISP outage communication gaps from the last Cisco exercise.",
+      "severity": "Medium",
+      "actionLabel": "Schedule tabletop"
+    },
+    {
+      "id": "r5",
+      "title": "Recommend reviewing payment recovery plan",
+      "detail": "Payment Gateway and Payment Processing share concentrated vendor dependencies entering Peak Payday.",
+      "severity": "High",
+      "actionLabel": "Review payments"
+    },
+    {
+      "id": "r6",
+      "title": "Recommend updating dependencies",
+      "detail": "Several At Risk / Review processes still reference stale alternate services after the Q2 infrastructure changes.",
+      "severity": "Medium",
+      "actionLabel": "Update dependencies"
+    }
+  ]
+}

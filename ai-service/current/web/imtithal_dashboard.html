@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>امتثال — لوحة المؤشرات | GRCx Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --emerald-950: #021a1f;
+      --emerald-900: #04282e;
+      --emerald-800: #0a3d45;
+      --emerald-700: #0f5c66;
+      --gold: #c9a961;
+      --gold-dim: #a88b4a;
+      --text: #e8f1f2;
+      --muted: #8aa3a8;
+      --critical: #E24B4A;
+      --high: #D85A30;
+      --medium: #c9a961;
+      --low: #1D9E75;
+      --card: rgba(4, 40, 46, 0.85);
+      --border: rgba(201, 169, 97, 0.22);
+      --radius: 14px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Tajawal", sans-serif;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% -10%, rgba(15, 92, 102, 0.35), transparent),
+        radial-gradient(ellipse 60% 40% at 90% 10%, rgba(201, 169, 97, 0.12), transparent),
+        linear-gradient(165deg, var(--emerald-950), var(--emerald-900) 45%, #03181c);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    a { color: var(--gold); text-decoration: none; }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(2, 26, 31, 0.7);
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+    .seal {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 2px solid var(--gold);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: var(--gold);
+      background: rgba(201, 169, 97, 0.08);
+      box-shadow: 0 0 0 4px rgba(201, 169, 97, 0.08);
+    }
+    .brand h1 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
+    .brand p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+    nav { display: flex; gap: 0.5rem; }
+    nav a {
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    nav a.active, nav a:hover {
+      color: var(--gold);
+      border-color: var(--border);
+      background: rgba(201, 169, 97, 0.08);
+    }
+    main { padding: 1.25rem 1.5rem 2.5rem; max-width: 1280px; margin: 0 auto; }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      padding: 0.9rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+    .toolbar input[type="number"] {
+      width: 72px;
+      background: var(--emerald-950);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 8px;
+      padding: 0.45rem 0.55rem;
+      font-family: inherit;
+    }
+    button, .btn {
+      font-family: inherit;
+      cursor: pointer;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(15, 92, 102, 0.9), rgba(4, 40, 46, 0.95));
+      color: var(--text);
+      padding: 0.5rem 0.9rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    button.gold, .btn.gold {
+      background: linear-gradient(180deg, #d4b56e, var(--gold-dim));
+      color: #1a1205;
+      border-color: transparent;
+    }
+    button.danger { border-color: rgba(226, 75, 74, 0.45); color: #ffb4b2; }
+    button:disabled { opacity: 0.5; cursor: wait; }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    @media (max-width: 1100px) {
+      .kpi-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .kpi {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.95rem 1rem;
+      min-height: 96px;
+    }
+    .kpi .label { color: var(--muted); font-size: 0.82rem; margin-bottom: 0.35rem; }
+    .kpi .value { font-size: 1.65rem; font-weight: 800; line-height: 1.1; }
+    .kpi.score-good .value { color: var(--low); }
+    .kpi.score-mid .value { color: var(--gold); }
+    .kpi.score-bad .value { color: var(--critical); }
+    .kpi.open .value { color: var(--gold); }
+    .kpi.crit .value { color: var(--critical); }
+    .kpi.high .value { color: var(--high); }
+    .kpi.closed .value { color: var(--low); }
+    .charts {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr 1fr;
+      gap: 0.9rem;
+      margin-bottom: 1.25rem;
+    }
+    @media (max-width: 1000px) {
+      .charts { grid-template-columns: 1fr; }
+    }
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+    }
+    .panel h2 {
+      margin: 0 0 0.75rem;
+      font-size: 1rem;
+      color: var(--gold);
+      font-weight: 700;
+    }
+    .gauge-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .gauge-canvas { max-width: 280px; width: 100%; }
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .legend span::before {
+      content: "";
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+    .legend .g::before { background: var(--low); }
+    .legend .m::before { background: var(--gold); }
+    .legend .b::before { background: var(--critical); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+    th, td {
+      padding: 0.65rem 0.5rem;
+      border-bottom: 1px solid rgba(138, 163, 168, 0.15);
+      text-align: right;
+      vertical-align: top;
+    }
+    th { color: var(--gold); font-weight: 700; }
+    .sev {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .sev.Critical { background: rgba(226,75,74,.18); color: var(--critical); }
+    .sev.High { background: rgba(216,90,48,.18); color: #ff9a6e; }
+    .sev.Medium { background: rgba(201,169,97,.18); color: var(--gold); }
+    .sev.Low { background: rgba(29,158,117,.18); color: var(--low); }
+    select.status {
+      background: var(--emerald-950);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.3rem 0.4rem;
+      font-family: inherit;
+    }
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 2rem 1rem;
+    }
+    .toast {
+      position: fixed;
+      bottom: 1.25rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(120%);
+      background: #0a3d45;
+      border: 1px solid var(--gold);
+      color: var(--text);
+      padding: 0.75rem 1.2rem;
+      border-radius: 12px;
+      z-index: 50;
+      transition: transform 0.25s ease;
+      max-width: min(520px, 92vw);
+      text-align: center;
+      box-shadow: 0 12px 40px rgba(0,0,0,.35);
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+    .hint { color: var(--muted); font-size: 0.8rem; margin-inline-start: 0.35rem; }
+    .src { color: var(--muted); font-size: 0.75rem; }
+    .clip { max-width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="seal" aria-hidden="true">ا</div>
+      <div>
+        <h1>امتثال · GRCx</h1>
+        <p>لوحة مؤشرات الامتثال — بيانات حية من التحليلات المحفوظة</p>
+      </div>
+    </div>
+    <nav>
+      <a href="/dashboard" class="active">لوحة المؤشرات</a>
+      <a href="/">المحلّل</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="toolbar">
+      <label>عدد تنبيهات SOAR</label>
+      <input id="soarCount" type="number" min="1" max="50" value="8" />
+      <button class="gold" id="btnSoar" type="button">توليد تنبيهات وتحليلها</button>
+      <span class="hint">نموذج أولي (Mock) — ليس تكامل SOAR حقيقي</span>
+      <button id="btnTpl" type="button">تنزيل القالب</button>
+      <button id="btnExcel" type="button">رفع ملف وتحليله</button>
+      <input id="fileExcel" type="file" accept=".xlsx,.xls,.csv" hidden />
+      <button class="danger" id="btnClear" type="button">مسح كل البيانات</button>
+      <button id="btnRefresh" type="button">تحديث</button>
+    </div>
+
+    <section class="kpi-grid" id="kpis">
+      <div class="kpi" id="kpiScore"><div class="label">درجة الامتثال</div><div class="value">—</div></div>
+      <div class="kpi open"><div class="label">مخاطر مفتوحة</div><div class="value" id="kpiOpen">—</div></div>
+      <div class="kpi crit"><div class="label">حرجة</div><div class="value" id="kpiCrit">—</div></div>
+      <div class="kpi high"><div class="label">عالية</div><div class="value" id="kpiHigh">—</div></div>
+      <div class="kpi closed"><div class="label">مغلقة</div><div class="value" id="kpiClosed">—</div></div>
+      <div class="kpi"><div class="label">إجمالي النتائج</div><div class="value" id="kpiTotal">—</div></div>
+    </section>
+
+    <section class="charts">
+      <div class="panel">
+        <h2>مقياس درجة الامتثال</h2>
+        <div class="gauge-wrap">
+          <canvas id="gaugeChart" class="gauge-canvas" height="220"></canvas>
+          <div class="legend">
+            <span class="g">≥ 80 جيد</span>
+            <span class="m">50–79 متوسط</span>
+            <span class="b">&lt; 50 منخفض</span>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>المخاطر حسب المستوى</h2>
+        <canvas id="levelChart" height="220"></canvas>
+      </div>
+      <div class="panel">
+        <h2>تغطية الأطر التنظيمية</h2>
+        <canvas id="fwChart" height="220"></canvas>
+      </div>
+    </section>
+
+    <section class="charts" style="grid-template-columns: 1fr;">
+      <div class="panel">
+        <h2>المخاطر حسب القسم</h2>
+        <canvas id="deptChart" height="160"></canvas>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>أحدث النتائج</h2>
+      <div id="tableWrap">
+        <div class="empty" id="emptyState">لا توجد نتائج بعد. ولّد تنبيهات SOAR أو ارفع ملف Excel أو حلّل من صفحة المحلّل.</div>
+        <table id="findingsTable" hidden>
+          <thead>
+            <tr>
+              <th>التاريخ</th>
+              <th>المصدر</th>
+              <th>الوصف</th>
+              <th>التصنيف</th>
+              <th>الخطورة</th>
+              <th>القسم</th>
+              <th>الحالة</th>
+            </tr>
+          </thead>
+          <tbody id="findingsBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script>
+    const API = location.origin;
+    let gaugeChart, levelChart, fwChart, deptChart;
+
+    function toast(msg) {
+      const el = document.getElementById("toast");
+      el.textContent = msg;
+      el.classList.add("show");
+      clearTimeout(toast._t);
+      toast._t = setTimeout(() => el.classList.remove("show"), 3200);
+    }
+
+    function scoreClass(score) {
+      if (score >= 80) return "score-good";
+      if (score >= 50) return "score-mid";
+      return "score-bad";
+    }
+
+    function scoreColor(score) {
+      if (score >= 80) return "#1D9E75";
+      if (score >= 50) return "#c9a961";
+      return "#E24B4A";
+    }
+
+    function chartDefaults() {
+      Chart.defaults.color = "#8aa3a8";
+      Chart.defaults.borderColor = "rgba(138,163,168,0.15)";
+      Chart.defaults.font.family = "Tajawal";
+    }
+
+    function ensureGauge(score) {
+      const ctx = document.getElementById("gaugeChart");
+      const color = scoreColor(score);
+      const data = {
+        labels: ["score", "rest"],
+        datasets: [{
+          data: [score, Math.max(0, 100 - score)],
+          backgroundColor: [color, "rgba(138,163,168,0.12)"],
+          borderWidth: 0,
+          circumference: 270,
+          rotation: 225,
+          cutout: "72%",
+        }],
+      };
+      const opts = {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: { enabled: false },
+          title: {
+            display: true,
+            text: String(score),
+            color: color,
+            font: { size: 36, weight: "800", family: "Tajawal" },
+          },
+        },
+      };
+      if (gaugeChart) {
+        gaugeChart.data = data;
+        gaugeChart.options.plugins.title.text = String(score);
+        gaugeChart.options.plugins.title.color = color;
+        gaugeChart.update();
+      } else {
+        gaugeChart = new Chart(ctx, { type: "doughnut", data, options: opts });
+      }
+    }
+
+    function barChart(el, existing, labels, values, colors, horizontal) {
+      const data = {
+        labels,
+        datasets: [{
+          data: values,
+          backgroundColor: colors,
+          borderRadius: 6,
+          maxBarThickness: 42,
+        }],
+      };
+      const opts = {
+        indexAxis: horizontal ? "y" : "x",
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { beginAtZero: true, ticks: { precision: 0 } },
+          y: { beginAtZero: true, ticks: { precision: 0 } },
+        },
+      };
+      if (existing) {
+        existing.data = data;
+        existing.update();
+        return existing;
+      }
+      return new Chart(el, { type: "bar", data, options: opts });
+    }
+
+    function renderStats(stats) {
+      const k = stats.kpis || {};
+      const score = k.compliance_score ?? 100;
+      const scoreEl = document.getElementById("kpiScore");
+      scoreEl.className = "kpi " + scoreClass(score);
+      scoreEl.querySelector(".value").textContent = score;
+      document.getElementById("kpiOpen").textContent = k.open_risks ?? 0;
+      document.getElementById("kpiCrit").textContent = k.critical_risks ?? 0;
+      document.getElementById("kpiHigh").textContent = k.high_risks ?? 0;
+      document.getElementById("kpiClosed").textContent = k.closed ?? 0;
+      document.getElementById("kpiTotal").textContent = k.total_findings ?? 0;
+
+      ensureGauge(score);
+
+      const levels = ["Critical", "High", "Medium", "Low"];
+      const levelVals = levels.map((l) => (stats.risk_by_level || {})[l] || 0);
+      const levelColors = ["#E24B4A", "#D85A30", "#c9a961", "#1D9E75"];
+      levelChart = barChart(
+        document.getElementById("levelChart"),
+        levelChart,
+        ["حرجة", "عالية", "متوسطة", "منخفضة"],
+        levelVals,
+        levelColors,
+        false
+      );
+
+      const fw = stats.framework_coverage || {};
+      const fwLabels = Object.keys(fw);
+      const fwVals = fwLabels.map((x) => fw[x]);
+      fwChart = barChart(
+        document.getElementById("fwChart"),
+        fwChart,
+        fwLabels,
+        fwVals,
+        fwLabels.map(() => "rgba(201,169,97,0.75)"),
+        false
+      );
+
+      const dept = stats.risk_by_department || {};
+      const dLabels = Object.keys(dept);
+      const dVals = dLabels.map((x) => dept[x]);
+      deptChart = barChart(
+        document.getElementById("deptChart"),
+        deptChart,
+        dLabels.length ? dLabels : ["—"],
+        dVals.length ? dVals : [0],
+        dLabels.map(() => "rgba(15,92,102,0.9)"),
+        true
+      );
+    }
+
+    function renderFindings(rows) {
+      const empty = document.getElementById("emptyState");
+      const table = document.getElementById("findingsTable");
+      const body = document.getElementById("findingsBody");
+      body.innerHTML = "";
+      if (!rows || !rows.length) {
+        empty.hidden = false;
+        table.hidden = true;
+        return;
+      }
+      empty.hidden = true;
+      table.hidden = false;
+      for (const r of rows) {
+        const tr = document.createElement("tr");
+        const sev = r.severity || "Medium";
+        tr.innerHTML = `
+          <td>${(r.created_at || "").replace("T", " ").replace("Z", "")}</td>
+          <td class="src">${r.source || ""}</td>
+          <td class="clip" title="${(r.input_text || "").replace(/"/g, "&quot;")}">${r.input_text || ""}</td>
+          <td>${r.category_ar || r.category || ""}</td>
+          <td><span class="sev ${sev}">${sev}</span></td>
+          <td>${r.department || ""}</td>
+          <td>
+            <select class="status" data-id="${r.id}">
+              <option value="open" ${r.status === "open" ? "selected" : ""}>open</option>
+              <option value="in_progress" ${r.status === "in_progress" ? "selected" : ""}>in_progress</option>
+              <option value="closed" ${r.status === "closed" ? "selected" : ""}>closed</option>
+            </select>
+          </td>`;
+        body.appendChild(tr);
+      }
+      body.querySelectorAll("select.status").forEach((sel) => {
+        sel.addEventListener("change", async () => {
+          const id = sel.getAttribute("data-id");
+          const status = sel.value;
+          try {
+            const res = await fetch(`${API}/findings/${id}/status`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ status }),
+            });
+            if (!res.ok) throw new Error(await res.text());
+            toast("تم تحديث الحالة — جاري تحديث المؤشرات");
+            await loadAll();
+          } catch (e) {
+            toast("فشل تحديث الحالة");
+            console.error(e);
+          }
+        });
+      });
+    }
+
+    async function loadAll() {
+      const [statsRes, findRes] = await Promise.all([
+        fetch(`${API}/stats`),
+        fetch(`${API}/findings?limit=40`),
+      ]);
+      if (!statsRes.ok) throw new Error("stats failed");
+      const stats = await statsRes.json();
+      const findings = await findRes.json();
+      renderStats(stats);
+      renderFindings(findings.findings || findings || []);
+    }
+
+    async function withBusy(btn, fn) {
+      btn.disabled = true;
+      try { await fn(); } finally { btn.disabled = false; }
+    }
+
+    document.getElementById("btnRefresh").onclick = () =>
+      loadAll().then(() => toast("تم التحديث")).catch((e) => toast(String(e)));
+
+    document.getElementById("btnSoar").onclick = () => {
+      const btn = document.getElementById("btnSoar");
+      const count = Number(document.getElementById("soarCount").value || 8);
+      withBusy(btn, async () => {
+        toast("جاري توليد وتحليل تنبيهات SOAR…");
+        const res = await fetch(`${API}/soar/generate`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ count, use_llm: false }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || "SOAR failed");
+        toast(`تم توليد ${data.generated} تنبيهاً`);
+        await loadAll();
+      }).catch((e) => toast(String(e.message || e)));
+    };
+
+    document.getElementById("btnTpl").onclick = async () => {
+      try {
+        const res = await fetch(`${API}/excel/template`);
+        if (!res.ok) throw new Error("template failed");
+        const blob = await res.blob();
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "imtithal_findings_template.xlsx";
+        a.click();
+        URL.revokeObjectURL(a.href);
+        toast("تم تنزيل قالب Excel");
+      } catch (e) {
+        toast(String(e));
+      }
+    };
+
+    document.getElementById("btnExcel").onclick = () =>
+      document.getElementById("fileExcel").click();
+
+    document.getElementById("fileExcel").onchange = async (ev) => {
+      const file = ev.target.files && ev.target.files[0];
+      ev.target.value = "";
+      if (!file) return;
+      const btn = document.getElementById("btnExcel");
+      await withBusy(btn, async () => {
+        toast("جاري استيراد وتحليل الملف…");
+        const buf = await file.arrayBuffer();
+        const res = await fetch(`${API}/excel/import?use_llm=false`, {
+          method: "POST",
+          headers: { "Content-Type": "application/octet-stream" },
+          body: buf,
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || "import failed");
+        toast(`تم استيراد ${data.imported} من ${data.total_rows}`);
+        await loadAll();
+      }).catch((e) => toast(String(e.message || e)));
+    };
+
+    document.getElementById("btnClear").onclick = async () => {
+      if (!confirm("مسح كل النتائج المحفوظة؟")) return;
+      const res = await fetch(`${API}/findings`, { method: "DELETE" });
+      const data = await res.json();
+      toast(`تم حذف ${data.deleted ?? 0} سجل`);
+      await loadAll();
+    };
+
+    chartDefaults();
+    loadAll().catch((e) => toast("تعذر تحميل البيانات: " + e));
+  </script>
+</body>
+</html>

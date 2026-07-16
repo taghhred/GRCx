@@ -1,0 +1,415 @@
+.container{
+    display:flex;
+    flex-direction:column;
+    gap:24px;
+    padding-bottom:40px;
+    animation:fadeIn .35s ease;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* ================= HEADER ================= */
+
+.header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:flex-start;
+
+    gap:24px;
+
+}
+
+.header h1{
+
+    font-size:32px;
+
+    color:white;
+
+    margin:14px 0 8px;
+
+    font-weight:700;
+
+}
+
+.header p{
+
+    color:var(--color-text-secondary);
+
+    font-size:14px;
+
+}
+
+.badge{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    padding:6px 12px;
+
+    border-radius:999px;
+
+    background:rgba(239,68,68,.15);
+
+    color:#ef4444;
+
+    font-size:12px;
+
+    font-weight:700;
+
+}
+
+/* ================= RISK ================= */
+
+.riskCard{
+
+    width:180px;
+
+    background:var(--color-surface);
+
+    border:1px solid var(--color-border);
+
+    border-radius:18px;
+
+    padding:20px;
+
+    text-align:center;
+
+}
+
+.riskCard span{
+
+    color:var(--color-text-muted);
+
+    font-size:13px;
+
+}
+
+.riskCard h2{
+
+    font-size:54px;
+
+    color:white;
+
+    margin:12px 0;
+
+    line-height:1;
+
+}
+
+.riskCard small{
+
+    color:var(--color-primary);
+
+    font-weight:600;
+
+}
+
+
+/* ================= GRID ================= */
+
+.grid{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:20px;
+
+}
+
+/* ================= CARD ================= */
+
+.card{
+
+    background:var(--color-surface);
+
+    border:1px solid var(--color-border);
+
+    border-radius:18px;
+
+    padding:24px;
+
+}
+
+.card h3{
+
+    color:white;
+
+    font-size:17px;
+
+    margin-bottom:18px;
+
+}
+
+/* ================= IDENTITY ================= */
+
+.identity{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:16px;
+
+}
+
+.avatar{
+
+    width:56px;
+
+    height:56px;
+
+    border-radius:50%;
+
+    background:rgba(88,101,242,.15);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:var(--color-primary);
+
+}
+
+.identity h4{
+
+    color:white;
+
+    margin-bottom:6px;
+
+    font-size:17px;
+
+}
+
+.identity span{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    color:var(--color-text-secondary);
+
+    font-size:14px;
+
+}
+
+/* ================= SUMMARY ================= */
+
+.summary{
+
+    color:var(--color-text-secondary);
+
+    line-height:1.8;
+
+    font-size:14px;
+
+}
+
+/* ================= TAGS ================= */
+
+.tags{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:12px;
+
+}
+
+.tags span{
+
+    padding:10px 14px;
+
+    border-radius:999px;
+
+    background:rgba(255,255,255,.04);
+
+    border:1px solid var(--color-border);
+
+    color:white;
+
+    font-size:13px;
+
+}
+
+/* ================= FRAMEWORK ================= */
+
+.frameworks{
+
+    display:flex;
+
+    gap:16px;
+
+    flex-wrap:wrap;
+
+}
+
+.framework{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:14px 18px;
+
+    border-radius:14px;
+
+    background:rgba(88,101,242,.08);
+
+    color:white;
+
+    border:1px solid rgba(88,101,242,.2);
+
+}
+
+/* ================= AI ================= */
+
+.aiCard{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:24px;
+
+    padding:28px;
+
+    background:linear-gradient(
+        135deg,
+        rgba(88,101,242,.18),
+        rgba(88,101,242,.05)
+    );
+
+    border:1px solid rgba(88,101,242,.2);
+
+    border-radius:20px;
+
+}
+
+.aiTitle{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    color:white;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    margin-bottom:14px;
+
+}
+
+.aiCard p{
+
+    color:var(--color-text-secondary);
+
+    line-height:1.8;
+
+    max-width:700px;
+
+}
+
+/* ================= BUTTON ================= */
+
+.actionButton{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    height:48px;
+
+    padding:0 22px;
+
+    border-radius:14px;
+
+    background:var(--color-primary);
+
+    color:white;
+
+    font-weight:600;
+
+    transition:.2s;
+
+    white-space:nowrap;
+
+}
+
+.actionButton:hover{
+
+    transform:translateY(-2px);
+
+    opacity:.95;
+
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:1100px){
+
+.header{
+
+flex-direction:column;
+
+}
+
+.riskCard{
+
+width:100%;
+
+}
+
+.grid{
+
+grid-template-columns:1fr;
+
+}
+
+.aiCard{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+}
+
+.actionButton{
+
+width:100%;
+
+justify-content:center;
+
+}
+
+}

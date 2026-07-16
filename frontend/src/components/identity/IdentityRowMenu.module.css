@@ -1,0 +1,70 @@
+.root {
+  position: relative;
+  display: inline-flex;
+}
+
+.trigger {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--color-text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    background var(--motion-hover) ease-out,
+    color var(--motion-hover) ease-out,
+    border-color var(--motion-hover) ease-out;
+}
+
+.trigger:hover,
+.trigger[aria-expanded="true"] {
+  background: var(--color-nav-hover-bg);
+  color: var(--color-text-primary);
+  border-color: var(--color-border);
+}
+
+.trigger:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  z-index: 20;
+  min-width: 210px;
+  padding: 6px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-elevated);
+  box-shadow: var(--shadow-menu);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.item {
+  text-align: left;
+  width: 100%;
+  min-height: 36px;
+  padding: 8px 10px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-section);
+  cursor: pointer;
+}
+
+.item:hover,
+.item:focus-visible {
+  background: var(--color-nav-hover-bg);
+  color: var(--color-text-primary);
+  outline: none;
+}

@@ -1,0 +1,48 @@
+.card {
+  max-width: 560px;
+  width: 100%;
+  padding: 28px;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.title {
+  font-size: 22px;
+  font-weight: var(--weight-title);
+  color: var(--color-text-primary);
+  letter-spacing: -0.015em;
+  margin: 0 0 10px;
+  line-height: 1.3;
+}
+
+.lead {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-body);
+  color: var(--color-text-muted);
+  line-height: var(--leading-relaxed);
+  margin: 0 0 20px;
+}
+
+.subtitle {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-section);
+  color: var(--color-text-secondary);
+  margin: 0 0 10px;
+}
+
+.list {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 8px;
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-body);
+  line-height: 1.5;
+}
+
+.list li::marker {
+  color: var(--color-primary);
+}

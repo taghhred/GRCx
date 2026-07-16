@@ -1,0 +1,227 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 1440px;
+  padding-bottom: 48px;
+  animation: fadeIn var(--motion-slow) ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 28%, var(--color-border));
+  background: color-mix(in srgb, var(--color-primary) 10%, var(--color-surface));
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+}
+
+.noticeClose {
+  min-height: 40px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.prototypeNote {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px dashed var(--color-border);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.importedRow {
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  outline: 1px solid color-mix(in srgb, var(--color-primary) 35%, transparent);
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.search {
+  flex: 1 1 220px;
+  min-width: 200px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-background) 45%, transparent);
+  color: var(--color-text-muted);
+}
+
+.search input {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+  min-height: auto !important;
+  padding: 0 !important;
+  width: 100%;
+  color: var(--color-text-primary);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-body);
+}
+
+.filter {
+  flex: 0 1 160px;
+}
+
+.filter select {
+  width: 100%;
+  min-height: 40px;
+  height: 40px;
+  font-size: var(--text-sm);
+  padding: 0 12px;
+}
+
+.toolbarActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.tableCard {
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.tableWrap {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: var(--text-table);
+}
+
+.table th,
+.table td {
+  text-align: left;
+  padding: 16px 14px;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+}
+
+.table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--color-surface-elevated);
+  color: var(--color-text-secondary);
+  font-size: var(--text-table-head);
+  font-weight: var(--weight-section);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.table tbody td {
+  color: var(--color-text-secondary);
+  font-weight: var(--weight-body);
+}
+
+.clickRow {
+  cursor: pointer;
+  transition: background var(--motion-hover) ease-out;
+}
+
+.clickRow:hover,
+.clickRow:focus-visible {
+  background: var(--color-nav-hover-bg);
+  outline: none;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.employeeCell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 160px;
+}
+
+.employeeCell strong {
+  color: var(--color-text-primary);
+  font-weight: var(--weight-section);
+}
+
+.employeeCell span {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.activity {
+  display: inline-block;
+  max-width: 220px;
+  line-height: 1.4;
+}
+
+.emptyCell {
+  text-align: center !important;
+  padding: 40px 16px !important;
+  color: var(--color-text-muted) !important;
+}
+
+@media (max-width: 900px) {
+  .toolbarActions {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .filter {
+    flex: 1 1 140px;
+  }
+}

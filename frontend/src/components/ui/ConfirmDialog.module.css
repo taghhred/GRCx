@@ -1,0 +1,76 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(15, 23, 42, 0.55);
+}
+
+.dialog {
+  width: min(420px, 100%);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: 24px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: var(--color-text-primary);
+}
+
+.message {
+  font-size: 15px;
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+  margin: 0 0 24px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.cancel,
+.confirm {
+  height: 40px;
+  min-width: 96px;
+  padding: 0 16px;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 600;
+  transition: background var(--motion-fast) ease, border-color var(--motion-fast) ease;
+}
+
+.cancel {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+}
+
+.cancel:hover {
+  background: var(--color-surface-hover);
+}
+
+.confirm {
+  background: var(--color-danger);
+  border: 1px solid transparent;
+  color: #fff;
+}
+
+.confirm:hover {
+  filter: brightness(0.95);
+}
+
+.cancel:focus-visible,
+.confirm:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}

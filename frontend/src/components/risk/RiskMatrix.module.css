@@ -1,0 +1,151 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.legend {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.legend p {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.marker {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  border: 2px solid var(--color-text-primary);
+  flex-shrink: 0;
+}
+
+.markerInherent {
+  background: color-mix(in srgb, var(--color-danger) 70%, transparent);
+}
+
+.markerResidual {
+  background: color-mix(in srgb, var(--color-primary) 70%, transparent);
+  border-style: dashed;
+}
+
+.gridWrap {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 1fr auto;
+  gap: 8px;
+  max-width: 360px;
+}
+
+.axisY {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 11px;
+  color: var(--color-text-muted);
+  align-self: center;
+}
+
+.axisX {
+  grid-column: 2;
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 4px;
+  aspect-ratio: 1;
+}
+
+.cell {
+  position: relative;
+  min-height: 40px;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cellLabel {
+  font-size: 10px;
+  font-weight: var(--weight-section);
+  color: var(--color-text-primary);
+  opacity: 0.75;
+}
+
+.levelLow {
+  background: color-mix(in srgb, #22c55e 18%, var(--color-surface));
+}
+
+.levelMedium {
+  background: color-mix(in srgb, #eab308 18%, var(--color-surface));
+}
+
+.levelHigh {
+  background: color-mix(in srgb, #f97316 20%, var(--color-surface));
+}
+
+.levelCritical {
+  background: color-mix(in srgb, #ef4444 22%, var(--color-surface));
+}
+
+.pinInherent,
+.pinResidual {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.pinInherent {
+  top: 3px;
+  left: 3px;
+  background: #b91c1c;
+}
+
+.pinResidual {
+  bottom: 3px;
+  right: 3px;
+  background: #1d4ed8;
+  border: 1px dashed #93c5fd;
+}
+
+.key {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.key li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  border: 1px solid var(--color-border);
+}

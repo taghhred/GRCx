@@ -1,0 +1,54 @@
+.wrap {
+  position: relative;
+  display: grid;
+  place-items: center;
+  margin: 0 auto;
+}
+
+.svg {
+  width: 100%;
+  height: 100%;
+}
+
+.track {
+  stroke: var(--color-border);
+}
+
+.fill {
+  stroke: var(--color-primary);
+  transition: stroke-dashoffset 400ms ease-out;
+}
+
+.center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 24px;
+  text-align: center;
+}
+
+.value {
+  font-size: 36px;
+  font-weight: var(--weight-title);
+  letter-spacing: -0.03em;
+  color: var(--color-text-primary);
+  line-height: 1.1;
+}
+
+.label {
+  font-size: 12px;
+  font-weight: var(--weight-section);
+  color: var(--color-text-muted);
+  max-width: 110px;
+  line-height: 1.3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fill {
+    transition: none;
+  }
+}

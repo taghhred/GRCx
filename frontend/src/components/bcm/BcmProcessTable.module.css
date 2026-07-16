@@ -1,0 +1,271 @@
+.tableCard {
+  background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+}
+
+.tableToolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-surface-elevated) 70%, transparent);
+}
+
+.meta {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.meta strong {
+  color: var(--color-text-primary);
+  font-weight: var(--weight-section);
+}
+
+.toolbarRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.colsWrap {
+  position: relative;
+}
+
+.iconBtn,
+.pageBtn,
+.rowAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition:
+    background var(--motion-hover) ease-out,
+    color var(--motion-hover) ease-out,
+    border-color var(--motion-hover) ease-out;
+}
+
+.iconBtn:hover,
+.pageBtn:hover:not(:disabled),
+.rowAction:hover {
+  background: var(--color-nav-hover-bg);
+  color: var(--color-text-primary);
+  border-color: var(--color-border-strong);
+}
+
+.iconBtn:focus-visible,
+.pageBtn:focus-visible,
+.rowAction:focus-visible,
+.sortBtn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.pageBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.rowAction {
+  width: 32px;
+  min-height: 32px;
+  padding: 0;
+  margin-right: 4px;
+}
+
+.colsMenu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 20;
+  width: 220px;
+  max-height: 320px;
+  overflow: auto;
+  padding: 8px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-elevated);
+  box-shadow: var(--shadow-menu);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.colsItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.colsItem:hover {
+  background: var(--color-nav-hover-bg);
+  color: var(--color-text-primary);
+}
+
+.pageSize select {
+  min-height: 36px;
+  height: 36px;
+  font-size: var(--text-sm);
+  padding: 0 10px;
+}
+
+.tableWrap {
+  overflow: auto;
+  max-height: min(520px, 58vh);
+}
+
+.table {
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: var(--text-table);
+  table-layout: fixed;
+}
+
+.table th,
+.table td {
+  text-align: left;
+  padding: 0 14px;
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 48px;
+  vertical-align: middle;
+  position: relative;
+}
+
+.table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--color-surface-elevated);
+  color: var(--color-text-secondary);
+  font-size: var(--text-table-head);
+  font-weight: var(--weight-section);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.sortBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  width: calc(100% - 8px);
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+
+.headLabel {
+  display: inline-block;
+  width: calc(100% - 8px);
+}
+
+.sortGhost {
+  width: 14px;
+  height: 14px;
+}
+
+.resizer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 6px;
+  height: 100%;
+  cursor: col-resize;
+  user-select: none;
+}
+
+.resizer:hover,
+.resizer:focus-visible {
+  background: color-mix(in srgb, var(--color-primary) 45%, transparent);
+}
+
+.table tbody td {
+  color: var(--color-text-secondary);
+  background: transparent;
+}
+
+.table tbody td strong {
+  color: var(--color-text-primary);
+  font-weight: var(--weight-section);
+}
+
+.clickRow {
+  cursor: pointer;
+  transition: background var(--motion-hover) ease-out;
+}
+
+.clickRow:hover,
+.clickRow:focus-visible {
+  background: var(--color-nav-active-bg);
+  outline: none;
+}
+
+.importedRow {
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  outline: 1px solid color-mix(in srgb, var(--color-primary) 35%, transparent);
+}
+
+.emptyCell {
+  text-align: center !important;
+  color: var(--color-text-muted);
+  padding: 40px 16px !important;
+  white-space: normal !important;
+}
+
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--color-border);
+}
+
+.pageLabel {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.padRow td {
+  background: transparent !important;
+}

@@ -1,0 +1,458 @@
+.root {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0;
+  z-index: 50;
+}
+
+.trigger {
+  min-height: 40px;
+  padding: 0 12px 0 14px;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, #64748b 45%, var(--color-border));
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, #1e293b 55%, var(--color-surface-elevated)),
+    color-mix(in srgb, #0f172a 35%, var(--color-surface))
+  );
+  color: #e2e8f0;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  box-shadow: 0 8px 24px color-mix(in srgb, #020617 28%, transparent);
+  max-width: min(460px, 92vw);
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.trigger:hover {
+  border-color: color-mix(in srgb, #38bdf8 40%, #64748b);
+  box-shadow: 0 10px 28px color-mix(in srgb, #020617 40%, transparent);
+}
+
+.trigger:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 2px;
+}
+
+.triggerOpen {
+  border-color: #38bdf8;
+}
+
+.triggerIcon,
+.chevron {
+  color: #94a3b8;
+  flex-shrink: 0;
+}
+
+.triggerLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chevron {
+  transition: transform 160ms ease;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.liveDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 0 3px color-mix(in srgb, #22c55e 25%, transparent);
+  flex-shrink: 0;
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+.selectionHint {
+  display: none;
+}
+
+.panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: min(820px, calc(100vw - 24px));
+  max-height: min(82vh, 680px);
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, #64748b 50%, transparent);
+  background: color-mix(in srgb, #0b1220 92%, #1e293b);
+  color: #e2e8f0;
+  backdrop-filter: blur(20px);
+  box-shadow:
+    0 24px 60px color-mix(in srgb, #020617 55%, transparent),
+    inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent);
+  overflow: hidden;
+  animation: panelIn 170ms ease-out;
+}
+
+@keyframes panelIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid color-mix(in srgb, #64748b 35%, transparent);
+  background: color-mix(in srgb, #020617 35%, transparent);
+}
+
+.panelHeader h2 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+}
+
+.panelHeader span {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 10px 12px;
+}
+
+.section {
+  border: 1px solid color-mix(in srgb, #64748b 28%, transparent);
+  border-radius: 10px;
+  margin-bottom: 8px;
+  overflow: hidden;
+  background: color-mix(in srgb, #111827 70%, transparent);
+}
+
+.sectionHead {
+  width: 100%;
+  min-height: 42px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border: none;
+  background: transparent;
+  color: #e2e8f0;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.sectionHead:hover,
+.sectionHead:focus-visible {
+  background: color-mix(in srgb, #38bdf8 8%, transparent);
+  outline: none;
+}
+
+.sectionBody {
+  padding: 4px 10px 12px;
+  border-top: 1px solid color-mix(in srgb, #64748b 22%, transparent);
+}
+
+.presetGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.presetBtn {
+  text-align: left;
+  min-height: 34px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #cbd5e1;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.presetBtn:hover,
+.presetBtn:focus-visible {
+  background: color-mix(in srgb, #38bdf8 12%, transparent);
+  color: #f8fafc;
+  outline: none;
+}
+
+.presetActive {
+  background: color-mix(in srgb, #0ea5e9 22%, transparent);
+  color: #f0f9ff;
+  font-weight: 650;
+}
+
+.customLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(200px, 0.85fr);
+  gap: 12px;
+}
+
+.calendarCard,
+.timeCard,
+.advancedCard {
+  border: 1px solid color-mix(in srgb, #64748b 30%, transparent);
+  border-radius: 10px;
+  padding: 12px;
+  background: color-mix(in srgb, #020617 40%, transparent);
+}
+
+.calendarNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.calendarNav strong {
+  font-size: 13px;
+}
+
+.navCluster {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.navBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, #64748b 40%, transparent);
+  background: transparent;
+  color: #cbd5e1;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navBtn:hover {
+  background: color-mix(in srgb, #38bdf8 12%, transparent);
+}
+
+.weekdays,
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+}
+
+.weekdays span {
+  text-align: center;
+  font-size: 11px;
+  color: #94a3b8;
+  padding: 4px 0;
+}
+
+.dayBtn {
+  aspect-ratio: 1;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #e2e8f0;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.dayBtn:hover {
+  background: color-mix(in srgb, #38bdf8 14%, transparent);
+}
+
+.dayOutside {
+  color: #64748b;
+}
+
+.daySelected {
+  background: color-mix(in srgb, #0ea5e9 40%, transparent);
+  font-weight: 700;
+}
+
+.dayInRange {
+  background: color-mix(in srgb, #0ea5e9 16%, transparent);
+}
+
+.timeCard h4,
+.advancedCard h4 {
+  margin: 0 0 10px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #94a3b8;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.field input,
+.field select {
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, #64748b 45%, transparent);
+  background: #0f172a;
+  color: #e2e8f0;
+  padding: 0 10px;
+  font-size: 13px;
+}
+
+.rangePreview {
+  margin: 10px 0 0;
+  font-size: 12.5px;
+  color: #cbd5e1;
+  line-height: 1.45;
+  white-space: pre-line;
+}
+
+.refreshRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.refreshChip {
+  min-height: 32px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, #64748b 40%, transparent);
+  background: transparent;
+  color: #cbd5e1;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.refreshChipActive {
+  border-color: #38bdf8;
+  background: color-mix(in srgb, #0ea5e9 20%, transparent);
+  color: #f0f9ff;
+}
+
+.tzLine {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 10px;
+  font-size: 13px;
+  color: #e2e8f0;
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 14px;
+  border-top: 1px solid color-mix(in srgb, #64748b 35%, transparent);
+  background: color-mix(in srgb, #020617 45%, transparent);
+}
+
+.footerHint {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ghostDark,
+.secondaryDark,
+.primaryDark {
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ghostDark {
+  border: 1px solid transparent;
+  background: transparent;
+  color: #94a3b8;
+}
+
+.ghostDark:hover {
+  color: #e2e8f0;
+  background: color-mix(in srgb, #fff 6%, transparent);
+}
+
+.secondaryDark {
+  border: 1px solid color-mix(in srgb, #64748b 50%, transparent);
+  background: transparent;
+  color: #e2e8f0;
+}
+
+.secondaryDark:hover {
+  border-color: #94a3b8;
+}
+
+.primaryDark {
+  min-width: 108px;
+  border: 1px solid #0284c7;
+  background: linear-gradient(180deg, #0ea5e9, #0284c7);
+  color: #f8fafc;
+}
+
+.primaryDark:hover {
+  filter: brightness(1.06);
+}
+
+.error {
+  margin: 8px 0 0;
+  color: #fca5a5;
+  font-size: 12.5px;
+}
+
+@media (max-width: 720px) {
+  .presetGrid,
+  .customLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .panel {
+    width: calc(100vw - 16px);
+    right: -8px;
+  }
+}
