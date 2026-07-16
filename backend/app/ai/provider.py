@@ -105,6 +105,28 @@ class OllamaAIProvider:
         self.model = (model or "").strip() or DEFAULT_OLLAMA_MODEL
         self.timeout = timeout
         self._pull_attempted = False
+        self._model_ready = False
+        self._validate_trusted_host()
+
+    def _validate_trusted_host(self) -> None:
+        """SSRF guard — only configured private/local Ollama hosts."""
+        from urllib.parse import urlparse
+
+        parsed = urlparse(self.base_url)
+        host = (parsed.hostname or "").lower()
+        scheme = (parsed.scheme or "").lower()
+        if scheme not in {"http", "https"}:
+            raise ValueError("ollama_untrusted_scheme")
+        allowed_suffixes = (".railway.internal", ".local")
+        allowed_exact = {
+            "localhost",
+            "127.0.0.1",
+            "ollama",
+            "host.docker.internal",
+        }
+        ok = host in allowed_exact or any(host.endswith(s) for s in allowed_suffixes)
+        if not ok:
+            raise ValueError("ollama_untrusted_host")
 
     def _client(self) -> httpx.AsyncClient:
         return get_shared_http_client(self.base_url, self.timeout)
@@ -167,6 +189,7 @@ class OllamaAIProvider:
         # Heavy models (e.g. qwen2.5:3b) OOM on small Railway nodes even when tagged.
         wants_light = self.model in HEAVY_OLLAMA_MODELS or self.model not in names
         if not wants_light and self.model in names:
+            self._model_ready = True
             return
 
         installed = self._pick_installed_light_model(names)
@@ -178,6 +201,7 @@ class OllamaAIProvider:
                     installed,
                 )
                 self.model = installed
+            self._model_ready = True
             return
 
         pull_target = DEFAULT_OLLAMA_MODEL
@@ -196,21 +220,36 @@ class OllamaAIProvider:
             )
             raise LookupError(model_missing_message(pull_target)) from exc
         self.model = pull_target
+        self._model_ready = True
 
-    async def _chat(self, messages: list[dict[str, str]]) -> str:
+    async def ensure_model_once(self) -> None:
+        """Startup / recovery path — skip when already ready."""
+        if self._model_ready:
+            return
         await self.ensure_model()
+        self._model_ready = True
+
+    async def _chat(self, messages: list[dict[str, str]], *, ensure: bool = False) -> str:
+        if ensure or not self._model_ready:
+            await self.ensure_model_once()
         client = self._client()
-        # Keep context small for Railway memory limits on light Qwen models.
-        options = {"temperature": 0.4, "num_ctx": 2048, "num_predict": 384}
+        # Latency-focused options for Railway light models.
+        options = {"temperature": 0.1, "num_ctx": 1536, "num_predict": 120}
         payload = {
             "model": self.model,
             "messages": messages,
             "stream": False,
-            "keep_alive": "10m",
+            "keep_alive": "30m",
             "options": options,
         }
         try:
             response = await client.post(f"{self.base_url}/api/chat", json=payload)
+            if response.status_code == 404:
+                # Model disappeared — one recovery ensure + retry.
+                self._model_ready = False
+                await self.ensure_model_once()
+                payload["model"] = self.model
+                response = await client.post(f"{self.base_url}/api/chat", json=payload)
             if response.status_code >= 400:
                 err_preview = (response.text or "")[:180].replace("\n", " ")
                 logger.warning(
@@ -252,7 +291,7 @@ class OllamaAIProvider:
             "model": self.model,
             "prompt": "\n".join(prompt_parts),
             "stream": False,
-            "keep_alive": "10m",
+            "keep_alive": "30m",
             "options": options,
         }
         response = await client.post(f"{self.base_url}/api/generate", json=gen_payload)
@@ -269,6 +308,15 @@ class OllamaAIProvider:
         if isinstance(content, str) and content.strip():
             return content.strip()
         raise ValueError("empty_ollama_reply")
+
+    async def chat_messages(
+        self,
+        messages: list[dict[str, str]],
+        *,
+        ensure: bool = False,
+    ) -> str:
+        """Public chat entry used by the grounded advisor (no per-request pull)."""
+        return await self._chat(messages, ensure=ensure)
 
     async def probe(self, *, deep: bool = False) -> dict[str, Any]:
         """Safe diagnostics payload (no secrets / no prompts).
@@ -334,7 +382,7 @@ class OllamaAIProvider:
     ) -> str:
         system = self._system_prompt(page_context, user_context)
         chat_messages = [{"role": "system", "content": system}, *messages]
-        return await self._chat(chat_messages)
+        return await self._chat(chat_messages, ensure=False)
 
     async def advisor_chat(
         self,
@@ -344,30 +392,18 @@ class OllamaAIProvider:
         lang: str = "auto",
         page_context: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
-        ctx = dict(page_context or {})
-        if module and not ctx.get("moduleLabel"):
-            ctx["moduleLabel"] = module
-        system = self._system_prompt(ctx, None)
-        if lang and lang not in ("auto", ""):
-            system += f" Reply in language code: {lang}."
+        from app.ai.grounded import run_grounded_advisor
 
-        messages: list[dict[str, str]] = [{"role": "system", "content": system}]
-        for turn in (history or [])[-12:]:
-            role = turn.get("role") or "user"
-            content = (turn.get("content") or "").strip()
-            if content and role in ("user", "assistant", "system"):
-                messages.append({"role": role, "content": content})
-        messages.append({"role": "user", "content": message})
-
-        reply = await self._chat(messages)
-        return {
-            "reply": reply,
-            "sources": [],
-            "grounded": False,
-            "refused": False,
-            "model": self.model,
-            "provider": self.name,
-        }
+        mod = module or (page_context or {}).get("moduleLabel")
+        result = await run_grounded_advisor(
+            message=message,
+            ollama=self,
+            module=str(mod) if mod else None,
+            history=history,
+        )
+        # lang reserved for future prompt hints; grounding path mirrors user language.
+        _ = lang
+        return result
 
 
 # Backwards-compatible alias used by older imports/tests
@@ -502,10 +538,14 @@ async def run_ollama_startup_diagnostics(settings: Settings) -> None:
         timeout=max(120.0, settings.ai_request_timeout_seconds),
     )
     try:
-        await provider.ensure_model()
+        await provider.ensure_model_once()
+        from app.ai.retriever import load_chunks
+
+        n = len(load_chunks())
         logger.info(
-            "ai_startup ollama_reachable=true model_present=true active_model=%s",
+            "ai_startup ollama_reachable=true model_present=true active_model=%s kb_chunks=%s",
             provider.model,
+            n,
         )
     except LookupError:
         logger.warning("ai_startup %s", model_missing_message(provider.model))
