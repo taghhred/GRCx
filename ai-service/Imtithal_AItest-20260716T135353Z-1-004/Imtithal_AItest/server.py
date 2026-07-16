@@ -631,8 +631,13 @@ async def excel_import(request: Request, use_llm: bool = False):
 
 
 if __name__ == "__main__":
-    port = int(os.environ.get("AI_PORT", "8001"))
-    host = os.environ.get("AI_HOST", "127.0.0.1")
+    # Railway injects PORT; prefer it over AI_PORT. Bind 0.0.0.0 in production/Railway.
+    port = int(os.environ.get("PORT") or os.environ.get("AI_PORT", "8001"))
+    production_like = (
+        bool(os.environ.get("PORT"))
+        or (os.environ.get("GRCX_ENV") or "").lower() == "production"
+    )
+    host = os.environ.get("AI_HOST") or ("0.0.0.0" if production_like else "127.0.0.1")
     logger.info("Listening http://%s:%s log_file=%s", host, port, LOG_FILE)
     print(f"Dashboard: http://{host}:{port}/dashboard")
     uvicorn.run(app, host=host, port=port, log_level="warning")

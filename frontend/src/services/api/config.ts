@@ -10,9 +10,16 @@ export function isMocksEnabled(): boolean {
 }
 
 export function apiBaseUrl(): string {
-  const raw =
-    import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "") ||
-    "http://localhost:8002/api/v1";
+  const configured = import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "");
+  // Production builds must target the public backend only (never AI/Ollama).
+  if (!configured) {
+    if (import.meta.env.PROD) {
+      throw new Error(
+        "VITE_API_BASE_URL is required for production builds (public backend URL).",
+      );
+    }
+  }
+  const raw = configured || "http://localhost:8002/api/v1";
   // Normalize if someone set only the host
   if (raw.endsWith("/api/v1")) return raw;
   if (raw.match(/^https?:\/\/[^/]+$/)) return `${raw}/api/v1`;

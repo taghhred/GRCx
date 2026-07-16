@@ -7,8 +7,8 @@
 - Anthropic يبقى خياراً ثانوياً إن وُجد المفتاح — غير مطلوب.
 
 متغيرات اختيارية:
-    OLLAMA_URL           (افتراضي http://localhost:11434)
-    RAQEEB_OLLAMA_MODEL  (لتثبيت نموذج بعينه بدل الاختيار التلقائي)
+    OLLAMA_BASE_URL / OLLAMA_URL  (production: OLLAMA_BASE_URL; default http://127.0.0.1:11434)
+    OLLAMA_MODEL / IMTITHAL_OLLAMA_MODEL / RAQEEB_OLLAMA_MODEL
     IMTITHAL_NO_LLM=1      (لتعطيل الطبقة الذكية والاكتفاء بالقالب المحلي)
 """
 from __future__ import annotations
@@ -19,7 +19,13 @@ import re
 import urllib.error
 import urllib.request
 
-OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:11434").rstrip("/")
+# Prefer OLLAMA_BASE_URL in production (Railway private networking).
+# Fall back to OLLAMA_URL for local/docker-compose compatibility.
+OLLAMA_URL = (
+    os.environ.get("OLLAMA_BASE_URL")
+    or os.environ.get("OLLAMA_URL")
+    or "http://127.0.0.1:11434"
+).rstrip("/")
 
 # ترتيب التفضيل — الأعلى أولاً (جودة عربية × حجم معقول)
 _MODEL_RANK = [
@@ -63,14 +69,19 @@ class OllamaLLM:
             self.models = sorted(
                 (m.get("name", "") for m in tags.get("models", [])), key=_rank
             )
-            forced = (os.environ.get("IMTITHAL_OLLAMA_MODEL") or os.environ.get("RAQEEB_OLLAMA_MODEL", "")).strip()
+            forced = (
+                os.environ.get("OLLAMA_MODEL")
+                or os.environ.get("IMTITHAL_OLLAMA_MODEL")
+                or os.environ.get("RAQEEB_OLLAMA_MODEL")
+                or ""
+            ).strip()
             if forced:
                 self.model = forced
             elif self.models:
                 self.model = self.models[0]
             self.available = bool(self.model)
             if not self.available:
-                self.error = "Ollama يعمل لكن لا توجد نماذج — نفّذ: ollama pull qwen2.5:7b"
+                self.error = "Ollama يعمل لكن لا توجد نماذج — نفّذ: ollama pull qwen2.5:3b"
         except Exception as exc:  # noqa: BLE001 — غير مثبت/متوقف
             self.error = f"Ollama غير متاح ({exc.__class__.__name__})"
 

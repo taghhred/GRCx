@@ -33,18 +33,16 @@ services:
     environment:
       AI_PORT: "8090"
       AI_HOST: "0.0.0.0"
-      AI_RAQEEB_ROOT: /app/raqeeb_engine
-      AI_MODEL_PATH: /app/raqeeb_engine/models
-      AI_DATA_PATH: /app/raqeeb_engine/data
-      AI_DOCS_PATH: /app/raqeeb_engine/docs
-      AI_VECTOR_PATH: /app/raqeeb_engine/models/embeddings
-      AI_LOG_PATH: /app/logs
-      AI_TMP_PATH: /app/tmp
+      PORT: "8090"
+      GRCX_ENV: ${GRCX_ENV:-development}
+      ALLOW_LOCAL_OLLAMA: "1"
       AI_SERVICE_TOKEN: ${AI_SERVICE_TOKEN:-}
       TRANSLATION_ENABLED: ${TRANSLATION_ENABLED:-true}
       TRANSLATION_PROVIDER: ${TRANSLATION_PROVIDER:-glossary}
       MODEL_LANGUAGE: ${MODEL_LANGUAGE:-ar}
       OLLAMA_URL: ${OLLAMA_URL:-http://host.docker.internal:11434}
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-qwen2.5:3b}
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173,http://127.0.0.1:5173,http://api:8000}
     # Do not publish AI to the host network — backend reaches it on the compose network only.
     expose:
@@ -82,7 +80,7 @@ services:
     environment:
       DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-grcx}:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set}@db:5432/${POSTGRES_DB:-grcx}
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173,http://127.0.0.1:5173}
-      AI_PROVIDER: ${AI_PROVIDER:-raqeeb}
+      AI_PROVIDER: ${AI_PROVIDER:-imtithal}
       AI_SERVICE_URL: ${AI_SERVICE_URL:-http://ai:8090}
       AI_SERVICE_TOKEN: ${AI_SERVICE_TOKEN:-}
       AI_REQUEST_TIMEOUT_SECONDS: ${AI_REQUEST_TIMEOUT_SECONDS:-120}

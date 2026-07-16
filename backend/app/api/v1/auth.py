@@ -294,5 +294,7 @@ def logout(
         )
     db.commit()
 
-    clear_auth_cookies(response)
+    clear_auth_cookies(
+        response, secure=get_settings().grcx_env == "production"
+    )
     return MessageOut(ok=True)

@@ -1,0 +1,16 @@
+# Production AI service dependencies (AraBERT + FastAPI).
+# TF-IDF / scikit-learn remain available for offline tooling but the
+# production classifier path is AraBERT-only (imtithal.classifier).
+
+fastapi>=0.110
+uvicorn[standard]>=0.29
+openpyxl>=3.1
+pandas>=2.0
+joblib>=1.3
+scikit-learn>=1.3
+
+# AraBERT (required in production — no silent TF-IDF fallback)
+torch>=2.2
+transformers>=4.40
+safetensors>=0.4
+accelerate>=0.29

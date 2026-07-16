@@ -1,0 +1,18 @@
+.venv
+**/__pycache__
+**/*.pyc
+**/.pytest_cache
+**/logs
+**/*.db
+**/*.sqlite
+**/*.sqlite3
+# Large non-runtime assets (RAG uses data/*.json)
+**/*.pdf
+cloudflared
+all/
+pdfs/
+versions/
+.git
+*.md
+.env
+.env.*
