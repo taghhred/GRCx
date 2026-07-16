@@ -118,8 +118,16 @@ def create_app() -> FastAPI:
         allow_origins=settings.cors_origin_list,
         allow_credentials=True,
         allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-        allow_headers=["*"],
-        expose_headers=["*"],
+        # Explicit headers required for credentialed cross-origin SPA calls.
+        # Do not use allow_origins=["*"] with credentials.
+        allow_headers=[
+            "Accept",
+            "Accept-Language",
+            "Content-Type",
+            "X-GRCx-CSRF",
+            "X-Requested-With",
+        ],
+        expose_headers=["Content-Type"],
     )
     app.include_router(api_router)
     return app
