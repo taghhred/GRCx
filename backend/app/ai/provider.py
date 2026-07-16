@@ -115,6 +115,59 @@ class OllamaAIProvider:
         if self.model not in names:
             raise LookupError(model_missing_message(self.model))
 
+    async def _chat(self, messages: list[dict[str, str]]) -> str:
+        await self.ensure_model()
+        client = self._client()
+        payload = {
+            "model": self.model,
+            "messages": messages,
+            "stream": False,
+        }
+        try:
+            response = await client.post(f"{self.base_url}/api/chat", json=payload)
+            response.raise_for_status()
+            data = response.json()
+            message = data.get("message") or {}
+            content = message.get("content") if isinstance(message, dict) else None
+            if isinstance(content, str) and content.strip():
+                return content.strip()
+            alt = data.get("response")
+            if isinstance(alt, str) and alt.strip():
+                return alt.strip()
+            logger.warning("ollama_chat empty_reply keys=%s", sorted(data.keys())[:12])
+        except httpx.HTTPStatusError as exc:
+            logger.warning(
+                "ollama_chat_http status=%s falling_back_to_generate",
+                exc.response.status_code,
+            )
+        except Exception as exc:  # noqa: BLE001
+            logger.warning(
+                "ollama_chat_error type=%s falling_back_to_generate",
+                exc.__class__.__name__,
+            )
+
+        # Native /api/generate fallback (still Ollama-only, no cloud).
+        prompt_parts: list[str] = []
+        for turn in messages:
+            role = turn.get("role", "user")
+            text = (turn.get("content") or "").strip()
+            if not text:
+                continue
+            prompt_parts.append(f"{role.upper()}: {text}")
+        prompt_parts.append("ASSISTANT:")
+        gen_payload = {
+            "model": self.model,
+            "prompt": "\n".join(prompt_parts),
+            "stream": False,
+        }
+        response = await client.post(f"{self.base_url}/api/generate", json=gen_payload)
+        response.raise_for_status()
+        data = response.json()
+        content = data.get("response")
+        if isinstance(content, str) and content.strip():
+            return content.strip()
+        raise ValueError("empty_ollama_reply")
+
     async def probe(self) -> dict[str, Any]:
         """Safe diagnostics payload (no secrets / no prompts)."""
         result: dict[str, Any] = {
@@ -123,14 +176,34 @@ class OllamaAIProvider:
             "host": self.base_url,
             "reachable": False,
             "model_present": False,
+            "generate_ok": False,
         }
         try:
             names = await self.list_models()
             result["reachable"] = True
             result["model_present"] = self.model in names
         except Exception:  # noqa: BLE001
-            result["reachable"] = False
-            result["model_present"] = False
+            return result
+        if not result["model_present"]:
+            return result
+        try:
+            response = await self._client().post(
+                f"{self.base_url}/api/generate",
+                json={
+                    "model": self.model,
+                    "prompt": "ping",
+                    "stream": False,
+                    "options": {"num_predict": 4},
+                },
+            )
+            result["generate_ok"] = response.status_code == 200 and bool(
+                (response.json() or {}).get("response")
+            )
+            if response.status_code != 200:
+                logger.warning("ollama_generate_probe status=%s", response.status_code)
+        except Exception as exc:  # noqa: BLE001
+            logger.warning("ollama_generate_probe error=%s", exc.__class__.__name__)
+            result["generate_ok"] = False
         return result
 
     def _system_prompt(
@@ -147,34 +220,6 @@ class OllamaAIProvider:
             "Answer clearly and practically. Do not invent citations. "
             f"User: {first} ({role}). Current module context: {module}."
         )
-
-    async def _chat(self, messages: list[dict[str, str]]) -> str:
-        await self.ensure_model()
-        payload = {
-            "model": self.model,
-            "messages": messages,
-            "stream": False,
-            "options": {
-                "temperature": 0.4,
-                "num_predict": 768,
-            },
-        }
-        response = await self._client().post(
-            f"{self.base_url}/api/chat",
-            json=payload,
-        )
-        response.raise_for_status()
-        data = response.json()
-        # Native Ollama /api/chat
-        message = data.get("message") or {}
-        content = message.get("content") if isinstance(message, dict) else None
-        if isinstance(content, str) and content.strip():
-            return content.strip()
-        # Fallback: /api/generate-style "response" field if present
-        alt = data.get("response")
-        if isinstance(alt, str) and alt.strip():
-            return alt.strip()
-        raise ValueError("empty_ollama_reply")
 
     async def generate(
         self,

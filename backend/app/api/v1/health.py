@@ -25,5 +25,6 @@ async def ready() -> dict:
             "model": model,
             "reachable": probe.get("reachable"),
             "model_present": probe.get("model_present"),
+            "generate_ok": probe.get("generate_ok"),
         }
     return payload
