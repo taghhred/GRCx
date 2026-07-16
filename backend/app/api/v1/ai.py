@@ -65,7 +65,7 @@ def _map_provider_error(exc: Exception) -> HTTPException:
         if exc.response.status_code >= 500:
             detail = (
                 "Ollama could not run the configured model. "
-                "Verify the Ollama service has enough memory and that qwen2.5:3b is healthy."
+                "Verify the Ollama service has enough memory and that the configured light model is healthy."
             )
         return HTTPException(
             status_code=status,

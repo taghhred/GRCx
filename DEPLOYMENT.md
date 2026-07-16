@@ -9,7 +9,7 @@ exact settings below after secrets and AraBERT weights are ready.
 Browser (Vercel SPA)
   → HTTPS public Backend (Railway FastAPI)
     → private AI service (Railway)
-      → private Ollama (Railway)  qwen2.5:3b
+      → private Ollama (Railway)  qwen2.5:0.5b
       → AraBERT classifier (local weights in AI container/volume)
 ```
 
@@ -34,7 +34,7 @@ Rules:
 | Health (backend) | `GET /api/v1/health`, `GET /api/v1/ready` |
 | Health (AI) | `GET /health`, `GET /ready` |
 | Default Ollama URL (local) | `http://127.0.0.1:11434` (`OLLAMA_URL` / `OLLAMA_BASE_URL`) |
-| Production chat model | `qwen2.5:3b` (`OLLAMA_MODEL`) |
+| Production chat model | `qwen2.5:0.5b` (`OLLAMA_MODEL`) |
 | Classifier | AraBERT at `models/classifier/` (`model.safetensors`) |
 
 ### Localhost references (must be overridden in production)
@@ -92,9 +92,9 @@ SPA rewrites: `frontend/vercel.json` is included.
 | `USE_SQLITE` | `false` (omit or false) |
 | `AI_PROVIDER` | `local_http` (Ollama) |
 | `OLLAMA_BASE_URL` | `http://ollama.railway.internal:11434` (private DNS — never public / localhost) |
-| `OLLAMA_MODEL` | `qwen2.5:3b` (exact tag) |
+| `OLLAMA_MODEL` | `qwen2.5:0.5b` (exact tag) |
 | `AI_REQUEST_TIMEOUT_SECONDS` | `120` (raise if cold model loads are slow) |
-| Memory (Ollama service) | **≥ 4–8 GB RAM** — `qwen2.5:3b` inference returns HTTP 500 if the service OOMs |
+| Memory (Ollama service) | **≥ 4–8 GB RAM** — `qwen2.5:0.5b` inference returns HTTP 500 if the service OOMs |
 | `AI_SERVICE_URL` | only when using `AI_PROVIDER=imtithal` |
 | `ACCESS_TOKEN_EXPIRE_MINUTES` | `30` |
 | `REFRESH_TOKEN_EXPIRE_DAYS` | `7` |
@@ -130,7 +130,7 @@ It does **not** use OpenAI `/v1/chat/completions`. Do not point `OLLAMA_BASE_URL
 | `AI_HOST` | `0.0.0.0` |
 | `AI_SERVICE_TOKEN` | same shared secret as backend |
 | `OLLAMA_BASE_URL` | `http://<ollama-service-name>.railway.internal:11434` |
-| `OLLAMA_MODEL` | `qwen2.5:3b` |
+| `OLLAMA_MODEL` | `qwen2.5:0.5b` |
 | `ARABERT_WEIGHTS_SRC` | `/data/arabert/model.safetensors` (if using volume) |
 | `ALLOW_LOCAL_OLLAMA` | omit / `0` in production |
 
@@ -154,21 +154,21 @@ It does **not** use OpenAI `/v1/chat/completions`. Do not point `OLLAMA_BASE_URL
 | **Docker Image** | `ollama/ollama` |
 | **Volume Mount Path** | `/root/.ollama` |
 | **Public networking** | **Disabled** (AI service only) |
-| **Memory / disk** | ≥ 4 GB RAM; volume ≥ 8 GB for `qwen2.5:3b` |
+| **Memory / disk** | ≥ 4 GB RAM; volume ≥ 8 GB for `qwen2.5:0.5b` |
 
 ### Required variables
 
 | Name | Value |
 |------|--------|
 | `OLLAMA_HOST` | `0.0.0.0` |
-| `OLLAMA_MODEL` | `qwen2.5:3b` |
+| `OLLAMA_MODEL` | `qwen2.5:0.5b` |
 
 ### Start / model pull
 
 Use custom start command (repo script `ollama/start.sh`):
 
 ```sh
-sh -c 'ollama serve & pid=$!; until ollama list >/dev/null 2>&1; do sleep 2; done; ollama list | grep -q qwen2.5:3b || ollama pull qwen2.5:3b; wait $pid'
+sh -c 'ollama serve & pid=$!; until ollama list >/dev/null 2>&1; do sleep 2; done; ollama list | grep -q qwen2.5:0.5b || ollama pull qwen2.5:0.5b; wait $pid'
 ```
 
 Or mount/copy `ollama/start.sh` into the container and run it.
@@ -176,7 +176,7 @@ Or mount/copy `ollama/start.sh` into the container and run it.
 **Model pull command (manual):**
 
 ```sh
-ollama pull qwen2.5:3b
+ollama pull qwen2.5:0.5b
 ```
 
 Only pulls when the model is not already present (script checks `ollama list`).
@@ -192,7 +192,7 @@ Only pulls when the model is not already present (script checks `ollama list`).
 | `ai-service/Dockerfile` | AI image (torch CPU + transformers) |
 | `ai-service/start.sh` | Binds `$PORT`, installs AraBERT weights, rejects localhost Ollama |
 | `ai-service/requirements.prod.txt` | Production Python deps |
-| `ollama/start.sh` | Serve + conditional `qwen2.5:3b` pull |
+| `ollama/start.sh` | Serve + conditional `qwen2.5:0.5b` pull |
 
 ## Health checks
 
@@ -202,7 +202,7 @@ Only pulls when the model is not already present (script checks `ollama list`).
 | Backend | `GET /api/v1/ready` | `{"status":"ready"}` |
 | AI | `GET /health` | `model_loaded=true`, classifier arabert |
 | AI | `GET /ready` | HTTP 200 only when AraBERT weights loaded |
-| Ollama | `GET /api/tags` | JSON model list includes `qwen2.5:3b` |
+| Ollama | `GET /api/tags` | JSON model list includes `qwen2.5:0.5b` |
 
 ## Cookie / CORS notes
 

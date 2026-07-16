@@ -42,7 +42,7 @@ services:
       MODEL_LANGUAGE: ${MODEL_LANGUAGE:-ar}
       OLLAMA_URL: ${OLLAMA_URL:-http://host.docker.internal:11434}
       OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
-      OLLAMA_MODEL: ${OLLAMA_MODEL:-qwen2.5:3b}
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-qwen2.5:0.5b}
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173,http://127.0.0.1:5173,http://api:8000}
     # Do not publish AI to the host network — backend reaches it on the compose network only.
     expose:

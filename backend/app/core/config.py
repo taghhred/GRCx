@@ -34,7 +34,7 @@ class Settings(BaseSettings):
     ai_service_token: str = ""
     # Ollama (when AI_PROVIDER=local_http). Prefer these in production.
     ollama_base_url: str = "http://127.0.0.1:11434"
-    ollama_model: str = "qwen2.5:3b"
+    ollama_model: str = "qwen2.5:0.5b"
     # Legacy aliases still accepted by resolve_* helpers
     local_ai_base_url: str = ""
     local_ai_model: str = ""

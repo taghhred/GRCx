@@ -14,6 +14,20 @@ SAFE_AI_UNAVAILABLE = (
     "The AI Advisor is temporarily unavailable. Please try again shortly."
 )
 
+# Railway-friendly defaults: prefer 1.5b when already installed, else 0.5b.
+DEFAULT_OLLAMA_MODEL = "qwen2.5:0.5b"
+PREFERRED_LIGHT_MODELS = ("qwen2.5:1.5b", "qwen2.5:0.5b")
+# Known-too-large for typical Railway Ollama memory; auto-switch to a light model.
+HEAVY_OLLAMA_MODELS = frozenset(
+    {
+        "qwen2.5:3b",
+        "qwen2.5:7b",
+        "qwen2.5:14b",
+        "qwen2.5:32b",
+        "qwen2.5:72b",
+    }
+)
+
 _shared_clients: dict[str, httpx.AsyncClient] = {}
 
 
@@ -88,8 +102,9 @@ class OllamaAIProvider:
         timeout: float = 120.0,
     ) -> None:
         self.base_url = base_url.rstrip("/")
-        self.model = (model or "").strip() or "qwen2.5:3b"
+        self.model = (model or "").strip() or DEFAULT_OLLAMA_MODEL
         self.timeout = timeout
+        self._pull_attempted = False
 
     def _client(self) -> httpx.AsyncClient:
         return get_shared_http_client(self.base_url, self.timeout)
@@ -105,22 +120,87 @@ class OllamaAIProvider:
                 names.append(name)
         return names
 
+    def _pick_installed_light_model(self, names: list[str]) -> str | None:
+        """Prefer qwen2.5:1.5b if present, else qwen2.5:0.5b."""
+        for candidate in PREFERRED_LIGHT_MODELS:
+            if candidate in names:
+                return candidate
+        return None
+
+    async def pull_model(self, name: str) -> None:
+        """Pull a model via Ollama /api/pull (stream=false)."""
+        logger.info("ollama_pull_start model=%s host=%s", name, self.base_url)
+        # Pulls can take several minutes on first download.
+        async with httpx.AsyncClient(
+            timeout=httpx.Timeout(900.0, connect=30.0),
+            http2=False,
+            trust_env=False,
+        ) as client:
+            response = await client.post(
+                f"{self.base_url}/api/pull",
+                json={"name": name, "stream": False},
+            )
+            if response.status_code >= 400:
+                preview = (response.text or "")[:180].replace("\n", " ")
+                logger.warning(
+                    "ollama_pull_http status=%s body=%s",
+                    response.status_code,
+                    preview,
+                )
+            response.raise_for_status()
+        names = await self.list_models()
+        if name not in names:
+            raise LookupError(model_missing_message(name))
+        logger.info("ollama_pull_done model=%s", name)
+
     async def model_available(self) -> bool:
         names = await self.list_models()
         return self.model in names
 
     async def ensure_model(self) -> None:
+        """Ensure a runnable light model is selected; pull default if missing."""
         try:
             names = await self.list_models()
         except Exception as exc:  # noqa: BLE001
             raise ConnectionError(f"ollama_unreachable:{exc.__class__.__name__}") from exc
-        if self.model not in names:
-            raise LookupError(model_missing_message(self.model))
+
+        # Heavy models (e.g. qwen2.5:3b) OOM on small Railway nodes even when tagged.
+        wants_light = self.model in HEAVY_OLLAMA_MODELS or self.model not in names
+        if not wants_light and self.model in names:
+            return
+
+        installed = self._pick_installed_light_model(names)
+        if installed:
+            if installed != self.model:
+                logger.info(
+                    "ollama_model_switch requested=%s using_installed=%s",
+                    self.model,
+                    installed,
+                )
+                self.model = installed
+            return
+
+        pull_target = DEFAULT_OLLAMA_MODEL
+        if self.model in PREFERRED_LIGHT_MODELS:
+            pull_target = self.model
+        if self._pull_attempted:
+            raise LookupError(model_missing_message(pull_target))
+        self._pull_attempted = True
+        try:
+            await self.pull_model(pull_target)
+        except Exception as exc:  # noqa: BLE001
+            logger.warning(
+                "ollama_pull_failed model=%s error=%s",
+                pull_target,
+                exc.__class__.__name__,
+            )
+            raise LookupError(model_missing_message(pull_target)) from exc
+        self.model = pull_target
 
     async def _chat(self, messages: list[dict[str, str]]) -> str:
         await self.ensure_model()
         client = self._client()
-        # Keep context small for Railway memory limits on qwen2.5:3b.
+        # Keep context small for Railway memory limits on light Qwen models.
         options = {"temperature": 0.4, "num_ctx": 2048, "num_predict": 384}
         payload = {
             "model": self.model,
@@ -376,11 +456,11 @@ def resolve_ollama_base_url(settings: Settings) -> str:
 
 
 def resolve_ollama_model(settings: Settings) -> str:
-    """Prefer OLLAMA_MODEL; fall back to LOCAL_AI_MODEL."""
+    """Prefer OLLAMA_MODEL; fall back to LOCAL_AI_MODEL; default qwen2.5:0.5b."""
     return (
         (settings.ollama_model or "").strip()
         or (settings.local_ai_model or "").strip()
-        or "qwen2.5:3b"
+        or DEFAULT_OLLAMA_MODEL
     )
 
 
@@ -402,7 +482,7 @@ def build_ai_provider(settings: Settings) -> LocalAIProvider:
 
 
 async def run_ollama_startup_diagnostics(settings: Settings) -> None:
-    """Log provider/model/host reachability without secrets or prompts."""
+    """Log provider/model/host reachability; pull light model if missing."""
     if settings.ai_provider != "local_http":
         logger.info(
             "ai_startup provider=%s (skip Ollama probe)",
@@ -416,16 +496,19 @@ async def run_ollama_startup_diagnostics(settings: Settings) -> None:
         model,
         host,
     )
-    provider = OllamaAIProvider(host, model, timeout=min(30.0, settings.ai_request_timeout_seconds))
+    provider = OllamaAIProvider(
+        host,
+        model,
+        timeout=max(120.0, settings.ai_request_timeout_seconds),
+    )
     try:
-        names = await provider.list_models()
-        present = model in names or any(n == model for n in names)
+        await provider.ensure_model()
         logger.info(
-            "ai_startup ollama_reachable=true model_present=%s",
-            present,
+            "ai_startup ollama_reachable=true model_present=true active_model=%s",
+            provider.model,
         )
-        if not present:
-            logger.warning("ai_startup %s", model_missing_message(model))
+    except LookupError:
+        logger.warning("ai_startup %s", model_missing_message(provider.model))
     except Exception as exc:  # noqa: BLE001
         logger.warning(
             "ai_startup ollama_reachable=false error=%s",
