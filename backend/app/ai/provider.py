@@ -115,7 +115,8 @@ class OllamaAIProvider:
         self.timeout = timeout
         self._pull_attempted = False
         self._model_ready = False
-        self._inference_ok: bool | None = None
+        # Stay extractive until startup warm proves /api/generate works.
+        self._inference_ok: bool | None = False
         self._validate_trusted_host()
 
     def _validate_trusted_host(self) -> None:
