@@ -27,7 +27,13 @@ function loginErrorMessage(err: unknown): string {
 }
 
 export default function LoginPage() {
-  const { status, isAuthenticated, login } = useAuth();
+  const {
+    status,
+    isAuthenticated,
+    isDemoMode,
+    login,
+    enterDemoSession,
+  } = useAuth();
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const returnTo = useMemo(
@@ -53,12 +59,75 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [shakeError, setShakeError] = useState(false);
   const [forgotHint, setForgotHint] = useState(false);
+  const [demoRetrying, setDemoRetrying] = useState(false);
 
   useEffect(() => {
     if (!shakeError) return;
     const timer = window.setTimeout(() => setShakeError(false), 320);
     return () => window.clearTimeout(timer);
   }, [shakeError]);
+
+  // Demo mode: never show the credential form.
+  if (isDemoMode) {
+    if (isAuthenticated) {
+      const dest = returnTo === "/login" ? "/dashboard" : returnTo;
+      return <Navigate to={dest} replace />;
+    }
+    if (status === "loading") {
+      return (
+        <div className={styles.page} aria-busy="true">
+          <div className={styles.loadingCard} role="status">
+            Preparing secure demo session…
+          </div>
+        </div>
+      );
+    }
+    if (status === "demo_error") {
+      return (
+        <div className={styles.page}>
+          <div className={styles.ambiance} aria-hidden />
+          <main className={styles.main}>
+            <div className={styles.brandBlock}>
+              <BrandLogo variant="login" interactive={false} />
+            </div>
+            <section className={styles.card} aria-labelledby="demo-error-heading">
+              <header className={styles.cardHeader}>
+                <h1 id="demo-error-heading" className={styles.title}>
+                  Demo unavailable
+                </h1>
+              </header>
+              <p className={styles.error} role="alert">
+                Could not start the secure demo session. Please retry.
+              </p>
+              <button
+                type="button"
+                className={styles.submit}
+                disabled={demoRetrying}
+                aria-busy={demoRetrying}
+                onClick={() => {
+                  setDemoRetrying(true);
+                  void enterDemoSession()
+                    .then(() => navigate("/dashboard", { replace: true }))
+                    .catch(() => undefined)
+                    .finally(() => setDemoRetrying(false));
+                }}
+              >
+                {demoRetrying ? (
+                  <>
+                    <span className={styles.spinner} aria-hidden />
+                    <span>Retrying…</span>
+                  </>
+                ) : (
+                  "Retry demo session"
+                )}
+              </button>
+            </section>
+          </main>
+        </div>
+      );
+    }
+    return <Navigate to="/dashboard" replace />;
+  }
 
   if (status === "loading") {
     return (

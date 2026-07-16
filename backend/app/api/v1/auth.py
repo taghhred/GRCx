@@ -14,7 +14,7 @@ from app.core.cookies import (
     set_auth_cookies,
 )
 from app.core.deps import get_current_user, get_db, get_optional_user
-from app.core.rate_limit import enforce_login_rate_limit
+from app.core.rate_limit import enforce_login_rate_limit, enforce_named_rate_limit
 from app.core.security import (
     create_access_token,
     create_refresh_token,
@@ -26,6 +26,11 @@ from app.models.session import AuthSession
 from app.models.user import User
 from app.schemas.auth import LoginRequest, MessageOut, RefreshRequest, TokenPair, UserOut
 from app.services.audit import write_audit
+from app.services.bootstrap import (
+    DEMO_ROLE_NAME,
+    DEMO_USER_EMAIL,
+    seed_rbac_and_demo_user,
+)
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -160,6 +165,60 @@ def _authenticate(db: Session, identifier: str, password: str) -> User:
             status_code=status.HTTP_403_FORBIDDEN, detail="Inactive user"
         )
     return user
+
+
+def _resolve_demo_user(db: Session) -> User:
+    """Server-side demo identity only — never trust client role/user claims."""
+    settings = get_settings()
+    if not settings.demo_mode:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Demo mode is disabled",
+        )
+
+    # Ensure role + user exist (idempotent; safe on warm Railway instances).
+    seed_rbac_and_demo_user(db)
+
+    user = db.query(User).filter(User.email == DEMO_USER_EMAIL).first()
+    if user is None or not user.is_active:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Demo session is temporarily unavailable. Please retry.",
+        )
+
+    role_names = {r.name for r in user.roles}
+    if "Admin" in role_names or DEMO_ROLE_NAME not in role_names:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Demo session is temporarily unavailable. Please retry.",
+        )
+    # Privilege hard-lock: demo user may only hold the demo role.
+    if len(role_names) != 1:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Demo session is temporarily unavailable. Please retry.",
+        )
+    return user
+
+
+@router.post("/demo", response_model=TokenPair)
+def demo_session(
+    request: Request,
+    response: Response,
+    db: Session = Depends(get_db),
+) -> TokenPair:
+    """Create a restricted demo session (DEMO_MODE only). Cookie-only auth."""
+    enforce_named_rate_limit(request, "demo", max_attempts=30, window_seconds=60.0)
+    user = _resolve_demo_user(db)
+    write_audit(
+        db,
+        action="auth.demo_login",
+        actor_id=user.id,
+        actor_name=user.full_name,
+        ip_address=request.client.host if request.client else None,
+    )
+    tokens = _issue_tokens(db, user, request=request)
+    return _attach_cookies(response, tokens, request=request)
 
 
 @router.post("/login", response_model=TokenPair)

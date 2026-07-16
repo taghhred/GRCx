@@ -2,16 +2,22 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
 import {
+  demoLoginApi,
   fetchMe,
   loginApi,
   logoutApiWithRefresh,
   type AuthUser,
 } from "../services/api/authApi";
-import { clearMockUserJson, setRememberMe } from "../services/api/config";
+import {
+  clearMockUserJson,
+  isDemoModeEnabled,
+  setRememberMe,
+} from "../services/api/config";
 import { syncPrototypeCurrentUser } from "./syncPrototypeUser";
 import {
   AuthContext,
@@ -31,6 +37,8 @@ type AuthProviderProps = { children: ReactNode };
 export function AuthProvider({ children }: AuthProviderProps) {
   const [status, setStatus] = useState<AuthStatus>("loading");
   const [user, setUser] = useState<AuthUser | null>(null);
+  const demoMode = isDemoModeEnabled();
+  const demoAttempted = useRef(false);
 
   const applyUser = useCallback((next: AuthUser | null) => {
     setUser(next);
@@ -48,6 +56,21 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }, []);
 
+  const enterDemoSession = useCallback(async () => {
+    if (!demoMode) {
+      throw new Error("Demo mode is disabled");
+    }
+    setStatus("loading");
+    try {
+      const me = await demoLoginApi();
+      applyUser(me);
+    } catch (err) {
+      applyUser(null);
+      setStatus("demo_error");
+      throw err;
+    }
+  }, [applyUser, demoMode]);
+
   useEffect(() => {
     let cancelled = false;
 
@@ -56,8 +79,30 @@ export function AuthProvider({ children }: AuthProviderProps) {
       try {
         const me = await fetchMe();
         if (!cancelled) applyUser(me);
+        return;
       } catch {
+        /* no existing session */
+      }
+
+      if (!demoMode) {
         if (!cancelled) applyUser(null);
+        return;
+      }
+
+      // Demo mode: create session once before any protected UI renders.
+      if (demoAttempted.current) {
+        if (!cancelled) setStatus("demo_error");
+        return;
+      }
+      demoAttempted.current = true;
+      try {
+        const me = await demoLoginApi();
+        if (!cancelled) applyUser(me);
+      } catch {
+        if (!cancelled) {
+          applyUser(null);
+          setStatus("demo_error");
+        }
       }
     }
 
@@ -65,7 +110,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     return () => {
       cancelled = true;
     };
-  }, [applyUser]);
+  }, [applyUser, demoMode]);
 
   const login = useCallback(
     async (
@@ -83,7 +128,19 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const logout = useCallback(async () => {
     await logoutApiWithRefresh();
     applyUser(null);
-  }, [applyUser]);
+    if (demoMode) {
+      // Allow a fresh demo session after logout in showcase mode.
+      demoAttempted.current = false;
+      setStatus("loading");
+      try {
+        const me = await demoLoginApi();
+        applyUser(me);
+      } catch {
+        applyUser(null);
+        setStatus("demo_error");
+      }
+    }
+  }, [applyUser, demoMode]);
 
   const value = useMemo<AuthContextValue>(
     () => ({
@@ -91,13 +148,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
       user,
       isAuthenticated: status === "authenticated" && !!user,
       isMockSession: false,
+      isDemoMode: demoMode,
       login,
+      enterDemoSession,
       logout,
       hasRole: (role: string) => !!user?.roles.includes(role),
       hasPermission: (code: string) =>
         !!user?.roles.includes("Admin") || !!user?.permissions.includes(code),
     }),
-    [status, user, login, logout]
+    [status, user, login, logout, enterDemoSession, demoMode]
   );
 
   return (

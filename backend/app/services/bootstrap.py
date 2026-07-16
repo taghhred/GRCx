@@ -1,3 +1,5 @@
+import secrets
+
 from sqlalchemy.orm import Session
 
 from app.core.security import hash_password
@@ -9,7 +11,30 @@ ROLE_DEFS = [
     ("Risk Owner", "Risk assessment ownership"),
     ("Auditor", "Read-heavy audit access"),
     ("Viewer", "Read-only access"),
+    (
+        "Demo GRC Specialist",
+        "Hackathon demo identity — read-only platform access with AI advisor",
+    ),
 ]
+
+# Restricted demo identity (server-side only; no reusable password published).
+DEMO_USER_EMAIL = "demo.mohammed@grcx.local"
+DEMO_USER_USERNAME = "demo_mohammed"
+DEMO_USER_FULL_NAME = "Mohammed"
+DEMO_USER_DEPARTMENT = "GRC Specialist"
+DEMO_ROLE_NAME = "Demo GRC Specialist"
+
+DEMO_PERMISSION_CODES = (
+    "cases:read",
+    "risk:read",
+    "compliance:read",
+    "identity:read",
+    "bcm:read",
+    "dr:read",
+    "reports:read",
+    "ai:use",
+    "governance:read",
+)
 
 PERMISSION_CODES = [
     "cases:read",
@@ -129,6 +154,10 @@ def seed_rbac_and_demo_user(db: Session) -> None:
                         "governance:read",
                     )
                 ]
+            elif name == DEMO_ROLE_NAME:
+                role.permissions = [
+                    perms[c] for c in DEMO_PERMISSION_CODES if c in perms
+                ]
             db.add(role)
             roles[name] = role
         db.flush()
@@ -137,6 +166,7 @@ def seed_rbac_and_demo_user(db: Session) -> None:
         _ensure_governance_permissions(db, roles)
 
     _ensure_dev_seed_user(db, roles)
+    _ensure_demo_mode_user(db, roles)
     db.commit()
 
 
@@ -196,6 +226,61 @@ def _ensure_governance_permissions(db: Session, roles: dict[str, Role]) -> None:
         held = {p.code for p in viewer.permissions}
         if "governance:read" not in held and "governance:read" in existing:
             viewer.permissions.append(existing["governance:read"])
+
+    demo_role = roles.get(DEMO_ROLE_NAME)
+    if demo_role is None:
+        demo_role = Role(
+            name=DEMO_ROLE_NAME,
+            description="Hackathon demo identity — read-only platform access with AI advisor",
+        )
+        db.add(demo_role)
+        db.flush()
+        roles[DEMO_ROLE_NAME] = demo_role
+    held = {p.code for p in demo_role.permissions}
+    for code in DEMO_PERMISSION_CODES:
+        if code not in held and code in existing:
+            demo_role.permissions.append(existing[code])
+    # Never inherit Admin / write permissions onto the demo role.
+    demo_role.permissions = [
+        p for p in demo_role.permissions if p.code in DEMO_PERMISSION_CODES
+    ]
+
+
+def _ensure_demo_mode_user(db: Session, roles: dict[str, Role]) -> None:
+    """Create/repair the restricted hackathon demo user when DEMO_MODE is on."""
+    from app.core.config import get_settings
+
+    settings = get_settings()
+    if not settings.demo_mode:
+        return
+
+    demo_role = roles.get(DEMO_ROLE_NAME)
+    if demo_role is None:
+        return
+
+    user = db.query(User).filter(User.email == DEMO_USER_EMAIL).first()
+    if user is None:
+        # Unusable random secret — demo entry is only via POST /auth/demo.
+        user = User(
+            email=DEMO_USER_EMAIL,
+            username=DEMO_USER_USERNAME,
+            full_name=DEMO_USER_FULL_NAME,
+            department=DEMO_USER_DEPARTMENT,
+            hashed_password=hash_password(secrets.token_urlsafe(48)),
+            is_active=True,
+            is_manager=False,
+            roles=[demo_role],
+        )
+        db.add(user)
+        return
+
+    # Hard-lock: never Admin, never write-capable specialist roles.
+    user.full_name = DEMO_USER_FULL_NAME
+    user.department = DEMO_USER_DEPARTMENT
+    user.username = DEMO_USER_USERNAME
+    user.is_active = True
+    user.is_manager = False
+    user.roles = [demo_role]
 
 
 def _ensure_dev_seed_user(db: Session, roles: dict[str, Role]) -> None:

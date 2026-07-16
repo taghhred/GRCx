@@ -61,10 +61,13 @@ Rules:
 
 ### Environment variables (Vercel)
 
-| Name | Value |
-|------|--------|
-| `VITE_API_BASE_URL` | `https://<your-public-backend>.up.railway.app/api/v1` |
+| Variable | Example |
+|----------|---------|
+| `VITE_API_BASE_URL` | `https://grcx-production.up.railway.app` |
 | `VITE_USE_MOCKS` | `false` |
+| `VITE_DEMO_MODE` | `true` (hackathon showcase — skip login form) |
+
+When `VITE_DEMO_MODE=true`, the SPA calls `POST /api/v1/auth/demo` once (credentials included), waits for the HttpOnly session cookie, then opens `/dashboard`. Pair with Railway `DEMO_MODE=true`.
 
 SPA rewrites: `frontend/vercel.json` is included.
 
@@ -94,6 +97,7 @@ SPA rewrites: `frontend/vercel.json` is included.
 | `OLLAMA_BASE_URL` | `http://ollama.railway.internal:11434` (private DNS — never public / localhost) |
 | `OLLAMA_MODEL` | `qwen2.5:0.5b` (exact tag) |
 | `AI_REQUEST_TIMEOUT_SECONDS` | `120` (raise if cold model loads are slow) |
+| `DEMO_MODE` | `true` for hackathon showcase (`POST /api/v1/auth/demo`) |
 | Memory (Ollama service) | **≥ 4–8 GB RAM** — `qwen2.5:0.5b` inference returns HTTP 500 if the service OOMs |
 | `AI_SERVICE_URL` | only when using `AI_PROVIDER=imtithal` |
 | `ACCESS_TOKEN_EXPIRE_MINUTES` | `30` |

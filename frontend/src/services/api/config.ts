@@ -9,6 +9,13 @@ export function isMocksEnabled(): boolean {
   return String(flag).toLowerCase() === "true";
 }
 
+/** Hackathon showcase: auto demo session via POST /auth/demo (no login form). */
+export function isDemoModeEnabled(): boolean {
+  const flag = import.meta.env.VITE_DEMO_MODE;
+  if (flag === undefined || flag === "") return false;
+  return String(flag).toLowerCase() === "true";
+}
+
 export function apiBaseUrl(): string {
   const configured = import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "");
   // Production builds must target the public backend only (never AI/Ollama).

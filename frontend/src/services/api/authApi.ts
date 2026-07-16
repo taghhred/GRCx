@@ -33,6 +33,20 @@ export async function loginApi(
   return apiRequest<AuthUser>("/auth/me");
 }
 
+/** Server-side demo session (DEMO_MODE). Cookie-only; no client roles/ids. */
+export async function demoLoginApi(): Promise<AuthUser> {
+  await apiRequest<{
+    access_token: string;
+    refresh_token: string;
+  }>("/auth/demo", {
+    method: "POST",
+    body: {},
+    auth: false,
+  });
+  clearMockUserJson();
+  return apiRequest<AuthUser>("/auth/me");
+}
+
 export async function fetchMe(): Promise<AuthUser> {
   return apiRequest<AuthUser>("/auth/me");
 }
