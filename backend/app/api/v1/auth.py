@@ -105,10 +105,26 @@ def _issue_tokens(
     )
 
 
+def _cookies_secure(request: Request) -> bool:
+    """Cross-site Vercel→Railway auth requires Secure + SameSite=None.
+
+    Prefer GRCX_ENV=production, but also enable when the request is HTTPS
+    (Railway public URL) so cookies work even if GRCX_ENV was left unset.
+    """
+    settings = get_settings()
+    if settings.grcx_env == "production":
+        return True
+    if request.url.scheme == "https":
+        return True
+    origin = (request.headers.get("Origin") or "").strip().lower()
+    return origin.startswith("https://")
+
+
 def _attach_cookies(
     response: Response,
     tokens: TokenPair,
     *,
+    request: Request,
     remember_me: bool = False,
 ) -> TokenPair:
     settings = get_settings()
@@ -125,7 +141,7 @@ def _attach_cookies(
             minutes=settings.access_token_expire_minutes
         ),
         refresh_max_age=cookie_max_age_seconds(days=refresh_days),
-        secure=settings.grcx_env == "production",
+        secure=_cookies_secure(request),
     )
     # SPA auth is cookie-only: keep access/refresh in HttpOnly cookies.
     # Do not echo raw tokens in the JSON body (empty strings for TokenPair shape).
@@ -169,7 +185,9 @@ def login_json(
         request=request,
         remember_days=(30 if body.remember_me else None),
     )
-    return _attach_cookies(response, tokens, remember_me=body.remember_me)
+    return _attach_cookies(
+        response, tokens, request=request, remember_me=body.remember_me
+    )
 
 
 @router.post("/token", response_model=TokenPair, include_in_schema=False)
@@ -190,7 +208,7 @@ def login_oauth_form(
         ip_address=request.client.host if request.client else None,
     )
     tokens = _issue_tokens(db, user, request=request)
-    return _attach_cookies(response, tokens)
+    return _attach_cookies(response, tokens, request=request)
 
 
 @router.post("/refresh", response_model=TokenPair)
@@ -238,7 +256,7 @@ def refresh(
     db.commit()
 
     tokens = _issue_tokens(db, user, request=request)
-    return _attach_cookies(response, tokens)
+    return _attach_cookies(response, tokens, request=request)
 
 
 @router.get("/me", response_model=UserOut)
@@ -294,7 +312,5 @@ def logout(
         )
     db.commit()
 
-    clear_auth_cookies(
-        response, secure=get_settings().grcx_env == "production"
-    )
+    clear_auth_cookies(response, secure=_cookies_secure(request))
     return MessageOut(ok=True)
