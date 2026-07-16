@@ -83,6 +83,15 @@ async def lifespan(_: FastAPI):
         ensure_operational_seeded(db)
     finally:
         db.close()
+
+    # Non-blocking Ollama diagnostics (local_http only) — no secrets/prompts
+    try:
+        from app.ai.provider import run_ollama_startup_diagnostics
+
+        await run_ollama_startup_diagnostics(settings)
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("ai_startup diagnostics failed: %s", exc.__class__.__name__)
+
     yield
     logger.info("Shutting down GRCx API")
 

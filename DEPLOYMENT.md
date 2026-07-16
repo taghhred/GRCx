@@ -90,14 +90,22 @@ SPA rewrites: `frontend/vercel.json` is included.
 | `CORS_ORIGINS` | `https://<your-vercel-app>.vercel.app` (comma-separated if multiple) |
 | `DATABASE_URL` | Railway Postgres URL using `postgresql+psycopg://...` |
 | `USE_SQLITE` | `false` (omit or false) |
-| `AI_PROVIDER` | `imtithal` |
-| `AI_SERVICE_URL` | `http://<ai-service-name>.railway.internal:${PORT}` |
-| `AI_SERVICE_TOKEN` | shared secret (same as AI service) |
-| `AI_REQUEST_TIMEOUT_SECONDS` | `120` (raise if needed) |
+| `AI_PROVIDER` | `local_http` (Ollama) |
+| `OLLAMA_BASE_URL` | `http://ollama.railway.internal:11434` (private DNS — never public / localhost) |
+| `OLLAMA_MODEL` | `qwen2.5:3b` (exact tag) |
+| `AI_REQUEST_TIMEOUT_SECONDS` | `120` (raise if cold model loads are slow) |
+| `AI_SERVICE_URL` | only when using `AI_PROVIDER=imtithal` |
 | `ACCESS_TOKEN_EXPIRE_MINUTES` | `30` |
 | `REFRESH_TOKEN_EXPIRE_DAYS` | `7` |
 
-`AI_SERVICE_URL` must use **private** Railway DNS, not the public AI URL.
+`AI_SERVICE_URL` must use **private** Railway DNS when `AI_PROVIDER=imtithal`.
+
+When `AI_PROVIDER=local_http`, the backend calls Ollama natively:
+
+- `GET {OLLAMA_BASE_URL}/api/tags`
+- `POST {OLLAMA_BASE_URL}/api/chat` (`stream: false`, reads `message.content`)
+
+It does **not** use OpenAI `/v1/chat/completions`. Do not point `OLLAMA_BASE_URL` at localhost in production.
 
 ---
 

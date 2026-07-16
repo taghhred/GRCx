@@ -2,7 +2,16 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 
 import httpx
 
-from app.ai.provider import SAFE_AI_UNAVAILABLE, ImtithalAIProvider, LocalAIProvider, build_ai_provider
+from app.ai.provider import (
+    SAFE_AI_UNAVAILABLE,
+    ImtithalAIProvider,
+    LocalAIProvider,
+    OllamaAIProvider,
+    build_ai_provider,
+    model_missing_message,
+    resolve_ollama_base_url,
+    resolve_ollama_model,
+)
 from app.core.config import Settings, get_settings
 from app.core.deps import require_permissions
 from app.core.rate_limit import enforce_named_rate_limit
@@ -35,6 +44,19 @@ def _primary_role(user: User) -> str | None:
     return getattr(roles[0], "name", None) or str(roles[0])
 
 
+def _map_provider_error(exc: Exception) -> HTTPException:
+    if isinstance(exc, LookupError):
+        return HTTPException(status_code=503, detail=str(exc))
+    if isinstance(exc, httpx.TimeoutException):
+        return HTTPException(status_code=504, detail=SAFE_AI_UNAVAILABLE)
+    if isinstance(exc, (httpx.ConnectError, ConnectionError)):
+        return HTTPException(status_code=503, detail=SAFE_AI_UNAVAILABLE)
+    if isinstance(exc, httpx.HTTPStatusError):
+        status = 503 if exc.response.status_code >= 500 else 502
+        return HTTPException(status_code=status, detail=SAFE_AI_UNAVAILABLE)
+    return HTTPException(status_code=503, detail=SAFE_AI_UNAVAILABLE)
+
+
 @router.get("/status")
 async def ai_status(
     _: User = Depends(require_permissions("ai:use")),
@@ -48,6 +70,28 @@ async def ai_status(
             "ready": True,
             "prototype": True,
         }
+
+    if settings.ai_provider == "local_http":
+        host = resolve_ollama_base_url(settings)
+        model = resolve_ollama_model(settings)
+        provider = OllamaAIProvider(host, model, timeout=8.0)
+        probe = await provider.probe()
+        ready = bool(probe.get("reachable") and probe.get("model_present"))
+        payload = {
+            "provider": "local_http",
+            "upstream": "ollama",
+            "ready": ready,
+            "prototype": False,
+            "model": model,
+            "ollama_reachable": probe.get("reachable"),
+            "model_present": probe.get("model_present"),
+        }
+        if probe.get("reachable") and not probe.get("model_present"):
+            payload["error"] = model_missing_message(model)
+        elif not probe.get("reachable"):
+            payload["error"] = "unreachable"
+        return payload
+
     if settings.ai_provider in ("raqeeb", "imtithal"):
         try:
             from app.ai.provider import get_shared_http_client
@@ -55,7 +99,6 @@ async def ai_status(
             client = get_shared_http_client(settings.ai_service_url, 5.0)
             response = await client.get(f"{settings.ai_service_url.rstrip('/')}/ready")
             payload = response.json() if response.content else {}
-            # Never leak local paths from upstream error payloads
             safe_upstream = {
                 k: payload.get(k)
                 for k in (
@@ -92,6 +135,13 @@ async def ai_status(
                 "error": "unreachable",
             }
 
+    return {
+        "provider": settings.ai_provider,
+        "upstream": None,
+        "ready": False,
+        "prototype": False,
+    }
+
 
 @router.post("/chat", response_model=AiChatResponse)
 async def chat(
@@ -121,15 +171,8 @@ async def chat(
             body.page_context,
             user_context,
         )
-    except httpx.TimeoutException as exc:
-        raise HTTPException(status_code=504, detail=SAFE_AI_UNAVAILABLE) from exc
-    except httpx.ConnectError as exc:
-        raise HTTPException(status_code=503, detail=SAFE_AI_UNAVAILABLE) from exc
-    except httpx.HTTPStatusError as exc:
-        status = 503 if exc.response.status_code >= 500 else 502
-        raise HTTPException(status_code=status, detail=SAFE_AI_UNAVAILABLE) from exc
     except Exception as exc:  # noqa: BLE001
-        raise HTTPException(status_code=503, detail=SAFE_AI_UNAVAILABLE) from exc
+        raise _map_provider_error(exc) from exc
 
     return AiChatResponse(
         reply=reply,
@@ -146,7 +189,7 @@ async def advisor_chat(
     settings: Settings = Depends(get_settings),
     provider: LocalAIProvider = Depends(get_provider),
 ) -> AdvisorChatResponse:
-    """Grounded GRC advisor — proxied to Imtithal /advisor/chat."""
+    """GRC advisor — Ollama (local_http) or Imtithal AI service."""
     enforce_named_rate_limit(request, "ai", max_attempts=40)
     message = (body.message or "").strip()
     if not message:
@@ -163,7 +206,7 @@ async def advisor_chat(
         return AdvisorChatResponse(
             reply=(
                 f"[Prototype stub] Received: {message[:200]}. "
-                "Set AI_PROVIDER=imtithal and start the AI service for grounded answers."
+                "Set AI_PROVIDER=local_http and configure Ollama for live answers."
             ),
             sources=[],
             grounded=False,
@@ -173,7 +216,7 @@ async def advisor_chat(
             prototype=True,
         )
 
-    if not isinstance(provider, ImtithalAIProvider):
+    if not isinstance(provider, (ImtithalAIProvider, OllamaAIProvider)):
         raise HTTPException(status_code=503, detail=SAFE_AI_UNAVAILABLE)
 
     try:
@@ -184,26 +227,22 @@ async def advisor_chat(
             lang=body.lang or "auto",
             page_context=body.page_context or {},
         )
-    except httpx.TimeoutException as exc:
-        raise HTTPException(status_code=504, detail=SAFE_AI_UNAVAILABLE) from exc
-    except httpx.ConnectError as exc:
-        raise HTTPException(status_code=503, detail=SAFE_AI_UNAVAILABLE) from exc
-    except httpx.HTTPStatusError as exc:
-        status = 503 if exc.response.status_code >= 500 else 502
-        raise HTTPException(status_code=status, detail=SAFE_AI_UNAVAILABLE) from exc
     except Exception as exc:  # noqa: BLE001
-        raise HTTPException(status_code=503, detail=SAFE_AI_UNAVAILABLE) from exc
+        raise _map_provider_error(exc) from exc
 
     reply = data.get("reply")
     if not isinstance(reply, str) or not reply.strip():
         raise HTTPException(status_code=503, detail=SAFE_AI_UNAVAILABLE)
 
+    provider_name = getattr(provider, "name", settings.ai_provider)
     return AdvisorChatResponse(
         reply=reply.strip(),
         sources=data.get("sources") or [],
         grounded=bool(data.get("grounded")),
         refused=bool(data.get("refused")),
-        model=data.get("model"),
-        provider="imtithal",
+        model=data.get("model") or (
+            resolve_ollama_model(settings) if provider_name == "local_http" else None
+        ),
+        provider=provider_name,
         prototype=False,
     )

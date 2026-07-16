@@ -1,11 +1,14 @@
-"""Shared httpx client + Imtithal AI provider (connection reuse)."""
+"""Local AI providers — Ollama (local_http) and Imtithal AI service."""
 from __future__ import annotations
 
+import logging
 from typing import Any, Protocol, runtime_checkable
 
 import httpx
 
 from app.core.config import Settings
+
+logger = logging.getLogger("grcx.ai")
 
 SAFE_AI_UNAVAILABLE = (
     "The AI Advisor is temporarily unavailable. Please try again shortly."
@@ -19,7 +22,10 @@ def get_shared_http_client(base_url: str, timeout: float) -> httpx.AsyncClient:
     key = f"{base_url.rstrip('/')}|{timeout}"
     client = _shared_clients.get(key)
     if client is None or client.is_closed:
-        client = httpx.AsyncClient(timeout=timeout)
+        # Separate connect vs read so cold Ollama model loads can finish.
+        client = httpx.AsyncClient(
+            timeout=httpx.Timeout(timeout, connect=10.0),
+        )
         _shared_clients[key] = client
     return client
 
@@ -28,6 +34,10 @@ def _ai_auth_headers(token: str | None) -> dict[str, str]:
     if not token:
         return {}
     return {"X-GRCx-AI-Token": token}
+
+
+def model_missing_message(model: str) -> str:
+    return f"Configured Ollama model {model} is not available."
 
 
 @runtime_checkable
@@ -57,25 +67,114 @@ class StubLocalAIProvider:
         return (
             f"[Prototype · local stub] Hi {first}. Context: {module}. "
             f"Received: {last[:240]}. "
-            "No cloud AI was called. Set AI_PROVIDER=imtithal and start the AI service."
+            "No cloud AI was called. Set AI_PROVIDER=local_http with Ollama."
         )
 
 
-class LocalHttpAIProvider:
+class OllamaAIProvider:
+    """Native Ollama client (/api/tags, /api/chat, /api/generate).
+
+    Does not use OpenAI-compatible /v1/chat/completions.
+    """
+
     name = "local_http"
 
     def __init__(
         self,
         base_url: str,
         model: str,
-        timeout: float = 60.0,
-        *,
-        service_token: str = "",
+        timeout: float = 120.0,
     ) -> None:
         self.base_url = base_url.rstrip("/")
-        self.model = model
+        self.model = (model or "").strip() or "qwen2.5:3b"
         self.timeout = timeout
-        self.service_token = service_token
+
+    def _client(self) -> httpx.AsyncClient:
+        return get_shared_http_client(self.base_url, self.timeout)
+
+    async def list_models(self) -> list[str]:
+        response = await self._client().get(f"{self.base_url}/api/tags")
+        response.raise_for_status()
+        data = response.json()
+        names: list[str] = []
+        for item in data.get("models") or []:
+            name = (item.get("name") or item.get("model") or "").strip()
+            if name:
+                names.append(name)
+        return names
+
+    async def model_available(self) -> bool:
+        names = await self.list_models()
+        return self.model in names
+
+    async def ensure_model(self) -> None:
+        try:
+            names = await self.list_models()
+        except Exception as exc:  # noqa: BLE001
+            raise ConnectionError(f"ollama_unreachable:{exc.__class__.__name__}") from exc
+        if self.model not in names:
+            raise LookupError(model_missing_message(self.model))
+
+    async def probe(self) -> dict[str, Any]:
+        """Safe diagnostics payload (no secrets / no prompts)."""
+        result: dict[str, Any] = {
+            "provider": self.name,
+            "model": self.model,
+            "host": self.base_url,
+            "reachable": False,
+            "model_present": False,
+        }
+        try:
+            names = await self.list_models()
+            result["reachable"] = True
+            result["model_present"] = self.model in names
+        except Exception:  # noqa: BLE001
+            result["reachable"] = False
+            result["model_present"] = False
+        return result
+
+    def _system_prompt(
+        self,
+        page_context: dict[str, str | None] | None,
+        user_context: dict[str, str | None] | None,
+    ) -> str:
+        module = (page_context or {}).get("moduleLabel") or "GRCx"
+        first = (user_context or {}).get("first_name") or "user"
+        role = (user_context or {}).get("role") or "specialist"
+        return (
+            "You are GRCx AI Advisor, a Governance, Risk & Compliance assistant "
+            "for Saudi regulatory frameworks (NCA ECC, SAMA, PDPL, and related controls). "
+            "Answer clearly and practically. Do not invent citations. "
+            f"User: {first} ({role}). Current module context: {module}."
+        )
+
+    async def _chat(self, messages: list[dict[str, str]]) -> str:
+        await self.ensure_model()
+        payload = {
+            "model": self.model,
+            "messages": messages,
+            "stream": False,
+            "options": {
+                "temperature": 0.4,
+                "num_predict": 768,
+            },
+        }
+        response = await self._client().post(
+            f"{self.base_url}/api/chat",
+            json=payload,
+        )
+        response.raise_for_status()
+        data = response.json()
+        # Native Ollama /api/chat
+        message = data.get("message") or {}
+        content = message.get("content") if isinstance(message, dict) else None
+        if isinstance(content, str) and content.strip():
+            return content.strip()
+        # Fallback: /api/generate-style "response" field if present
+        alt = data.get("response")
+        if isinstance(alt, str) and alt.strip():
+            return alt.strip()
+        raise ValueError("empty_ollama_reply")
 
     async def generate(
         self,
@@ -83,24 +182,46 @@ class LocalHttpAIProvider:
         page_context: dict[str, str | None] | None = None,
         user_context: dict[str, str | None] | None = None,
     ) -> str:
-        system = (
-            "You are GRCx local GRC assistant. Stay on governance topics. "
-            f"Page context: {page_context or {}}. User: {user_context or {}}."
-        )
-        payload = {
+        system = self._system_prompt(page_context, user_context)
+        chat_messages = [{"role": "system", "content": system}, *messages]
+        return await self._chat(chat_messages)
+
+    async def advisor_chat(
+        self,
+        message: str,
+        history: list[dict[str, str]] | None = None,
+        module: str | None = None,
+        lang: str = "auto",
+        page_context: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        ctx = dict(page_context or {})
+        if module and not ctx.get("moduleLabel"):
+            ctx["moduleLabel"] = module
+        system = self._system_prompt(ctx, None)
+        if lang and lang not in ("auto", ""):
+            system += f" Reply in language code: {lang}."
+
+        messages: list[dict[str, str]] = [{"role": "system", "content": system}]
+        for turn in (history or [])[-12:]:
+            role = turn.get("role") or "user"
+            content = (turn.get("content") or "").strip()
+            if content and role in ("user", "assistant", "system"):
+                messages.append({"role": role, "content": content})
+        messages.append({"role": "user", "content": message})
+
+        reply = await self._chat(messages)
+        return {
+            "reply": reply,
+            "sources": [],
+            "grounded": False,
+            "refused": False,
             "model": self.model,
-            "messages": [{"role": "system", "content": system}, *messages],
-            "stream": False,
+            "provider": self.name,
         }
-        client = get_shared_http_client(self.base_url, self.timeout)
-        response = await client.post(
-            f"{self.base_url}/v1/chat/completions",
-            json=payload,
-            headers=_ai_auth_headers(self.service_token),
-        )
-        response.raise_for_status()
-        data = response.json()
-        return data["choices"][0]["message"]["content"]
+
+
+# Backwards-compatible alias used by older imports/tests
+LocalHttpAIProvider = OllamaAIProvider
 
 
 class ImtithalAIProvider:
@@ -175,6 +296,24 @@ class ImtithalAIProvider:
         return data
 
 
+def resolve_ollama_base_url(settings: Settings) -> str:
+    """Prefer OLLAMA_BASE_URL; fall back to LOCAL_AI_BASE_URL for compatibility."""
+    return (
+        (settings.ollama_base_url or "").strip()
+        or (settings.local_ai_base_url or "").strip()
+        or "http://127.0.0.1:11434"
+    ).rstrip("/")
+
+
+def resolve_ollama_model(settings: Settings) -> str:
+    """Prefer OLLAMA_MODEL; fall back to LOCAL_AI_MODEL."""
+    return (
+        (settings.ollama_model or "").strip()
+        or (settings.local_ai_model or "").strip()
+        or "qwen2.5:3b"
+    )
+
+
 def build_ai_provider(settings: Settings) -> LocalAIProvider:
     token = (settings.ai_service_token or "").strip()
     if settings.ai_provider in ("raqeeb", "imtithal"):
@@ -184,10 +323,41 @@ def build_ai_provider(settings: Settings) -> LocalAIProvider:
             service_token=token,
         )
     if settings.ai_provider == "local_http":
-        return LocalHttpAIProvider(
-            settings.local_ai_base_url,
-            settings.local_ai_model,
+        return OllamaAIProvider(
+            resolve_ollama_base_url(settings),
+            resolve_ollama_model(settings),
             timeout=settings.ai_request_timeout_seconds,
-            service_token=token,
         )
     return StubLocalAIProvider()
+
+
+async def run_ollama_startup_diagnostics(settings: Settings) -> None:
+    """Log provider/model/host reachability without secrets or prompts."""
+    if settings.ai_provider != "local_http":
+        logger.info(
+            "ai_startup provider=%s (skip Ollama probe)",
+            settings.ai_provider,
+        )
+        return
+    host = resolve_ollama_base_url(settings)
+    model = resolve_ollama_model(settings)
+    logger.info(
+        "ai_startup provider=local_http model=%s ollama_host=%s",
+        model,
+        host,
+    )
+    provider = OllamaAIProvider(host, model, timeout=min(30.0, settings.ai_request_timeout_seconds))
+    try:
+        names = await provider.list_models()
+        present = model in names or any(n == model for n in names)
+        logger.info(
+            "ai_startup ollama_reachable=true model_present=%s",
+            present,
+        )
+        if not present:
+            logger.warning("ai_startup %s", model_missing_message(model))
+    except Exception as exc:  # noqa: BLE001
+        logger.warning(
+            "ai_startup ollama_reachable=false error=%s",
+            exc.__class__.__name__,
+        )

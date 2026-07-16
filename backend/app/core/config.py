@@ -28,12 +28,16 @@ class Settings(BaseSettings):
     sqlite_path: str = "./grcx_local.db"
 
     ai_provider: Literal["stub", "local_http", "raqeeb", "imtithal"] = "stub"
-    # Local default; Docker overrides via compose to http://ai:8090
+    # Imtithal AI service (when AI_PROVIDER=imtithal)
     ai_service_url: str = "http://127.0.0.1:8001"
     # Shared secret for backend → AI service (header X-GRCx-AI-Token)
     ai_service_token: str = ""
-    local_ai_base_url: str = "http://127.0.0.1:11434"
-    local_ai_model: str = "grcx-local"
+    # Ollama (when AI_PROVIDER=local_http). Prefer these in production.
+    ollama_base_url: str = "http://127.0.0.1:11434"
+    ollama_model: str = "qwen2.5:3b"
+    # Legacy aliases still accepted by resolve_* helpers
+    local_ai_base_url: str = ""
+    local_ai_model: str = ""
     ai_request_timeout_seconds: float = 120.0
 
     @property
