@@ -9,7 +9,6 @@ from app.ai.provider import (
     OllamaAIProvider,
     build_ai_provider,
     model_missing_message,
-    resolve_ollama_base_url,
     resolve_ollama_model,
 )
 from app.core.config import Settings, get_settings
@@ -79,6 +78,7 @@ def _map_provider_error(exc: Exception) -> HTTPException:
     )
 
 
+# Prefer shallow status by default; deep generate probe is expensive on Railway.
 @router.get("/status")
 async def ai_status(
     _: User = Depends(require_permissions("ai:use")),
@@ -94,23 +94,30 @@ async def ai_status(
         }
 
     if settings.ai_provider == "local_http":
-        host = resolve_ollama_base_url(settings)
-        model = resolve_ollama_model(settings)
-        provider = OllamaAIProvider(host, model, timeout=60.0)
-        probe = await provider.probe(deep=True)
+        provider = build_ai_provider(settings)
+        if not isinstance(provider, OllamaAIProvider):
+            return {
+                "provider": "local_http",
+                "upstream": "ollama",
+                "ready": False,
+                "prototype": False,
+                "error": "misconfigured",
+            }
+        # Tags-only probe (fast). Do not deep-generate on every status poll.
+        probe = await provider.probe(deep=False)
         ready = bool(probe.get("reachable") and probe.get("model_present"))
         payload = {
             "provider": "local_http",
             "upstream": "ollama",
-            "ready": ready and probe.get("generate_ok") is not False,
+            "ready": ready,
             "prototype": False,
-            "model": model,
+            "model": provider.model,
             "ollama_reachable": probe.get("reachable"),
             "model_present": probe.get("model_present"),
             "generate_ok": probe.get("generate_ok"),
         }
         if probe.get("reachable") and not probe.get("model_present"):
-            payload["error"] = model_missing_message(model)
+            payload["error"] = model_missing_message(provider.model)
         elif not probe.get("reachable"):
             payload["error"] = "unreachable"
         return payload

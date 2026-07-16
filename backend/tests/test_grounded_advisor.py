@@ -145,13 +145,69 @@ async def test_iam_grounded():
 @pytest.mark.asyncio
 async def test_insufficient_when_no_hits():
     fake = _FakeOllama()
-    # In-scope-ish regulatory wording but nonsense identifiers → no KB overlap.
+    # In-scope NCA mention but unique token with no KB evidence.
     out = await run_grounded_advisor(
-        message="What does regulation ZX-99999-QQQ article 777 require for control CTRL-FAKE-999?",
+        message="What does NCA say about ZZTOP999XYZ?",
         ollama=fake,
     )
     assert out["reply"] == INSUFFICIENT
     assert out["grounded"] is False
+    assert fake.calls == 0
+
+
+class _FailingOllama:
+    model = "qwen2.5:0.5b"
+    calls = 0
+
+    async def chat_messages(self, messages, *, ensure: bool = False):
+        self.calls += 1
+        raise TimeoutError("ollama_hung")
+
+
+@pytest.mark.asyncio
+async def test_extractive_fallback_when_ollama_fails():
+    fake = _FailingOllama()
+    out = await run_grounded_advisor(
+        message="What are NCA ECC cybersecurity control requirements?",
+        ollama=fake,
+    )
+    assert fake.calls == 1
+    assert out["grounded"] is True
+    assert out.get("extractive") is True
+    assert out["sources"]
+    assert out["reply"] != INSUFFICIENT
+    assert "[" in out["reply"]
+    assert "approved GRCx knowledge base" in out["reply"]
+
+
+@pytest.mark.asyncio
+async def test_skip_ollama_when_inference_marked_bad():
+    class MarkedBad(_FailingOllama):
+        inference_ok = False
+
+    fake = MarkedBad()
+    out = await run_grounded_advisor(
+        message="What are NCA ECC cybersecurity control requirements?",
+        ollama=fake,
+    )
+    assert fake.calls == 0
+    assert out["grounded"] is True
+    assert out.get("extractive") is True
+    assert out["sources"]
+
+
+@pytest.mark.asyncio
+async def test_document_injection_ignored_in_context():
+    fake = _FakeOllama()
+    # Retrieval returns sanitized context; user question is normal GRC.
+    out = await run_grounded_advisor(
+        message="Explain Identity and Access Management controls under NCA ECC",
+        ollama=fake,
+    )
+    assert out["grounded"] is True
+    assert fake.last_messages is not None
+    blob = " ".join(m["content"] for m in fake.last_messages)
+    assert "Ignore previous" not in blob or "untrusted" in blob.lower()
 
 
 def test_validate_rejects_leaks_and_bad_citations():

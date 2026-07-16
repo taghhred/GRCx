@@ -229,7 +229,8 @@ async def test_advisor_chat_multiturn():
         if request.url.path == "/api/chat":
             body = json.loads(request.content.decode())
             assert body["stream"] is False
-            assert body["options"]["num_predict"] == 120
+            assert body["options"]["num_predict"] == 96
+            assert body["options"]["num_ctx"] == 1024
             assert body["options"]["temperature"] == 0.1
             assert body["keep_alive"] == "30m"
             # Grounded prompt includes approved context + user question

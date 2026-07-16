@@ -1,6 +1,7 @@
 """Grounded GRCx advisor — scope gate, compact RAG, Ollama, response validation."""
 from __future__ import annotations
 
+import asyncio
 import logging
 import re
 import time
@@ -20,6 +21,8 @@ INSUFFICIENT = (
 )
 
 _MAX_INPUT_CHARS = 4000
+# Bound Ollama wait so a hung model cannot block the request for minutes.
+_OLLAMA_BUDGET_SECONDS = 18.0
 _GREETING_RE = re.compile(
     r"^\s*(hi|hello|hey|مرحبا|السلام\s*عليكم|صباح\s*الخير|مساء\s*الخير|"
     r"good\s*(morning|afternoon|evening)|thanks|thank\s*you|شكرا)\b[\s!.?]*$",
@@ -116,6 +119,8 @@ def build_grounded_messages(
         body = sanitize_context_text(str(p.get("text") or ""))
         if not body:
             continue
+        # Cap each block tightly for Railway CPU decode.
+        body = body[:320]
         ctx_blocks.append(
             f"[{p.get('id')}] {p.get('title')} ({p.get('source')})\n{body}"
         )
@@ -132,6 +137,37 @@ def build_grounded_messages(
         {"role": "system", "content": _SYSTEM},
         {"role": "user", "content": user},
     ]
+
+
+def build_extractive_reply(passages: list[dict[str, Any]]) -> str:
+    """Deterministic grounded answer from retrieved chunks only (no LLM inventing)."""
+    if not passages:
+        return INSUFFICIENT
+    sentences: list[str] = []
+    for p in passages[:3]:
+        cid = str(p.get("id") or "").strip()
+        title = str(p.get("title") or "Source").strip()
+        body = sanitize_context_text(str(p.get("text") or ""))
+        body = re.sub(r"\s+", " ", body).strip()
+        if not body:
+            continue
+        cut = body[:260]
+        if "." in cut[80:]:
+            cut = cut[: cut.rfind(".", 80) + 1]
+        sentences.append(f"[{cid}] {title}: {cut}".strip())
+    if not sentences:
+        return INSUFFICIENT
+    lead = (
+        "Based on the approved GRCx knowledge base, here is the supporting evidence. "
+    )
+    closing = (
+        " Treat these excerpts as the authoritative basis for controls and "
+        "requirements; do not rely on unsourced general knowledge."
+    )
+    mid = " ".join(sentences)
+    if len(mid) > 900:
+        mid = mid[:900].rsplit(" ", 1)[0] + "…"
+    return (lead + mid + closing).strip()
 
 
 _SOURCE_ID_RE = re.compile(r"\[([^\[\]]{1,96})\]")
@@ -178,6 +214,16 @@ def validate_reply(
             # Model drifted — treat as insufficient rather than hallucinate.
             return None
     return text
+
+
+def _pack_sources(passages: list[dict[str, Any]]) -> list[dict[str, str]]:
+    uniq: dict[str, dict[str, str]] = {}
+    for p in passages:
+        sid = str(p.get("id") or "")
+        if not sid:
+            continue
+        uniq[sid] = {"id": sid, "title": str(p.get("title") or "")}
+    return list(uniq.values())
 
 
 async def run_grounded_advisor(
@@ -282,42 +328,54 @@ async def run_grounded_advisor(
     if hist:
         messages = [messages[0], *hist, messages[1]]
 
-    t0 = time.perf_counter()
-    raw = await ollama.chat_messages(messages, ensure=False)
-    timings["ollama_ms"] = (time.perf_counter() - t0) * 1000
+    sources = _pack_sources(passages)
+    cleaned: str | None = None
+    used_extractive = False
+
+    # Skip Ollama when startup warm proved inference broken — avoid multi-second hangs.
+    skip_ollama = getattr(ollama, "inference_ok", None) is False
 
     t0 = time.perf_counter()
-    cleaned = validate_reply(raw, passages)
-    timings["validate_ms"] = (time.perf_counter() - t0) * 1000
-    timings["total_ms"] = (time.perf_counter() - t_all) * 1000
+    if skip_ollama:
+        timings["ollama_ms"] = 0.0
+        timings["ollama_skipped"] = 1.0
+        cleaned = None
+    else:
+        try:
+            raw = await asyncio.wait_for(
+                ollama.chat_messages(messages, ensure=False),
+                timeout=_OLLAMA_BUDGET_SECONDS,
+            )
+            timings["ollama_ms"] = (time.perf_counter() - t0) * 1000
+            t1 = time.perf_counter()
+            cleaned = validate_reply(raw, passages)
+            timings["validate_ms"] = (time.perf_counter() - t1) * 1000
+            if hasattr(ollama, "mark_inference"):
+                ollama.mark_inference(cleaned is not None)
+        except Exception as exc:  # noqa: BLE001 — timeout, connect, HTTP, empty
+            timings["ollama_ms"] = (time.perf_counter() - t0) * 1000
+            timings["ollama_error"] = exc.__class__.__name__
+            if hasattr(ollama, "mark_inference"):
+                ollama.mark_inference(False)
+            logger.warning(
+                "advisor ollama_unavailable type=%s ollama_ms=%.0f using_extractive=1",
+                exc.__class__.__name__,
+                timings["ollama_ms"],
+            )
+            cleaned = None
 
     if not cleaned:
-        logger.info(
-            "advisor route=validate_fail ollama_ms=%.0f total_ms=%.0f",
-            timings["ollama_ms"],
-            timings["total_ms"],
-        )
-        return {
-            "reply": INSUFFICIENT,
-            "sources": [],
-            "grounded": False,
-            "refused": False,
-            "model": getattr(ollama, "model", None),
-            "provider": "local_http",
-            "timings": timings,
-        }
+        # Grounded extractive fallback — never invent outside retrieved chunks.
+        cleaned = build_extractive_reply(passages)
+        used_extractive = True
+        timings["validate_ms"] = timings.get("validate_ms", 0.0)
 
-    sources = [{"id": p["id"], "title": p.get("title") or ""} for p in passages]
-    # Deduplicate sources by id
-    uniq: dict[str, dict[str, str]] = {}
-    for s in sources:
-        uniq[s["id"]] = s
-    sources = list(uniq.values())
-
+    timings["total_ms"] = (time.perf_counter() - t_all) * 1000
     logger.info(
-        "advisor route=grounded sources=%s ollama_ms=%.0f total_ms=%.0f",
+        "advisor route=%s sources=%s ollama_ms=%.0f total_ms=%.0f",
+        "extractive" if used_extractive else "grounded",
         len(sources),
-        timings["ollama_ms"],
+        timings.get("ollama_ms", 0.0),
         timings["total_ms"],
     )
     return {
@@ -328,4 +386,5 @@ async def run_grounded_advisor(
         "model": getattr(ollama, "model", None),
         "provider": "local_http",
         "timings": timings,
+        "extractive": used_extractive,
     }

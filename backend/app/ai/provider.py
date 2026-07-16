@@ -29,6 +29,15 @@ HEAVY_OLLAMA_MODELS = frozenset(
 )
 
 _shared_clients: dict[str, httpx.AsyncClient] = {}
+_ollama_singleton: Any = None
+
+# Compact Railway-friendly decode budget (CPU / low RAM).
+OLLAMA_OPTIONS = {
+    "temperature": 0.1,
+    "num_ctx": 1024,
+    "num_predict": 96,
+}
+OLLAMA_KEEP_ALIVE = "30m"
 
 
 def get_shared_http_client(base_url: str, timeout: float) -> httpx.AsyncClient:
@@ -106,6 +115,7 @@ class OllamaAIProvider:
         self.timeout = timeout
         self._pull_attempted = False
         self._model_ready = False
+        self._inference_ok: bool | None = None
         self._validate_trusted_host()
 
     def _validate_trusted_host(self) -> None:
@@ -233,13 +243,12 @@ class OllamaAIProvider:
         if ensure or not self._model_ready:
             await self.ensure_model_once()
         client = self._client()
-        # Latency-focused options for Railway light models.
-        options = {"temperature": 0.1, "num_ctx": 1536, "num_predict": 120}
+        options = dict(OLLAMA_OPTIONS)
         payload = {
             "model": self.model,
             "messages": messages,
             "stream": False,
-            "keep_alive": "30m",
+            "keep_alive": OLLAMA_KEEP_ALIVE,
             "options": options,
         }
         try:
@@ -267,6 +276,9 @@ class OllamaAIProvider:
             if isinstance(alt, str) and alt.strip():
                 return alt.strip()
             logger.warning("ollama_chat empty_reply keys=%s", sorted(data.keys())[:12])
+        except httpx.TimeoutException:
+            # Do not double-wait on /api/generate after a timeout.
+            raise
         except httpx.HTTPStatusError as exc:
             logger.warning(
                 "ollama_chat_http status=%s falling_back_to_generate",
@@ -291,7 +303,7 @@ class OllamaAIProvider:
             "model": self.model,
             "prompt": "\n".join(prompt_parts),
             "stream": False,
-            "keep_alive": "30m",
+            "keep_alive": OLLAMA_KEEP_ALIVE,
             "options": options,
         }
         response = await client.post(f"{self.base_url}/api/generate", json=gen_payload)
@@ -308,6 +320,43 @@ class OllamaAIProvider:
         if isinstance(content, str) and content.strip():
             return content.strip()
         raise ValueError("empty_ollama_reply")
+
+    async def warm(self) -> bool:
+        """Load model into memory once (startup). Returns True if generate works."""
+        try:
+            await self.ensure_model_once()
+            response = await self._client().post(
+                f"{self.base_url}/api/generate",
+                json={
+                    "model": self.model,
+                    "prompt": "ok",
+                    "stream": False,
+                    "keep_alive": OLLAMA_KEEP_ALIVE,
+                    "options": {"temperature": 0.0, "num_predict": 2, "num_ctx": 256},
+                },
+            )
+            ok = response.status_code == 200 and bool(
+                ((response.json() or {}).get("response") or "").strip()
+            )
+            self._inference_ok = ok
+            logger.info(
+                "ollama_warm model=%s ok=%s status=%s",
+                self.model,
+                ok,
+                response.status_code,
+            )
+            return ok
+        except Exception as exc:  # noqa: BLE001
+            self._inference_ok = False
+            logger.warning("ollama_warm_failed error=%s", exc.__class__.__name__)
+            return False
+
+    def mark_inference(self, ok: bool) -> None:
+        self._inference_ok = ok
+
+    @property
+    def inference_ok(self) -> bool | None:
+        return self._inference_ok
 
     async def chat_messages(
         self,
@@ -501,6 +550,7 @@ def resolve_ollama_model(settings: Settings) -> str:
 
 
 def build_ai_provider(settings: Settings) -> LocalAIProvider:
+    global _ollama_singleton
     token = (settings.ai_service_token or "").strip()
     if settings.ai_provider in ("raqeeb", "imtithal"):
         return ImtithalAIProvider(
@@ -509,16 +559,30 @@ def build_ai_provider(settings: Settings) -> LocalAIProvider:
             service_token=token,
         )
     if settings.ai_provider == "local_http":
-        return OllamaAIProvider(
-            resolve_ollama_base_url(settings),
-            resolve_ollama_model(settings),
-            timeout=settings.ai_request_timeout_seconds,
+        host = resolve_ollama_base_url(settings)
+        model = resolve_ollama_model(settings)
+        # Reuse one provider instance so keep_alive / _model_ready persist.
+        if (
+            isinstance(_ollama_singleton, OllamaAIProvider)
+            and _ollama_singleton.base_url == host
+            and not _ollama_singleton._client().is_closed
+        ):
+            # Allow env model change to refresh target; heavy-model switch still in ensure.
+            if _ollama_singleton.model != model and model not in HEAVY_OLLAMA_MODELS:
+                _ollama_singleton.model = model
+                _ollama_singleton._model_ready = False
+            return _ollama_singleton
+        _ollama_singleton = OllamaAIProvider(
+            host,
+            model,
+            timeout=min(45.0, settings.ai_request_timeout_seconds),
         )
+        return _ollama_singleton
     return StubLocalAIProvider()
 
 
 async def run_ollama_startup_diagnostics(settings: Settings) -> None:
-    """Log provider/model/host reachability; pull light model if missing."""
+    """Log provider/model/host reachability; warm light model if reachable."""
     if settings.ai_provider != "local_http":
         logger.info(
             "ai_startup provider=%s (skip Ollama probe)",
@@ -532,20 +596,21 @@ async def run_ollama_startup_diagnostics(settings: Settings) -> None:
         model,
         host,
     )
-    provider = OllamaAIProvider(
-        host,
-        model,
-        timeout=max(120.0, settings.ai_request_timeout_seconds),
-    )
+    provider = build_ai_provider(settings)
+    if not isinstance(provider, OllamaAIProvider):
+        return
     try:
         await provider.ensure_model_once()
         from app.ai.retriever import load_chunks
 
         n = len(load_chunks())
+        warmed = await provider.warm()
         logger.info(
-            "ai_startup ollama_reachable=true model_present=true active_model=%s kb_chunks=%s",
+            "ai_startup ollama_reachable=true model_present=true active_model=%s "
+            "kb_chunks=%s warmed=%s",
             provider.model,
             n,
+            warmed,
         )
     except LookupError:
         logger.warning("ai_startup %s", model_missing_message(provider.model))
