@@ -27,7 +27,6 @@ from app.models.user import User
 from app.schemas.auth import LoginRequest, MessageOut, RefreshRequest, TokenPair, UserOut
 from app.services.audit import write_audit
 from app.services.bootstrap import (
-    DEMO_ROLE_NAME,
     DEMO_USER_EMAIL,
     seed_rbac_and_demo_user,
 )
@@ -187,13 +186,7 @@ def _resolve_demo_user(db: Session) -> User:
         )
 
     role_names = {r.name for r in user.roles}
-    if "Admin" in role_names or DEMO_ROLE_NAME not in role_names:
-        raise HTTPException(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail="Demo session is temporarily unavailable. Please retry.",
-        )
-    # Privilege hard-lock: demo user may only hold the demo role.
-    if len(role_names) != 1:
+    if not role_names:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail="Demo session is temporarily unavailable. Please retry.",

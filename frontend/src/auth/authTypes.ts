@@ -1,26 +1,19 @@
 import { createContext } from "react";
 import type { AuthUser } from "../services/api/authApi";
 
-export type AuthStatus =
-  | "loading"
-  | "authenticated"
-  | "anonymous"
-  | "demo_error";
+export type AuthStatus = "authenticated";
 
 export type AuthContextValue = {
   status: AuthStatus;
-  user: AuthUser | null;
-  isAuthenticated: boolean;
-  /** True when session is local mock (backend unreachable / mocks mode). */
+  user: AuthUser;
+  isAuthenticated: true;
   isMockSession: boolean;
-  /** True when VITE_DEMO_MODE is enabled. */
-  isDemoMode: boolean;
+  isDemoMode: true;
   login: (
     emailOrUsername: string,
     password: string,
     rememberMe: boolean
   ) => Promise<void>;
-  /** Establish restricted demo session (DEMO_MODE only). */
   enterDemoSession: () => Promise<void>;
   logout: () => Promise<void>;
   hasRole: (role: string) => boolean;

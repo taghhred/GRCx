@@ -1,12 +1,6 @@
 import { useEffect, useId, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import {
-  ChevronDown,
-  LogOut,
-  Settings,
-  User,
-} from "lucide-react";
-import ConfirmDialog from "../../ui/ConfirmDialog";
+import { Link } from "react-router-dom";
+import { ChevronDown, Settings, User } from "lucide-react";
 import { useAuth } from "../../../auth/useAuth";
 import { isSafeInternalPath } from "../../../utils/security";
 import styles from "./UserMenu.module.css";
@@ -29,16 +23,14 @@ function displayInitials(fullName: string): string {
 }
 
 export default function UserMenu() {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const [open, setOpen] = useState(false);
-  const [confirmSignOut, setConfirmSignOut] = useState(false);
-  const navigate = useNavigate();
   const rootRef = useRef<HTMLDivElement>(null);
   const menuId = useId();
   const triggerId = useId();
 
-  const name = user?.full_name ?? "User";
-  const roleLabel = user?.roles[0] ?? "Authorized User";
+  const name = user?.full_name ?? "Mohammed";
+  const roleLabel = user?.roles[0] ?? "Admin";
   const initial = displayInitials(name);
 
   useEffect(() => {
@@ -65,13 +57,6 @@ export default function UserMenu() {
       document.removeEventListener("keydown", onKeyDown);
     };
   }, [open]);
-
-  const handleSignOutConfirm = async () => {
-    setConfirmSignOut(false);
-    setOpen(false);
-    await logout();
-    navigate("/login", { replace: true });
-  };
 
   return (
     <div className={styles.root} ref={rootRef}>
@@ -131,35 +116,8 @@ export default function UserMenu() {
               ) : null
             )}
           </div>
-
-          <div className={styles.divider} role="separator" />
-
-          <button
-            type="button"
-            role="menuitem"
-            className={styles.signOut}
-            onClick={() => {
-              setOpen(false);
-              setConfirmSignOut(true);
-            }}
-          >
-            <LogOut size={18} aria-hidden />
-            Logout
-          </button>
         </div>
       ) : null}
-
-      <ConfirmDialog
-        open={confirmSignOut}
-        title="Sign out?"
-        message="This ends your GRCx session and returns you to the sign-in page. Tokens stored in this browser will be cleared."
-        confirmLabel="Logout"
-        cancelLabel="Cancel"
-        onConfirm={() => {
-          void handleSignOutConfirm();
-        }}
-        onCancel={() => setConfirmSignOut(false)}
-      />
     </div>
   );
 }

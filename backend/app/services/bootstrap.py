@@ -247,20 +247,19 @@ def _ensure_governance_permissions(db: Session, roles: dict[str, Role]) -> None:
 
 
 def _ensure_demo_mode_user(db: Session, roles: dict[str, Role]) -> None:
-    """Create/repair the restricted hackathon demo user when DEMO_MODE is on."""
+    """Create/repair the hackathon demo user (Admin) when DEMO_MODE is on."""
     from app.core.config import get_settings
 
     settings = get_settings()
     if not settings.demo_mode:
         return
 
-    demo_role = roles.get(DEMO_ROLE_NAME)
-    if demo_role is None:
+    admin = roles.get("Admin")
+    if admin is None:
         return
 
     user = db.query(User).filter(User.email == DEMO_USER_EMAIL).first()
     if user is None:
-        # Unusable random secret — demo entry is only via POST /auth/demo.
         user = User(
             email=DEMO_USER_EMAIL,
             username=DEMO_USER_USERNAME,
@@ -268,19 +267,18 @@ def _ensure_demo_mode_user(db: Session, roles: dict[str, Role]) -> None:
             department=DEMO_USER_DEPARTMENT,
             hashed_password=hash_password(secrets.token_urlsafe(48)),
             is_active=True,
-            is_manager=False,
-            roles=[demo_role],
+            is_manager=True,
+            roles=[admin],
         )
         db.add(user)
         return
 
-    # Hard-lock: never Admin, never write-capable specialist roles.
     user.full_name = DEMO_USER_FULL_NAME
     user.department = DEMO_USER_DEPARTMENT
     user.username = DEMO_USER_USERNAME
     user.is_active = True
-    user.is_manager = False
-    user.roles = [demo_role]
+    user.is_manager = True
+    user.roles = [admin]
 
 
 def _ensure_dev_seed_user(db: Session, roles: dict[str, Role]) -> None:

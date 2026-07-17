@@ -2,16 +2,12 @@ import AppRouter from "./router/AppRouter";
 import { AiAdvisorProvider } from "./components/ai/AiAdvisorContext";
 import AiAdvisorFloating from "./components/ai/AiAdvisorFloating";
 import { AuthProvider } from "./auth/AuthContext";
-import { useAuth } from "./auth/useAuth";
 
-function AuthenticatedShell() {
-  const { isAuthenticated, status } = useAuth();
-  const showAi = status === "authenticated" && isAuthenticated;
-
+function AppShell() {
   return (
     <AiAdvisorProvider>
       <AppRouter />
-      {showAi ? <AiAdvisorFloating /> : null}
+      <AiAdvisorFloating />
     </AiAdvisorProvider>
   );
 }
@@ -19,7 +15,7 @@ function AuthenticatedShell() {
 function App() {
   return (
     <AuthProvider>
-      <AuthenticatedShell />
+      <AppShell />
     </AuthProvider>
   );
 }

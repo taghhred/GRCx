@@ -31,6 +31,20 @@ def _extract_access_token(
     return request.cookies.get(ACCESS_COOKIE)
 
 
+def _resolve_open_demo_user(db: Session) -> User | None:
+    """Hackathon open access: resolve seeded demo identity (no client-supplied id)."""
+    from app.services.bootstrap import DEMO_USER_EMAIL, seed_rbac_and_demo_user
+
+    settings = get_settings()
+    if not settings.demo_mode:
+        return None
+    seed_rbac_and_demo_user(db)
+    user = db.query(User).filter(User.email == DEMO_USER_EMAIL).first()
+    if user is None or not user.is_active:
+        return None
+    return user
+
+
 def get_current_user(
     request: Request,
     token: str | None = Depends(oauth2_scheme),
@@ -38,6 +52,9 @@ def get_current_user(
 ) -> User:
     access = _extract_access_token(request, token)
     if not access:
+        demo = _resolve_open_demo_user(db)
+        if demo is not None:
+            return demo
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Not authenticated",
@@ -45,12 +62,18 @@ def get_current_user(
         )
     payload = safe_decode(access)
     if not payload or payload.get("type") != "access":
+        demo = _resolve_open_demo_user(db)
+        if demo is not None:
+            return demo
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid or expired token",
         )
     jti = payload.get("jti")
     if jti and db.get(AccessTokenDenylist, jti) is not None:
+        demo = _resolve_open_demo_user(db)
+        if demo is not None:
+            return demo
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Token revoked",
@@ -58,6 +81,9 @@ def get_current_user(
     user_id = payload.get("sub")
     user = db.get(User, user_id)
     if not user or not user.is_active:
+        demo = _resolve_open_demo_user(db)
+        if demo is not None:
+            return demo
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="User inactive or not found",

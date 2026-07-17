@@ -40,9 +40,9 @@ class Settings(BaseSettings):
     local_ai_model: str = ""
     ai_request_timeout_seconds: float = 120.0
 
-    # Hackathon / showcase: enable POST /auth/demo (restricted read-only + ai:use).
-    # Never disables normal login; never accepts client-supplied roles/ids.
-    demo_mode: bool = False
+    # Hackathon showcase: open access without login cookies (default on).
+    # Set DEMO_MODE=false to require real cookie/JWT authentication again.
+    demo_mode: bool = True
 
     @property
     def cors_origin_list(self) -> list[str]:

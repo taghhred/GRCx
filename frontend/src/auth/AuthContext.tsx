@@ -1,29 +1,7 @@
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  type ReactNode,
-} from "react";
-import {
-  demoLoginApi,
-  fetchMe,
-  loginApi,
-  logoutApiWithRefresh,
-  type AuthUser,
-} from "../services/api/authApi";
-import {
-  clearMockUserJson,
-  isDemoModeEnabled,
-  setRememberMe,
-} from "../services/api/config";
+import { useMemo, type ReactNode } from "react";
+import { LOCAL_DEMO_USER } from "./demoUser";
 import { syncPrototypeCurrentUser } from "./syncPrototypeUser";
-import {
-  AuthContext,
-  type AuthContextValue,
-  type AuthStatus,
-} from "./authTypes";
+import { AuthContext, type AuthContextValue } from "./authTypes";
 
 function initialsFromName(name: string): string {
   const parts = name.trim().split(/\s+/).filter(Boolean);
@@ -32,131 +10,38 @@ function initialsFromName(name: string): string {
   return `${parts[0][0] ?? ""}${parts[1][0] ?? ""}`.toUpperCase();
 }
 
+// Sync once at module load for mock collaboration services.
+syncPrototypeCurrentUser({
+  id: LOCAL_DEMO_USER.id,
+  name: LOCAL_DEMO_USER.full_name,
+  shortName: LOCAL_DEMO_USER.full_name.split(/\s+/)[0] || LOCAL_DEMO_USER.full_name,
+  initials: initialsFromName(LOCAL_DEMO_USER.full_name),
+  isManager: LOCAL_DEMO_USER.is_manager,
+});
+
 type AuthProviderProps = { children: ReactNode };
 
+/**
+ * Hackathon identity provider — always authenticated with an in-memory user.
+ * No login, cookies, or /auth/demo calls.
+ */
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [status, setStatus] = useState<AuthStatus>("loading");
-  const [user, setUser] = useState<AuthUser | null>(null);
-  const demoMode = isDemoModeEnabled();
-  const demoAttempted = useRef(false);
-
-  const applyUser = useCallback((next: AuthUser | null) => {
-    setUser(next);
-    setStatus(next ? "authenticated" : "anonymous");
-    if (next) {
-      syncPrototypeCurrentUser({
-        id: next.id,
-        name: next.full_name,
-        shortName: next.full_name.split(/\s+/)[0] || next.full_name,
-        initials: initialsFromName(next.full_name),
-        isManager: next.is_manager,
-      });
-    } else {
-      syncPrototypeCurrentUser(null);
-    }
-  }, []);
-
-  const enterDemoSession = useCallback(async () => {
-    if (!demoMode) {
-      throw new Error("Demo mode is disabled");
-    }
-    setStatus("loading");
-    try {
-      const me = await demoLoginApi();
-      applyUser(me);
-    } catch (err) {
-      applyUser(null);
-      setStatus("demo_error");
-      throw err;
-    }
-  }, [applyUser, demoMode]);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function bootstrap() {
-      clearMockUserJson();
-      try {
-        const me = await fetchMe();
-        if (!cancelled) applyUser(me);
-        return;
-      } catch {
-        /* no existing session */
-      }
-
-      if (!demoMode) {
-        if (!cancelled) applyUser(null);
-        return;
-      }
-
-      // Demo mode: create session once before any protected UI renders.
-      if (demoAttempted.current) {
-        if (!cancelled) setStatus("demo_error");
-        return;
-      }
-      demoAttempted.current = true;
-      try {
-        const me = await demoLoginApi();
-        if (!cancelled) applyUser(me);
-      } catch {
-        if (!cancelled) {
-          applyUser(null);
-          setStatus("demo_error");
-        }
-      }
-    }
-
-    void bootstrap();
-    return () => {
-      cancelled = true;
-    };
-  }, [applyUser, demoMode]);
-
-  const login = useCallback(
-    async (
-      emailOrUsername: string,
-      password: string,
-      rememberMe: boolean
-    ) => {
-      setRememberMe(rememberMe);
-      const me = await loginApi(emailOrUsername, password, rememberMe);
-      applyUser(me);
-    },
-    [applyUser]
-  );
-
-  const logout = useCallback(async () => {
-    await logoutApiWithRefresh();
-    applyUser(null);
-    if (demoMode) {
-      // Allow a fresh demo session after logout in showcase mode.
-      demoAttempted.current = false;
-      setStatus("loading");
-      try {
-        const me = await demoLoginApi();
-        applyUser(me);
-      } catch {
-        applyUser(null);
-        setStatus("demo_error");
-      }
-    }
-  }, [applyUser, demoMode]);
-
   const value = useMemo<AuthContextValue>(
     () => ({
-      status,
-      user,
-      isAuthenticated: status === "authenticated" && !!user,
+      status: "authenticated",
+      user: LOCAL_DEMO_USER,
+      isAuthenticated: true,
       isMockSession: false,
-      isDemoMode: demoMode,
-      login,
-      enterDemoSession,
-      logout,
-      hasRole: (role: string) => !!user?.roles.includes(role),
+      isDemoMode: true,
+      login: async () => undefined,
+      enterDemoSession: async () => undefined,
+      logout: async () => undefined,
+      hasRole: (role: string) => LOCAL_DEMO_USER.roles.includes(role),
       hasPermission: (code: string) =>
-        !!user?.roles.includes("Admin") || !!user?.permissions.includes(code),
+        LOCAL_DEMO_USER.roles.includes("Admin") ||
+        LOCAL_DEMO_USER.permissions.includes(code),
     }),
-    [status, user, login, logout, enterDemoSession, demoMode]
+    []
   );
 
   return (

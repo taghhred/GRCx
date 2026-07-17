@@ -18,8 +18,6 @@ import RiskReportsPage from "../pages/Risk/RiskReportsPage";
 import ReportsPage from "../pages/Reports/ReportsPage";
 import OpenGrcCases from "../pages/GrcCases/OpenGrcCases";
 import Governance from "../pages/Governance/Governance";
-import LoginPage from "../pages/Login/LoginPage";
-import RequireAuth from "../components/auth/RequireAuth";
 
 function Shell({
   title,
@@ -34,11 +32,9 @@ function Shell({
 export default function AppRouter() {
   return (
     <Routes>
-      <Route path="/login" element={<LoginPage />} />
-
-      <Route element={<RequireAuth />}>
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/" element={<Navigate to="/dashboard" replace />} />
+      <Route path="/login" element={<Navigate to="/dashboard" replace />} />
+      <Route path="/dashboard" element={<Dashboard />} />
 
         {/* Identity & Access — single monitoring page */}
         <Route path="/identities" element={<IdentityAccessMonitoring />} />
@@ -260,7 +256,6 @@ export default function AppRouter() {
         />
 
         <Route path="*" element={<NotFound />} />
-      </Route>
     </Routes>
   );
 }

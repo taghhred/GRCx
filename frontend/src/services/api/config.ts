@@ -9,11 +9,9 @@ export function isMocksEnabled(): boolean {
   return String(flag).toLowerCase() === "true";
 }
 
-/** Hackathon showcase: auto demo session via POST /auth/demo (no login form). */
+/** Hackathon open-access flag (backend DEMO_MODE). Frontend no longer gates on this. */
 export function isDemoModeEnabled(): boolean {
-  const flag = import.meta.env.VITE_DEMO_MODE;
-  if (flag === undefined || flag === "") return false;
-  return String(flag).toLowerCase() === "true";
+  return true;
 }
 
 export function apiBaseUrl(): string {
